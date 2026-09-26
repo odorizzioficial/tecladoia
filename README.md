@@ -1,5 +1,7 @@
 # TecladoIA
 
+<img width="1672" height="941" alt="CapaTecladoIAOdorizzi" src="https://github.com/user-attachments/assets/8886b141-8df7-44f2-88c2-478bb3fcf79d" />
+
 App Android nativo (Kotlin + Jetpack Compose) que desenha uma **barra de IA direto acima do teclado que você já usa** (Gboard, Samsung Keyboard, etc.), em qualquer app do aparelho. Não troca seu teclado por outro: adiciona um overlay compacto de acessibilidade com atalhos de IA sobre o campo de texto em que você está digitando. Corrige, melhora, traduz, muda o tom, resume, reescreve e dita por voz — tudo aplicado na hora, sem tela de confirmação. Usa a **API do Google Gemini** com a chave da própria pessoa, sem servidor intermediário.
 
 ## ⚡ Na barra, sobre o teclado
