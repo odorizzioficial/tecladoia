@@ -1,90 +1,78 @@
-<div align="center">
+# TecladoIA
 
-# ✨ TecladoIA
+App Android nativo (Kotlin + Jetpack Compose) que desenha uma **barra de IA direto acima do teclado que você já usa** (Gboard, Samsung Keyboard, etc.), em qualquer app do aparelho. Não troca seu teclado por outro: adiciona um overlay compacto de acessibilidade com atalhos de IA sobre o campo de texto em que você está digitando. Corrige, melhora, traduz, muda o tom, resume, reescreve e dita por voz — tudo aplicado na hora, sem tela de confirmação. Usa a **API do Google Gemini** com a chave da própria pessoa, sem servidor intermediário.
 
-**Uma barra de IA que aparece direto acima do teclado que você já usa.**
+## ⚡ Na barra, sobre o teclado
 
-Sem trocar de teclado. Sem copiar e colar. Sem sair do app.
+- **Corrigir** — ortografia, gramática e pontuação, sem mudar o sentido.
+- **Melhorar** — deixa o texto mais claro e natural.
+- **Traduzir** — para o idioma configurado em Ajustes.
+- **Mudar tom** — 8 tons: Profissional, Amigável, Casual, Formal, Romântico, Direto, Educado, Criativo.
+- **Resumir** — preserva as informações essenciais.
+- **Reescrever** — reescreve seguindo uma instrução padrão.
+- **Voz** — ditado em tempo real: o texto aparece no campo enquanto você fala, com pontuação e correção automáticas.
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
-[![minSdk](https://img.shields.io/badge/minSdk-26%20(Android%208.0)-3DDC84?logo=android&logoColor=white)](#)
-[![Licença](https://img.shields.io/badge/Licença-MIT-lightgrey)](LICENSE)
+Tocar em qualquer atalho aplica o resultado direto no campo, sem passar por tela nenhuma; um **Desfazer** aparece na própria barra logo em seguida. A barra é arrastável — a posição em que você deixar fica salva e volta igual da próxima vez — e tem um modo minimizado, que encolhe tudo em um botão pequeno para não atrapalhar o app por baixo.
 
-[Canal no YouTube](https://www.youtube.com/@odorizzioficial) · [Reportar um problema](../../issues)
+## 🧩 Minhas Funções
 
-</div>
+Prompts personalizados, feitos por você.
 
----
+- Puxe a barra para baixo, ou toque no chip **✨ IA**, para trocar os atalhos padrão pelas suas próprias funções, na mesma barra.
+- Segure o chip **✨ IA** por 2 segundos para ir direto ao app, já na aba Funções.
+- Crie, edite, duplique, reordene (arraste o card) e exclua quantas quiser.
+- Escolha qualquer emoji como ícone — pelas categorias prontas (sugestões, rostos, objetos, natureza, comida) ou abrindo o teclado de emoji do próprio aparelho para usar qualquer um que exista no sistema.
+- Marque **Fixar na barra** para o atalho aparecer sempre entre os primeiros.
 
-## O que é
+## 💾 Backup
 
-O **TecladoIA** desenha uma barrinha compacta **por cima** do teclado do seu aparelho (Gboard, Samsung Keyboard, etc.), com atalhos de IA pra usar em qualquer campo de texto, em qualquer app — WhatsApp, Gmail, Instagram, onde for. Ele não é um teclado novo pra você aprender: é uma camada de acessibilidade leve que só aparece quando você precisa dela.
+Suas funções personalizadas não ficam presas a um aparelho só.
 
-Toca num atalho, o texto do campo é corrigido/melhorado/traduzido **na hora**, sem tela de confirmação — e sempre com um **Desfazer** à mão.
+- Em **Ajustes › Backup**, exporte todas de uma vez para um arquivo `.json` salvo direto na pasta **Downloads** do aparelho.
+- Restaure a partir de um arquivo salvo antes — pede confirmação primeiro, já que substitui as funções atuais.
+- Sem nuvem, sem conta: o arquivo é seu, para guardar ou transferir como preferir.
 
-## ⚡ Funções
+## 🎨 Interface
 
-| Atalho | O que faz |
-| --- | --- |
-| 🩹 **Corrigir** | Ortografia, gramática e pontuação, sem mudar o sentido |
-| ✨ **Melhorar** | Deixa o texto mais claro e natural |
-| 🌍 **Traduzir** | Pro idioma que você configurar em Ajustes |
-| 🎭 **Mudar tom** | 8 tons: Profissional, Amigável, Casual, Formal, Romântico, Direto, Educado, Criativo |
-| ✂️ **Resumir** | Preserva o essencial |
-| 🔁 **Reescrever** | Reescreve seguindo uma instrução |
-| 🎙️ **Voz** | Ditado em tempo real, com pontuação e correção automáticas |
-| 🧩 **Minhas funções** | Prompts personalizados seus — crie, edite, reordene, fixe na barra |
+- **Material 3**, com tema Escuro, Claro ou Sistema.
+- Altura da barra flutuante ajustável em três tamanhos (Compacta, Normal, Expandida), com **preview ao vivo** mostrando o tamanho real antes de confirmar.
+- Três modos de animação — Completa, Suave ou Desligada — cobrindo desde a troca de abas até os menus de Ajustes e a entrada da barra sobre o teclado.
+- Onboarding na primeira abertura (permissões necessárias) e uma tela de Novidades a cada versão nova instalada.
 
-Puxando a barra pra baixo (ou tocando no chip **✨ IA**), os atalhos padrão dão lugar às suas próprias funções, na mesma barra. Segurar o chip por 2 segundos leva direto pro app, na aba Funções.
+## 🌍 10 idiomas
 
-## 📱 Dentro do app
+🇧🇷 Português (Brasil) · 🇵🇹 Português (Portugal) · 🇺🇸 English · 🇪🇸 Español · 🇷🇴 Română · 🇫🇷 Français · 🇨🇳 中文 · 🇯🇵 日本語 · 🇰🇷 한국어 · 🇮🇳 हिन्दी
 
-- **Assistente** — status do serviço, testador de IA embutido e o aviso de chave da API quando faltar.
-- **Funções** — suas funções personalizadas: criar, editar, reordenar por arrastar, fixar na barra, escolher qualquer emoji como ícone.
-- **Ajustes**
-  - **Gemini API Key** — sua chave, o modelo e a temperatura.
-  - **Aparência** — tema, altura da barra flutuante (com preview ao vivo), animações e idioma da interface.
-  - **Backup** — exporta/restaura suas funções personalizadas em um arquivo na pasta Downloads.
-  - **Permissões** e **Sobre** — o essencial pra deixar tudo funcionando, incluindo o que fazer se o Android bloquear o app.
+O idioma da interface é independente do idioma que a IA usa para responder — esse último fica configurado à parte, em Ajustes.
 
-## 🛠️ Stack técnica
+## 📱 Compatibilidade
 
-Kotlin · Jetpack Compose · Material 3 · Gradle Kotlin DSL (KTS) · Coroutines · DataStore · OkHttp · kotlinx.serialization
+| | |
+|---|---|
+| **Android** | 8.0 (API 26) até o mais recente |
+| **Stack** | Kotlin · Jetpack Compose · Material 3 · Coroutines · DataStore |
+| **Root** | Não é necessário |
 
-`minSdk 26` (Android 8.0) → testado até o Android mais recente · `compileSdk`/`targetSdk 35` · Java 17
+## 🔐 Acessibilidade, sem ser ferramenta de acessibilidade
 
-## 🚀 Como rodar localmente
+A barra existe graças a um `AccessibilityService` — é o único jeito de desenhar um overlay que sabe a altura do teclado e consegue ler e substituir o texto do campo focado em *qualquer* app. Mesmo assim, o serviço **não declara `isAccessibilityTool="true"`**, porque o app não é uma ferramenta de acessibilidade: usa o escopo mínimo possível (4 tipos de evento) e nunca registra o que é digitado — nada sai do aparelho até você tocar em um atalho.
 
-```bash
-git clone https://github.com/odorizzioficial/tecladoia.git
-```
+Sem essa permissão ativada, o app avisa exatamente o que falta, com um botão que leva direto à tela de ativação nos Ajustes do Android.
 
-1. Abra a pasta no **Android Studio** e aguarde o Gradle Sync (o wrapper baixa tudo sozinho).
-2. Rode em um dispositivo ou emulador com Android 8.0+.
-3. Em **Ajustes › Gemini API Key**, crie sua chave gratuita em [Google AI Studio](https://aistudio.google.com/app/apikey), cole no app e toque em **Testar conexão**.
+## 🔑 Gemini API Key
 
-Sem chave configurada, o app abre e funciona normalmente — só os atalhos de IA ficam indisponíveis até você configurar a sua.
-
-### Gerar o APK
-
-```bash
-./gradlew assembleDebug     # app/build/outputs/apk/debug/TecladoIA-debug.apk
-./gradlew assembleRelease   # precisa do keystore.properties preenchido (não versionado)
-```
+A chave é sua, criada de graça no [Google AI Studio](https://aistudio.google.com/app/apikey), colada em **Ajustes › Gemini API Key** e cifrada com **AES/GCM** no **Android Keystore** do próprio aparelho — nunca sai daí, nunca é enviada para nenhum servidor além da própria API do Google. Sem chave configurada, o app abre e funciona normalmente; só os atalhos de IA ficam à espera dela.
 
 ## 🔒 Privacidade
 
-- A chave da API fica **cifrada no Android Keystore**, só no seu aparelho.
-- O texto só sai do aparelho quando você toca em um atalho de IA — vai direto pra API do Google, com a sua própria chave.
-- Sem servidor intermediário, sem analytics, sem telemetria, sem backup automático da conta.
+- O texto só sai do aparelho quando você toca em um atalho de IA — vai direto para a API do Gemini, com a sua própria chave.
+- Sem servidor intermediário, sem analytics, sem telemetria.
+- Backup automático de conta desligado (`allowBackup="false"`); o backup de funções (acima) é manual e local, por escolha sua.
 
 ## 🙏 Créditos
 
-Esse projeto não existiria sem essas peças:
-
-- **[Google Gemini API](https://ai.google.dev/)** — o modelo de linguagem por trás de todos os atalhos de IA. O app usa a API pública do Gemini com a chave que cada pessoa cria gratuitamente no [Google AI Studio](https://aistudio.google.com/app/apikey); nada é processado em servidor próprio.
-- **[skydoves/compose-animations](https://github.com/skydoves/compose-animations)** (licença Apache 2.0) — catálogo de referência para as animações do app: a expansão com limites compartilhados dos menus de Ajustes e a entrada/saída suave da barra e das trocas de aba.
+- **[Google Gemini API](https://ai.google.dev/)** — o modelo de linguagem por trás de todos os atalhos de IA, usado com a chave gratuita que cada pessoa cria no [Google AI Studio](https://aistudio.google.com/app/apikey).
+- **[skydoves/compose-animations](https://github.com/skydoves/compose-animations)** · Apache License 2.0 — catálogo de referência para as animações do app: a expansão com limites compartilhados dos menus e a entrada/saída suave da barra e das trocas de aba.
 
 ## 👤 Autor
 
@@ -94,4 +82,4 @@ Feito por **[@odorizzioficial](https://www.youtube.com/@odorizzioficial)**.
 
 ## 📄 Licença
 
-Distribuído sob a licença **MIT** — veja [LICENSE](LICENSE) para o texto completo.
+Distribuído sob a licença MIT. Veja [LICENSE](LICENSE).
