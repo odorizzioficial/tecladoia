@@ -24,6 +24,12 @@ jobs:
 
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          # O Google removeu o pacote legado "tools" do repositório da SDK;
+          # essa acao pedia ele por padrao e quebrava por causa disso.
+          # platform-tools ja vem pronto na maquina do GitHub, entao nao
+          # precisa pedir nada extra aqui.
+          packages: ''
 
       - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
