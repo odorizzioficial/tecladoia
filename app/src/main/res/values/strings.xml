@@ -1,0 +1,390 @@
+<resources>
+    <string name="app_name">TecladoIA</string>
+    <string name="service_label">TecladoIA</string>
+    <string name="accessibility_service_summary">Mostra a barra de IA acima do seu teclado atual</string>
+    <string name="accessibility_service_description">Para exibir a barra de ferramentas de IA logo acima do teclado, o app precisa saber quando o teclado está aberto e qual campo de texto está em foco. O serviço só age quando você toca em um atalho da barra. Nenhum texto é enviado para a internet sem sua ação explícita.</string>
+
+    <!-- Comuns -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_close">Fechar</string>
+    <string name="common_back">Voltar</string>
+    <string name="common_retry">Tentar novamente</string>
+    <string name="common_open">Abrir</string>
+    <string name="common_activate">Ativar</string>
+    <string name="common_manage">Gerenciar</string>
+    <string name="common_allow">Permitir</string>
+    <string name="common_release">Liberar</string>
+    <string name="common_selected">Selecionado</string>
+    <string name="common_undo">Desfazer</string>
+    <string name="common_processing">Processando…</string>
+    <string name="common_searching">Buscando…</string>
+
+    <!-- Abas -->
+    <string name="tab_assistant">Assistente</string>
+    <string name="tab_prompts">Funções</string>
+    <string name="tab_settings">Ajustes</string>
+
+    <!-- Funcoes padrao da IA -->
+    <string name="action_fix">Corrigir</string>
+    <string name="action_fix_sub">Sem alterar o sentido</string>
+    <string name="action_improve">Melhorar</string>
+    <string name="action_improve_sub">Fluidez e impacto</string>
+    <string name="action_translate">Traduzir</string>
+    <string name="action_translate_sub">Outro idioma</string>
+    <string name="action_tone">Mudar Tom</string>
+    <string name="action_tone_sub">8 modulações</string>
+    <string name="action_summarize">Resumir</string>
+    <string name="action_summarize_sub">Pontos essenciais</string>
+    <string name="action_rewrite">Reescrever</string>
+    <string name="action_rewrite_sub">Instrução livre</string>
+
+    <!-- Tons -->
+    <string name="tone_professional">Profissional</string>
+    <string name="tone_professional_desc">Mantém a objetividade corporativa e pontua prazos com clareza.</string>
+    <string name="tone_friendly">Amigável</string>
+    <string name="tone_friendly_desc">Aproxima o texto, com simpatia e sem perder a informação.</string>
+    <string name="tone_casual">Casual</string>
+    <string name="tone_casual_desc">Deixa a mensagem leve e conversada, como no dia a dia.</string>
+    <string name="tone_formal">Formal</string>
+    <string name="tone_formal_desc">Usa tratamento cerimonioso e estrutura cuidadosa.</string>
+    <string name="tone_romantic">Romântico</string>
+    <string name="tone_romantic_desc">Acrescenta afeto e delicadeza sem exagero.</string>
+    <string name="tone_direct">Direto</string>
+    <string name="tone_direct_desc">Corta rodeios e vai ao ponto em poucas palavras.</string>
+    <string name="tone_polite">Educado</string>
+    <string name="tone_polite_desc">Suaviza pedidos e recusas com cortesia.</string>
+    <string name="tone_creative">Criativo</string>
+    <string name="tone_creative_desc">Dá personalidade ao texto, sem mudar o sentido.</string>
+
+    <!-- Altura da barra -->
+    <string name="bar_height_compact">Compacta</string>
+    <string name="bar_height_normal">Normal</string>
+    <string name="bar_height_expanded">Expandida</string>
+
+    <!-- Idiomas da IA -->
+    <string name="ai_lang_pt_br">Português (BR)</string>
+    <string name="ai_lang_pt_pt">Português (PT)</string>
+    <string name="ai_lang_en_us">Inglês (EUA)</string>
+    <string name="ai_lang_es">Espanhol</string>
+    <string name="ai_lang_fr">Francês</string>
+    <string name="ai_lang_de">Alemão</string>
+    <string name="ai_lang_it">Italiano</string>
+    <string name="ai_lang_ja">Japonês</string>
+
+    <!-- Overlay -->
+    <string name="overlay_ai">IA</string>
+    <string name="overlay_open_actions">Abrir ações de IA</string>
+    <string name="overlay_open_settings">Abrir ajustes</string>
+    <string name="overlay_reset_position">Voltar a barra para cima do teclado</string>
+    <string name="overlay_minimize">Encolher a barra e liberar a tela</string>
+    <string name="overlay_show_bar">Mostrar a barra de IA</string>
+    <string name="overlay_drag_bar">Arrastar a barra de IA</string>
+    <string name="overlay_dictate">Ditar por voz</string>
+    <string name="overlay_create_prompts">Crie funções no app</string>
+    <string name="overlay_tone_title">Como essa mensagem deve soar?</string>
+    <string name="overlay_tone_subtitle">%1$d modulações</string>
+    <string name="overlay_tone_selected">Tom %1$s: %2$s</string>
+    <string name="overlay_tone_label">Tom %1$s</string>
+    <string name="overlay_voice_title">Ditado por voz</string>
+    <string name="overlay_voice_transcribing">Transcrevendo…</string>
+    <string name="overlay_voice_failed">Falha na gravação</string>
+    <string name="overlay_voice_cancel">Cancelar gravação</string>
+    <string name="overlay_voice_done">Concluir e inserir</string>
+    <string name="overlay_correcting">Corrigindo</string>
+    <string name="overlay_clipboard_suffix"> O texto foi copiado para a área de transferência.</string>
+    <string name="overlay_undo_failed">Não foi possível desfazer neste campo.</string>
+    <string name="overlay_mic_grant">Conceda o acesso ao microfone para ditar.</string>
+    <string name="overlay_mic_denied">Permissão do microfone negada.</string>
+
+    <!-- Erros -->
+    <string name="err_missing_key">Configure sua Gemini API Key para usar a IA.</string>
+    <string name="err_invalid_key">A Gemini API Key não é válida. Verifique sua chave nas configurações.</string>
+    <string name="err_key_forbidden">Esta Gemini API Key não tem permissão para esta operação. Confira as restrições da chave no Google AI Studio.</string>
+    <string name="err_model_unavailable">O modelo %1$s não está disponível para esta chave. Abra Ajustes &gt; Gemini API Key e toque em Buscar modelos da minha chave.</string>
+    <string name="err_quota">O limite de uso desta API Key foi atingido. Tente novamente mais tarde ou use outra chave.</string>
+    <string name="err_rate_limited">Muitas solicitações em pouco tempo. Aguarde alguns segundos e tente novamente.</string>
+    <string name="err_no_connection">Sem conexão com a internet. Verifique sua conexão e tente novamente.</string>
+    <string name="err_network_failure">A conexão falhou no meio da requisição. Tente novamente.</string>
+    <string name="err_timeout">A Gemini demorou para responder. Tente novamente.</string>
+    <string name="err_service_unavailable">A Gemini está temporariamente indisponível. Tente novamente em instantes.</string>
+    <string name="err_bad_request">A Gemini recusou a requisição: %1$s</string>
+    <string name="err_empty_response">A IA não retornou um resultado. Tente novamente.</string>
+    <string name="err_unreadable">A resposta da IA veio em um formato inesperado. Tente novamente.</string>
+    <string name="err_blocked">A IA bloqueou este conteúdo por segurança (%1$s).</string>
+    <string name="err_empty_input">Não há texto para processar neste campo.</string>
+    <string name="err_field_not_readable">Não foi possível acessar este campo de texto.</string>
+    <string name="err_field_not_editable">Este aplicativo não permite substituir o texto automaticamente.</string>
+    <string name="err_voice_unavailable">Reconhecimento de voz indisponível neste aparelho.</string>
+    <string name="err_mic_permission">Permissão do microfone necessária para usar a voz.</string>
+    <string name="err_unknown">Algo deu errado: %1$s</string>
+    <string name="err_no_text_models">Nenhum modelo de texto liberado para esta chave.</string>
+
+    <!-- Voz -->
+    <string name="voice_start_failed">Não foi possível iniciar a gravação.</string>
+    <string name="voice_nothing_heard">Não ouvi nada. Tente de novo.</string>
+    <string name="voice_audio_problem">Problema ao capturar o áudio.</string>
+    <string name="voice_interrupted">A gravação foi interrompida.</string>
+    <string name="voice_mic_needed">Permissão do microfone necessária.</string>
+    <string name="voice_check_connection">Verifique sua conexão.</string>
+    <string name="voice_not_understood">Não foi possível entender o áudio.</string>
+    <string name="voice_recognizer_busy">O reconhecedor de voz está ocupado.</string>
+    <string name="voice_service_failed">O serviço de voz falhou.</string>
+    <string name="voice_generic_failed">Falha na gravação de voz.</string>
+
+    <!-- Assistente -->
+    <string name="assistant_service_state">Estado do serviço</string>
+    <string name="assistant_active">ATIVO</string>
+    <string name="assistant_inactive">DESATIVADO</string>
+    <string name="assistant_active_desc">Abra qualquer campo de texto: a barra aparece logo acima do seu teclado atual, sem substituí-lo.</string>
+    <string name="assistant_inactive_desc">Para desenhar a barra acima do teclado, o Android exige que você ative o serviço em Ajustes &gt; Acessibilidade &gt; Apps instalados.</string>
+    <string name="assistant_open_service">Abrir ajustes do serviço</string>
+    <string name="assistant_activate_service">Ativar serviço</string>
+    <string name="assistant_blocked_hint">Apareceu bloqueado ou desativou sozinho? Veja Ajustes &gt; Sobre &gt; Se o Android bloquear o app.</string>
+    <string name="assistant_configure_now">Configurar agora</string>
+    <string name="assistant_test_title">Testar a IA aqui</string>
+    <string name="assistant_test_label">Texto de teste</string>
+    <string name="assistant_test_placeholder">Escreva algo com erros para a IA corrigir</string>
+    <string name="assistant_copy_result">Copiar resultado</string>
+    <string name="playground_empty">Escreva um texto para testar.</string>
+
+    <!-- Funcoes do usuario -->
+    <string name="prompts_title">Minhas funções</string>
+    <string name="prompts_intro">Cada função é um prompt seu. As fixadas aparecem primeiro na barra sobre o teclado.</string>
+    <string name="prompts_create">Criar função</string>
+    <string name="prompts_defaults">Padrões</string>
+    <string name="prompts_count">%1$d funções</string>
+    <string name="prompts_reorder_hint">Segure o card (ou a alça à esquerda) e arraste para mudar a ordem.</string>
+    <string name="prompts_empty">Nenhuma função ainda. Toque em Criar função para adicionar o seu primeiro prompt.</string>
+    <string name="prompts_drag_handle">Arrastar para reordenar</string>
+    <string name="prompts_pinned">Fixada na barra</string>
+    <string name="prompts_unpinned">No painel expandido</string>
+    <string name="prompts_pin">Fixar</string>
+    <string name="prompts_edit">Editar</string>
+    <string name="prompts_duplicate">Duplicar</string>
+    <string name="prompts_delete">Excluir</string>
+    <string name="editor_create_title">Criar função</string>
+    <string name="editor_edit_title">Editar função</string>
+    <string name="editor_icon">Ícone</string>
+    <string name="editor_emoji_field">Digite ou cole um emoji</string>
+    <string name="editor_name">Nome da função</string>
+    <string name="editor_name_placeholder">Deixar profissional</string>
+    <string name="editor_prompt">Prompt do sistema</string>
+    <string name="editor_prompt_placeholder">Reescreva a mensagem de forma profissional, educada e objetiva.</string>
+    <string name="editor_pin">Fixar na barra</string>
+    <string name="editor_pin_desc">Disponível direto na barra rápida sobre o teclado</string>
+    <string name="editor_save">Salvar função</string>
+    <string name="emoji_open">Escolher emoji da lista</string>
+    <string name="emoji_close">Fechar lista de emojis</string>
+    <string name="emoji_others">Outros (todos)</string>
+    <string name="emoji_cat_suggested">Sugeridos</string>
+    <string name="emoji_cat_faces">Rostos</string>
+    <string name="emoji_cat_work">Trabalho</string>
+    <string name="emoji_cat_objects">Objetos</string>
+    <string name="emoji_cat_nature">Natureza</string>
+    <string name="emoji_cat_food">Comida e festa</string>
+
+    <!-- Ajustes -->
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_ai_section">Inteligência artificial</string>
+    <string name="settings_gemini_key">Gemini API Key</string>
+    <string name="settings_key_saved_with_model">Chave salva • %1$s</string>
+    <string name="settings_key_sub">Chave, modelo e temperatura</string>
+    <string name="settings_ai_langs">Idiomas da IA</string>
+    <string name="settings_response_lang">Idioma das respostas</string>
+    <string name="settings_response_lang_sub">Usado pela IA ao corrigir e escrever (não troca o idioma do app)</string>
+    <string name="settings_translate_to">Traduzir para</string>
+    <string name="settings_translate_to_sub">Idioma de destino do atalho Traduzir</string>
+    <string name="settings_overlay_section">Comportamento do overlay</string>
+    <string name="settings_auto_bar">Barra automática</string>
+    <string name="settings_auto_bar_sub">Exibir sempre que o teclado abrir, em qualquer app</string>
+    <string name="settings_hide_with_keyboard">Ocultar com o teclado</string>
+    <string name="settings_hide_with_keyboard_sub">Recolher a barra instantaneamente</string>
+    <string name="settings_haptics">Feedback háptico</string>
+    <string name="settings_haptics_sub">Vibração sutil ao acionar atalhos</string>
+    <string name="settings_animations">Animações fluidas</string>
+    <string name="settings_animations_sub">Transições suaves nos painéis</string>
+    <string name="settings_appearance">Aparência</string>
+    <string name="settings_appearance_row">Tema, tamanho e idioma</string>
+    <string name="settings_appearance_row_sub">Tema %1$s • barra %2$s • %3$s</string>
+    <string name="settings_permissions_section">Permissões</string>
+    <string name="settings_permissions_row">Permissões do app</string>
+    <string name="settings_permissions_row_sub">Acessibilidade, microfone e bateria</string>
+    <string name="settings_backup_section">Backup</string>
+    <string name="settings_backup_row">Backup das funções</string>
+    <string name="settings_backup_row_sub">Salvar ou restaurar suas funções personalizadas</string>
+    <string name="settings_about_section">Sobre</string>
+    <string name="settings_about_row">Sobre o app</string>
+    <string name="settings_about_row_sub">Resumo, permissões, privacidade e bloqueios do Android</string>
+    <string name="settings_footer_version">TecladoIA • v%1$s</string>
+    <string name="settings_credit">Feito: @odorizzioficial</string>
+    <string name="settings_credit_desc">Abrir o canal no YouTube</string>
+
+    <!-- Gemini API Key -->
+    <string name="gemini_create_section">Criar a sua chave</string>
+    <string name="gemini_open_studio">Abrir o Google AI Studio</string>
+    <string name="gemini_open_studio_sub">aistudio.google.com/apikey • cria a chave em 2 toques</string>
+    <string name="gemini_studio_hint">Entre com a sua conta Google, toque em Criar chave de API, copie e cole no campo abaixo. O uso gratuito já atende o dia a dia.</string>
+    <string name="gemini_your_key">Sua chave</string>
+    <string name="gemini_key_field">Chave de API</string>
+    <string name="gemini_key_saved">Salva neste aparelho: %1$s</string>
+    <string name="gemini_no_key">Nenhuma chave salva ainda</string>
+    <string name="gemini_key_placeholder">Cole sua chave aqui</string>
+    <string name="gemini_toggle_visibility">Mostrar ou ocultar a chave</string>
+    <string name="gemini_save_key">Salvar chave</string>
+    <string name="gemini_test">Testar conexão</string>
+    <string name="gemini_remove_key">Remover chave</string>
+    <string name="gemini_model_section">Modelo de linguagem</string>
+    <string name="gemini_model_sub">Motor usado em todas as ações</string>
+    <string name="gemini_model_empty_sub">Toque em Buscar modelos da minha chave para carregar a lista</string>
+    <string name="gemini_fetch_models">Buscar modelos da minha chave</string>
+    <string name="gemini_models_hint">A lista sai da própria API da Gemini: só aparecem modelos que a sua chave pode usar para texto. O resultado fica salvo até você buscar de novo ou trocar de chave.</string>
+    <string name="gemini_creativity">Criatividade</string>
+    <string name="gemini_temperature">Temperatura</string>
+    <string name="gemini_temperature_sub">Equilíbrio entre precisão e criatividade</string>
+
+    <!-- Mensagens de chave, conexao e modelos -->
+    <string name="key_saved_message">Chave salva neste aparelho.</string>
+    <string name="key_removed_message">Chave removida.</string>
+    <string name="conn_testing">Testando…</string>
+    <string name="conn_valid">Conexão válida. %1$d modelos disponíveis.</string>
+    <string name="conn_valid_model_missing">Conexão válida, mas o modelo %1$s não está liberado para esta chave: escolha um da lista.</string>
+    <string name="models_available">%1$d modelos disponíveis para esta chave.</string>
+    <string name="models_available_pick">%1$d modelos disponíveis. O modelo anterior não está mais liberado para esta chave: escolha um da lista.</string>
+
+    <!-- Aparencia -->
+    <string name="appearance_theme">Tema do app</string>
+    <string name="theme_dark">Escuro</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_dark_lower">escuro</string>
+    <string name="theme_light_lower">claro</string>
+    <string name="theme_system_lower">do sistema</string>
+    <string name="appearance_bar_height">Altura da barra flutuante</string>
+    <string name="appearance_bar_height_option">%1$s %2$ddp</string>
+    <string name="appearance_bar_height_preview_label">Pré-visualização</string>
+    <string name="appearance_language">Idioma do app</string>
+    <string name="appearance_language_hint">A escolha vale para todo o aplicativo e é aplicada na hora.</string>
+    <string name="language_system">Padrão do sistema</string>
+
+    <!-- Sobre -->
+    <string name="about_title">Sobre</string>
+    <string name="about_topic_app">Sobre o app</string>
+    <string name="about_topic_app_sub">O que o app faz e como ele funciona</string>
+    <string name="about_topic_permission">Por que essa permissão</string>
+    <string name="about_topic_permission_sub">Por que a acessibilidade é necessária</string>
+    <string name="about_topic_data">Como seus dados circulam</string>
+    <string name="about_topic_data_sub">Para onde o seu texto vai</string>
+    <string name="about_topic_news">Novidades</string>
+    <string name="about_topic_news_sub">O que mudou na versão %1$s</string>
+    <string name="about_topic_blocked">Se o Android bloquear o app</string>
+    <string name="about_topic_blocked_sub">Play Protect e configurações restritas</string>
+
+    <string name="about_app_1_title">Uma barra de IA sobre o seu teclado</string>
+    <string name="about_app_1_body">O app não substitui o seu teclado: ele desenha uma barra logo acima dele, com atalhos para corrigir, melhorar, traduzir, mudar o tom, resumir, reescrever e ditar por voz.</string>
+    <string name="about_app_2_title">Funciona em qualquer app</string>
+    <string name="about_app_2_body">A barra aparece em qualquer campo de texto. Você toca em uma ação e a IA devolve o texto já aplicado, com Desfazer na barra.</string>
+    <string name="about_app_3_title">Suas funções, seus prompts</string>
+    <string name="about_app_3_body">Em Funções você cria atalhos com os seus próprios prompts, escolhe o emoji, reordena arrastando e fixa os favoritos.</string>
+    <string name="about_app_4_title">Com a sua chave da Gemini</string>
+    <string name="about_app_4_body">Não existe servidor intermediário: o app fala direto com a API da Gemini usando a chave que você cadastrou.</string>
+    <string name="about_app_5_title">Dica de posição</string>
+    <string name="about_app_5_body">Se a barra cobrir uma mensagem, arraste pela alça à esquerda, ou toque na seta para baixo para encolher tudo em um botão pequeno.</string>
+
+    <string name="about_perm_1_title">Saber quando o teclado está aberto</string>
+    <string name="about_perm_1_body">O Android não informa a altura de um teclado de terceiros de outra forma. O serviço usa isso para ancorar a barra acima das teclas.</string>
+    <string name="about_perm_2_title">Ler o campo em foco quando você pede</string>
+    <string name="about_perm_2_body">A leitura acontece somente no toque de um atalho, para enviar aquele texto à IA.</string>
+    <string name="about_perm_3_title">Substituir o texto depois da sua ação</string>
+    <string name="about_perm_3_body">A troca usa a ação padrão de edição do Android e só roda depois do seu toque.</string>
+    <string name="about_perm_note">O app não se declara ferramenta de acessibilidade, não registra toques, não grava áudio em segundo plano e não envia nada para a internet sem uma ação sua.</string>
+
+    <string name="about_data_1_title">O texto só sai quando você toca</string>
+    <string name="about_data_1_body">Nenhuma ação automática envia o que você digita: a IA recebe o texto apenas quando você aciona um atalho.</string>
+    <string name="about_data_2_title">Destino único: a API da Gemini</string>
+    <string name="about_data_2_body">O envio é direto para o servidor da Gemini com a sua chave. Não existe servidor do app no meio, sem analytics e sem telemetria.</string>
+    <string name="about_data_3_title">A chave fica cifrada no aparelho</string>
+    <string name="about_data_3_body">Ela é guardada com AES/GCM 256 usando uma chave gerada no Android Keystore, que não sai do dispositivo.</string>
+    <string name="about_data_4_title">Nada é guardado</string>
+    <string name="about_data_4_body">O app não mantém histórico das mensagens que passam pela barra: o texto é usado na hora e descartado.</string>
+    <string name="about_data_5_title">Voz processada pelo sistema</string>
+    <string name="about_data_5_body">O ditado usa o reconhecedor do próprio Android. O áudio não é enviado para a Gemini, apenas o texto transcrito.</string>
+
+    <string name="about_blocked_1_title">Play Protect avisou na instalação</string>
+    <string name="about_blocked_1_body">Isso acontece com todo APK instalado fora da Play Store, porque ele não passou pela revisão do Google. Toque em Mais detalhes e Instalar mesmo assim.</string>
+    <string name="about_blocked_2_title">Acessibilidade apareceu bloqueada</string>
+    <string name="about_blocked_2_body">A partir do Android 13, apps instalados fora da loja começam com as configurações restritas desligadas. Abra as informações do app, toque nos três pontos e escolha Permitir configurações restritas.</string>
+    <string name="about_blocked_3_title">O serviço desativa sozinho</string>
+    <string name="about_blocked_3_body">Quase sempre é a economia de bateria encerrando o app em segundo plano. Libere isso em Ajustes &gt; Permissões, no item Bateria sem restrições.</string>
+    <string name="about_open_app_info">Abrir informações do app</string>
+
+    <!-- Permissoes -->
+    <string name="perm_accessibility">Serviço de acessibilidade</string>
+    <string name="perm_accessibility_sub">Necessário para a barra aparecer sobre o teclado</string>
+    <string name="perm_mic">Microfone</string>
+    <string name="perm_mic_sub">Usado só enquanto você mantém o ditado aberto</string>
+    <string name="perm_battery">Bateria sem restrições</string>
+    <string name="perm_battery_sub">Evita que o sistema desative o serviço em segundo plano</string>
+    <string name="perm_granted">Concedida</string>
+    <string name="perm_pending">Pendente</string>
+    <string name="perm_intro">Tudo que o app usa está aqui, com o estado atual de cada item.</string>
+
+    <!-- Boas-vindas e novidades -->
+    <string name="welcome_title">Bem-vindo ao TecladoIA</string>
+    <string name="welcome_body">Antes de começar, libere o que o app usa. Você pode mudar tudo depois em Ajustes &gt; Permissões.</string>
+    <string name="welcome_continue">Continuar</string>
+    <string name="welcome_note">Dá para seguir sem liberar tudo: o microfone só é necessário para o ditado e a bateria evita que o serviço caia em segundo plano.</string>
+    <string name="news_title">Novidades</string>
+    <string name="news_version">Versão %1$s</string>
+    <string name="news_start">Começar a usar</string>
+    <string name="news_release">Versão %1$s • %2$s</string>
+    <string name="news_date_sep_2026">Setembro de 2026</string>
+
+    <string name="cl_120_1">Respostas mais rápidas: raciocínio interno desligado e teto de saída proporcional ao texto.</string>
+    <string name="cl_120_2">Conexão reaproveitada entre ações e chave lida da memória.</string>
+    <string name="cl_120_3">Feedback imediato no toque e bloqueio de cliques repetidos.</string>
+    <string name="cl_120_4">Mensagens de erro específicas, com botão Tentar novamente.</string>
+    <string name="cl_120_5">Lista de modelos vinda da API da sua chave, com cache por chave.</string>
+    <string name="cl_120_6">Aplicativo traduzido para 10 idiomas.</string>
+    <string name="cl_110_1">Atalhos aplicam o texto na hora, com Desfazer na barra.</string>
+    <string name="cl_110_2">Ditado em tempo real, já corrigido e sem colar o placeholder do campo.</string>
+    <string name="cl_110_3">Barra arrastável com a posição salva, e modo minimizado que libera a tela.</string>
+    <string name="cl_110_4">Puxe a barra para baixo e os atalhos padrão dão lugar às suas funções.</string>
+    <string name="cl_110_5">Funções reordenadas arrastando o card, com seletor de emoji completo.</string>
+    <string name="cl_110_6">Novos menus em Ajustes: Gemini API Key, Aparência, Permissões e Sobre.</string>
+    <string name="cl_100_1">Primeira versão: barra de IA acima do teclado que você já usa.</string>
+    <string name="cl_100_2">Corrigir, melhorar, traduzir, mudar tom, resumir, reescrever e ditado por voz.</string>
+    <string name="cl_100_3">Funções personalizadas com prompts próprios, fixáveis na barra.</string>
+    <string name="cl_100_4">Chave da Gemini cifrada no aparelho, sem servidor intermediário.</string>
+
+    <!-- Funcoes iniciais (viram dados do usuario apos o primeiro uso) -->
+    <string name="seed_professional_name">Profissional</string>
+    <string name="seed_professional_prompt">Reescreva a mensagem de forma profissional, educada e objetiva, mantendo a clareza e eliminando informalidades excessivas.</string>
+    <string name="seed_funny_name">Engraçado</string>
+    <string name="seed_funny_prompt">Reescreva o texto adicionando humor leve e descontraído, sem mudar a informação principal.</string>
+    <string name="seed_short_name">Curto e direto</string>
+    <string name="seed_short_prompt">Reescreva o texto no menor número de palavras possível, mantendo todas as informações essenciais.</string>
+
+    <!-- Backup das funcoes personalizadas -->
+    <string name="backup_title">Backup</string>
+    <string name="backup_export_title">Salvar backup</string>
+    <string name="backup_export_sub">%1$d funções salvas no app. Exporte um arquivo para a pasta Downloads do aparelho.</string>
+    <string name="backup_export_button">Salvar backup em Downloads</string>
+    <string name="backup_import_title">Restaurar backup</string>
+    <string name="backup_import_sub">Escolha um arquivo de backup salvo antes. As funções atuais serão substituídas.</string>
+    <string name="backup_import_button">Escolher arquivo</string>
+    <string name="backup_import_confirm_title">Restaurar backup?</string>
+    <string name="backup_import_confirm_message">As funções atuais serão substituídas pelas do arquivo escolhido. Essa ação não pode ser desfeita.</string>
+    <string name="backup_import_confirm_button">Restaurar</string>
+    <string name="backup_export_success">Backup salvo em Downloads/%1$s (%2$d funções).</string>
+    <string name="backup_export_error">Não foi possível salvar o backup. Tente novamente.</string>
+    <string name="backup_import_success">%1$d funções restauradas com sucesso.</string>
+    <string name="backup_import_error">Não foi possível ler esse arquivo de backup.</string>
+
+    <!-- Modos de animacao -->
+    <string name="appearance_animation">Animações</string>
+    <string name="anim_full">Completa</string>
+    <string name="anim_simple">Suave</string>
+    <string name="anim_none">Desligada</string>
+    <string name="appearance_animation_hint">Completa usa expansão de limites compartilhados nos menus e entrada deslizante da barra. Suave faz só o esmaecimento. Desligada troca na hora.</string>
+</resources>

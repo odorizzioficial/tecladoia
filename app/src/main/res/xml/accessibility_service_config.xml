@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  isAccessibilityTool NAO e declarado (padrao = false): este app nao se apresenta
+  como ferramenta de acessibilidade. O servico e usado apenas para posicionar a
+  barra de IA acima do teclado e para ler/substituir o campo de texto focado.
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowStateChanged|typeWindowsChanged|typeViewFocused|typeViewTextSelectionChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagReportViewIds"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/accessibility_service_description"
+    android:notificationTimeout="100"
+    android:summary="@string/accessibility_service_summary" />
