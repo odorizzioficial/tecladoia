@@ -1,4 +1,4 @@
-# TecladoIA
+# Teclado IA
 
 <img width="1672" height="941" alt="CapaTecladoIAOdorizzi" src="https://github.com/user-attachments/assets/8886b141-8df7-44f2-88c2-478bb3fcf79d" />
 
