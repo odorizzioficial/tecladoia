@@ -1,5 +1,6 @@
 import java.io.File
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
@@ -29,14 +30,16 @@ base {
 
 android {
     namespace = "com.odorizzioficial.tecladoia"
-    compileSdk = 35
+    // 36: o motor offline e o llama.cpp exigem compilar contra o Android 16.
+    // O app continua mirando o 35 (targetSdk) e instalando a partir do 26.
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.odorizzioficial.tecladoia"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.2.0"
+        versionCode = 13
+        versionName = "1.3.8"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -62,6 +65,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Os motores de IA offline trazem codigo nativo por arquitetura. No
+            // release ficam so as de celular (64 e 32 bits); o debug mantem todas
+            // para o emulador de PC (x86_64) continuar instalando.
+            ndk {
+                abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+            }
         }
         debug {
             isMinifyEnabled = false
@@ -73,18 +82,26 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         compose = true
     }
 
     packaging {
+        // Bibliotecas nativas compactadas dentro do APK: o download fica bem menor
+        // (elas sao extraidas na instalacao).
+        jniLibs {
+            useLegacyPackaging = true
+        }
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+// kotlinOptions {} foi removido no Kotlin 2.2+: o alvo da JVM agora fica aqui.
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
@@ -109,4 +126,10 @@ dependencies {
 
     implementation(libs.okhttp)
     implementation(libs.kotlinx.serialization.json)
+
+    // Motor de IA que roda no aparelho (modo IA offline), da Google.
+    implementation(libs.litertlm.android)
+
+    // Motor llama.cpp (arquivos .gguf) no aparelho, MIT.
+    implementation(libs.llamatik)
 }

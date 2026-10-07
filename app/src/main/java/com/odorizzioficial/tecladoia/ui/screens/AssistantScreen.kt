@@ -58,11 +58,273 @@ import com.odorizzioficial.tecladoia.ui.MainViewModel
 import com.odorizzioficial.tecladoia.ui.components.AppCard
 import com.odorizzioficial.tecladoia.ui.components.AuroraBrush
 import com.odorizzioficial.tecladoia.ui.components.AuroraButton
+import com.odorizzioficial.tecladoia.domain.AiProvider
 import com.odorizzioficial.tecladoia.ui.components.ErrorBanner
 import com.odorizzioficial.tecladoia.ui.components.PillChip
 import com.odorizzioficial.tecladoia.ui.components.SectionHeader
 import com.odorizzioficial.tecladoia.ui.components.iconVector
 import com.odorizzioficial.tecladoia.ui.theme.PillShape
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.material.icons.rounded.Cloud
+import androidx.compose.material.icons.rounded.Memory
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.style.TextOverflow
+import com.odorizzioficial.tecladoia.domain.AppSettings
+import com.odorizzioficial.tecladoia.domain.GeminiModels
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.compose.material.icons.rounded.Mic
+import androidx.compose.material.icons.rounded.Stop
+import androidx.compose.ui.graphics.vector.ImageVector
+
+/** Aviso de versao nova no topo do Assistente; "Depois" some com ele para essa versao. */
+@Composable
+private fun UpdateBanner(version: String, onUpdate: () -> Unit, onLater: () -> Unit) {
+    val secondary = MaterialTheme.colorScheme.secondary
+    val shape = RoundedCornerShape(20.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(secondary.copy(alpha = 0.14f))
+            .border(1.dp, secondary.copy(alpha = 0.5f), shape)
+            .padding(14.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.update_banner_title, version),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.SemiBold
+        )
+        Spacer(Modifier.height(10.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            PillChip(
+                text = stringResource(R.string.update_banner_update),
+                onClick = onUpdate,
+                selected = true
+            )
+            Spacer(Modifier.width(10.dp))
+            PillChip(text = stringResource(R.string.update_banner_later), onClick = onLater)
+        }
+    }
+}
+
+/** Cor de alerta para motor desligado ou sem configuracao. */
+private val WarningAmber = Color(0xFFFFB300)
+
+/**
+ * Os dois motores de IA no topo do Assistente. O que esta em uso (e pronto) aparece
+ * "Online", em azul; o outro fica apagado e "Offline", em amarelo de alerta. Um motor
+ * escolhido mas sem chave ou sem modelo tambem fica "Offline" amarelo, no lugar do
+ * aviso vermelho que existia mais abaixo.
+ *
+ * Toque no motor apagado liga esse motor (ou abre a configuracao dele se faltar algo);
+ * toque no que esta em uso abre o menu de IA; segurar abre direto a configuracao.
+ */
+@Composable
+private fun EngineSection(settings: AppSettings, viewModel: MainViewModel) {
+    val offlineInUse = settings.aiProvider == AiProvider.OFFLINE
+    val geminiReady = settings.hasApiKey
+    val offlineReady = settings.offlineModel.isNotBlank()
+
+    Text(
+        text = stringResource(R.string.engine_badge_label),
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.secondary,
+        modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)
+    )
+    EngineCard(
+        icon = Icons.Rounded.Cloud,
+        title = stringResource(R.string.ai_engine_gemini_title),
+        detail = if (geminiReady) {
+            GeminiModels.prettyLabel(settings.model)
+        } else {
+            stringResource(R.string.engine_gemini_no_key)
+        },
+        active = !offlineInUse,
+        ready = geminiReady,
+        onClick = {
+            when {
+                !offlineInUse -> viewModel.requestAiHubScreen()
+                geminiReady -> viewModel.setAiProvider(AiProvider.GEMINI)
+                else -> viewModel.requestApiKeyScreen()
+            }
+        },
+        onLongClick = viewModel::requestApiKeyScreen
+    )
+    Spacer(Modifier.height(10.dp))
+    EngineCard(
+        icon = Icons.Rounded.Memory,
+        title = stringResource(R.string.ai_engine_offline_title),
+        detail = if (offlineReady) {
+            settings.offlineModel.substringBeforeLast('.')
+        } else {
+            stringResource(R.string.engine_badge_no_model)
+        },
+        active = offlineInUse,
+        ready = offlineReady,
+        onClick = {
+            when {
+                offlineInUse -> viewModel.requestAiHubScreen()
+                offlineReady -> viewModel.setAiProvider(AiProvider.OFFLINE)
+                else -> viewModel.requestOfflineScreen()
+            }
+        },
+        onLongClick = viewModel::requestOfflineScreen
+    )
+    Spacer(Modifier.height(8.dp))
+    Text(
+        text = stringResource(R.string.engine_badge_hint),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
+        modifier = Modifier.padding(start = 4.dp)
+    )
+}
+
+@Composable
+private fun EngineCard(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    detail: String,
+    active: Boolean,
+    ready: Boolean,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit
+) {
+    val haptics = LocalHapticFeedback.current
+    val primary = MaterialTheme.colorScheme.primary
+    val secondary = MaterialTheme.colorScheme.secondary
+    val shape = RoundedCornerShape(24.dp)
+
+    // Online = em uso e pronto. Todo o resto e Offline, e em uso sem estar pronto pede atencao.
+    val online = active && ready
+    val alert = active && !ready
+
+    val background = when {
+        online -> Brush.linearGradient(listOf(primary.copy(alpha = 0.30f), secondary.copy(alpha = 0.16f)))
+        alert -> Brush.linearGradient(listOf(WarningAmber.copy(alpha = 0.20f), WarningAmber.copy(alpha = 0.06f)))
+        else -> Brush.linearGradient(
+            listOf(
+                MaterialTheme.colorScheme.surfaceContainer,
+                MaterialTheme.colorScheme.surfaceContainer
+            )
+        )
+    }
+    val borderBrush = when {
+        online -> Brush.linearGradient(listOf(primary.copy(alpha = 0.75f), secondary.copy(alpha = 0.55f)))
+        alert -> Brush.linearGradient(listOf(WarningAmber.copy(alpha = 0.8f), WarningAmber.copy(alpha = 0.5f)))
+        else -> Brush.linearGradient(
+            listOf(Color.White.copy(alpha = 0.08f), Color.White.copy(alpha = 0.08f))
+        )
+    }
+    // Motor apagado: tudo mais fraco, menos o selo de estado.
+    val contentAlpha = if (active) 1f else 0.55f
+
+    val pulse = rememberInfiniteTransition(label = "engine-pulse")
+    val dotAlpha by pulse.animateFloat(
+        initialValue = 0.35f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 900),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "engine-dot"
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(background)
+            .border(width = 1.dp, brush = borderBrush, shape = shape)
+            .pointerInput(onClick, onLongClick) {
+                detectTapGestures(
+                    onTap = { onClick() },
+                    onLongPress = {
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onLongClick()
+                    }
+                )
+            }
+            .padding(14.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(PillShape)
+                .background(
+                    if (online) {
+                        AuroraBrush
+                    } else {
+                        Brush.linearGradient(
+                            listOf(
+                                MaterialTheme.colorScheme.surfaceContainerHighest,
+                                MaterialTheme.colorScheme.surfaceContainerHighest
+                            )
+                        )
+                    }
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = if (online) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(26.dp)
+            )
+        }
+        Spacer(Modifier.width(14.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = contentAlpha),
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = detail,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (!ready) {
+                    WarningAmber
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = contentAlpha)
+                },
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        Spacer(Modifier.width(10.dp))
+        val pillColor = if (online) secondary else WarningAmber
+        Row(
+            modifier = Modifier
+                .clip(PillShape)
+                .background(pillColor.copy(alpha = 0.18f))
+                .padding(horizontal = 10.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(8.dp)
+                    .clip(PillShape)
+                    .background(pillColor.copy(alpha = if (online) dotAlpha else 1f))
+            )
+            Spacer(Modifier.width(6.dp))
+            Text(
+                text = stringResource(
+                    if (online) R.string.engine_state_online else R.string.engine_state_offline
+                ),
+                style = MaterialTheme.typography.labelMedium,
+                color = pillColor
+            )
+        }
+    }
+}
 
 @Composable
 fun AssistantScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
@@ -72,6 +334,11 @@ fun AssistantScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     val playground by viewModel.playground.collectAsStateWithLifecycle()
     val serviceRunning by KeyboardOverlayService.connected.collectAsStateWithLifecycle()
     val clipboard = LocalClipboardManager.current
+    val micPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) viewModel.startPlaygroundVoice() else viewModel.notifyPlaygroundMicDenied()
+    }
 
     Column(
         modifier = modifier
@@ -102,6 +369,19 @@ fun AssistantScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
+
+        Spacer(Modifier.height(16.dp))
+        val update by viewModel.update.collectAsStateWithLifecycle()
+        val newVersion = update.available?.takeIf { it.version != settings.dismissedUpdate }
+        if (newVersion != null) {
+            UpdateBanner(
+                version = newVersion.version,
+                onUpdate = viewModel::requestUpdateScreen,
+                onLater = { viewModel.dismissUpdate(newVersion.version) }
+            )
+            Spacer(Modifier.height(16.dp))
+        }
+        EngineSection(settings = settings, viewModel = viewModel)
 
         SectionHeader(title = stringResource(R.string.assistant_service_state), icon = Icons.Rounded.CheckCircle)
         AppCard {
@@ -148,17 +428,6 @@ fun AssistantScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             }
         }
 
-        if (!settings.hasApiKey) {
-            Spacer(Modifier.height(14.dp))
-            ErrorBanner(
-                message = stringResource(R.string.err_missing_key),
-                onDismiss = {},
-                actionLabel = stringResource(R.string.assistant_configure_now),
-                onAction = viewModel::requestApiKeyScreen,
-                showDismiss = false
-            )
-        }
-
         SectionHeader(title = stringResource(R.string.assistant_test_title), icon = Icons.Rounded.AutoAwesome)
         AppCard {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -170,6 +439,37 @@ fun AssistantScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                     minLines = 3,
                     modifier = Modifier.fillMaxWidth()
                 )
+                Spacer(Modifier.height(10.dp))
+                // Microfone: o mesmo ditado em tempo real da barra, para testar aqui.
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    PillChip(
+                        text = stringResource(
+                            if (playground.listening) R.string.assistant_mic_stop else R.string.assistant_mic_start
+                        ),
+                        icon = if (playground.listening) Icons.Rounded.Stop else Icons.Rounded.Mic,
+                        selected = playground.listening,
+                        onClick = {
+                            val granted = ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.RECORD_AUDIO
+                            ) == PackageManager.PERMISSION_GRANTED
+                            when {
+                                playground.listening -> viewModel.stopPlaygroundVoice()
+                                granted -> viewModel.startPlaygroundVoice()
+                                else -> micPermission.launch(Manifest.permission.RECORD_AUDIO)
+                            }
+                        }
+                    )
+                    if (playground.listening) {
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            text = stringResource(R.string.assistant_mic_listening),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.secondary,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
                 Spacer(Modifier.height(12.dp))
                 Row(
                     modifier = Modifier

@@ -99,7 +99,7 @@
     <string name="err_no_connection">没有网络连接。请检查网络后重试。</string>
     <string name="err_network_failure">请求过程中连接中断。请重试。</string>
     <string name="err_timeout">Gemini 响应超时。请重试。</string>
-    <string name="err_service_unavailable">Gemini 暂时不可用。请稍后重试。</string>
+    <string name="err_service_unavailable">Gemini 目前在 Google 端需求量很大。应用已尝试其他模型，请稍后再试。</string>
     <string name="err_bad_request">Gemini 拒绝了该请求：%1$s</string>
     <string name="err_empty_response">AI 没有返回结果。请重试。</string>
     <string name="err_unreadable">AI 返回的格式不符合预期。请重试。</string>
@@ -267,11 +267,11 @@
     <string name="about_app_1_title">键盘上方的 AI 工具栏</string>
     <string name="about_app_1_body">本应用不替换你的键盘：它在键盘正上方绘制一条工具栏，提供纠错、优化、翻译、改变语气、摘要、改写和语音输入等快捷方式。</string>
     <string name="about_app_2_title">在任何应用中都能用</string>
-    <string name="about_app_2_body">工具栏会出现在任意文本框中。点按一个操作，AI 会直接把结果写入文本框，工具栏上还有“撤销”。</string>
+    <string name="about_app_2_body">悬浮栏会出现在任何文本输入框中，银行和支付应用除外，出于安全它在那里保持关闭（在“设置 &gt; 所有应用”中可选择其他应用）。轻点一项操作，AI 会返回已应用的文字，悬浮栏上可撤销。</string>
     <string name="about_app_3_title">你的功能，你的提示词</string>
     <string name="about_app_3_body">在“功能”里创建带有自己提示词的快捷方式，选择表情、拖动排序并置顶常用项。</string>
-    <string name="about_app_4_title">使用你自己的 Gemini 密钥</string>
-    <string name="about_app_4_body">没有中间服务器：应用用你保存的密钥直接与 Gemini API 通信。</string>
+    <string name="about_app_4_title">Gemini 或离线 AI</string>
+    <string name="about_app_4_body">由您选择引擎：Gemini（直接使用您的密钥，无中间服务器），或在设备本机运行的 AI 模型（.litertlm 或 .gguf 文件），无需联网。使用中的引擎显示在助手顶部。</string>
     <string name="about_app_5_title">位置小技巧</string>
     <string name="about_app_5_body">如果工具栏挡住了消息，可用左侧手柄拖动，或点按向下箭头把它收成一个小按钮。</string>
 
@@ -281,12 +281,12 @@
     <string name="about_perm_2_body">只有你点按快捷方式时才会读取，用于把那段文本发给 AI。</string>
     <string name="about_perm_3_title">在你操作之后替换文本</string>
     <string name="about_perm_3_body">替换使用 Android 标准编辑操作，只在你点按之后执行。</string>
-    <string name="about_perm_note">本应用不声明为无障碍工具，不记录按键，不在后台录音，没有你的操作不会向网络发送任何内容。</string>
+    <string name="about_perm_note">应用不会声明自己是无障碍工具，不记录点击，不在后台录音，也不会在没有您操作的情况下把您的文字发送到互联网。</string>
 
     <string name="about_data_1_title">只有你点按时文本才会发出</string>
     <string name="about_data_1_body">没有任何自动操作会发送你输入的内容：只有你触发快捷方式时，AI 才会收到文本。</string>
-    <string name="about_data_2_title">唯一目的地：Gemini API</string>
-    <string name="about_data_2_body">请求带着你的密钥直接发往 Gemini 服务器。中间没有本应用的服务器，没有分析统计，也没有遥测。</string>
+    <string name="about_data_2_title">去向：Gemini 或您的设备</string>
+    <string name="about_data_2_body">使用 Gemini 时，文字携带您的密钥直接发送到 Google 服务器：中间没有应用服务器，没有分析，也没有遥测。使用离线 AI 时，文字不会离开手机。</string>
     <string name="about_data_3_title">密钥在本机加密保存</string>
     <string name="about_data_3_body">它使用 Android Keystore 中生成的密钥以 AES/GCM 256 加密保存，该密钥不会离开设备。</string>
     <string name="about_data_4_title">不保留任何记录</string>
@@ -299,7 +299,7 @@
     <string name="about_blocked_2_title">无障碍选项显示被限制</string>
     <string name="about_blocked_2_body">从 Android 13 起，商店之外安装的应用默认关闭受限设置。打开应用信息，点按右上角三个点，选择“允许受限设置”。</string>
     <string name="about_blocked_3_title">服务自己关闭了</string>
-    <string name="about_blocked_3_body">几乎都是省电策略在后台结束了应用。请在“设置 &gt; 权限”的“电池不受限制”中解除限制。</string>
+    <string name="about_blocked_3_body">几乎总是省电功能在后台关闭了应用，小米、Poco、OPPO 等手机很常见。在“设置 &gt; 权限”中有自启动和电池无限制的快捷入口。</string>
     <string name="about_open_app_info">打开应用信息</string>
 
     <string name="perm_accessibility">无障碍服务</string>
@@ -320,24 +320,7 @@
     <string name="news_version">版本 %1$s</string>
     <string name="news_start">开始使用</string>
     <string name="news_release">版本 %1$s • %2$s</string>
-    <string name="news_date_sep_2026">2026 年 9 月</string>
 
-    <string name="cl_120_1">响应更快：关闭内部推理，输出上限按文本长度调整。</string>
-    <string name="cl_120_2">操作之间复用连接，密钥从内存读取。</string>
-    <string name="cl_120_3">点按即有反馈，并阻止重复点击。</string>
-    <string name="cl_120_4">更具体的错误提示，并提供“重试”按钮。</string>
-    <string name="cl_120_5">模型列表来自你密钥的 API，并按密钥缓存。</string>
-    <string name="cl_120_6">应用已翻译为 10 种语言。</string>
-    <string name="cl_110_1">快捷方式立即写入结果，工具栏上有“撤销”。</string>
-    <string name="cl_110_2">实时语音输入，直接带纠错，且不会粘上输入框的提示文字。</string>
-    <string name="cl_110_3">工具栏可拖动并记住位置，最小化模式可腾出屏幕。</string>
-    <string name="cl_110_4">向下拉动工具栏，默认快捷方式会换成你的功能。</string>
-    <string name="cl_110_5">拖动卡片即可排序功能，并提供完整表情选择器。</string>
-    <string name="cl_110_6">设置中新增菜单：Gemini API Key、外观、权限与关于。</string>
-    <string name="cl_100_1">首个版本：在你已使用的键盘上方加一条 AI 工具栏。</string>
-    <string name="cl_100_2">纠错、优化、翻译、改变语气、摘要、改写与语音输入。</string>
-    <string name="cl_100_3">可自定义功能，使用你自己的提示词，并可置顶到工具栏。</string>
-    <string name="cl_100_4">Gemini 密钥在本机加密保存，没有中间服务器。</string>
 
     <!-- Funcoes iniciais (viram dados do usuario apos o primeiro uso) -->
     <string name="seed_professional_name">专业</string>
@@ -368,4 +351,175 @@
     <string name="anim_simple">轻微</string>
     <string name="anim_none">关闭</string>
     <string name="appearance_animation_hint">完整：菜单使用共享边界展开，工具栏滑入。轻微：只有淡入淡出。关闭：立即切换。</string>
+
+    <!-- 1.2.1: apps protegidos, ajuda por fabricante, novidades -->
+    <string name="settings_privacy_section">隐私</string>
+    <string name="settings_protected_row">所有应用</string>
+    <string name="settings_protected_row_sub">在特定应用中关闭 AI 栏</string>
+    <string name="protected_title">所有应用</string>
+    <string name="protected_default_title">在金融应用中暂停</string>
+    <string name="protected_default_sub">已知的银行、数字钱包和券商：不显示悬浮栏，也不读取任何文字。</string>
+    <string name="protected_custom_title">已安装的应用</string>
+    <string name="protected_search_hint">搜索应用</string>
+    <string name="protected_bank_title">银行要求卸载本应用？</string>
+    <string name="protected_bank_body">部分银行在开启了任何非 Play 商店安装的无障碍服务时拒绝运行。这是银行的规定，本应用无法隐藏。打开银行应用之前请先关闭该服务，用完后再重新开启。</string>
+    <string name="protected_disable_now">立即关闭服务</string>
+    <string name="protected_reenable">在设置中重新开启</string>
+    <string name="oem_help_title">服务会自己关闭？</string>
+    <string name="oem_help_body">小米、红米、Poco、OPPO、realme、一加和 vivo 手机会关闭后台应用。请开启自启动，将本应用的电池设为无限制，在最近任务中锁定本应用，然后关闭再重新开启无障碍。</string>
+    <string name="oem_open_autostart">自启动</string>
+    <string name="oem_open_battery">应用电池</string>
+    <string name="perm_accessibility_stalled">Android 已停止该服务。请在无障碍中关闭后重新开启。</string>
+    <string name="news_date_oct_2026">2026年10月</string>
+    <string name="protected_notice">如果 AI 栏在某个应用中出现问题，可以在这里只对该应用关闭。选择任意已安装的应用：栏不会出现，也不会读取任何文字。</string>
+    <string name="protected_system_title">包含系统应用</string>
+    <string name="protected_system_sub">同时显示系统应用以及主屏幕上没有图标的应用，如服务和键盘。</string>
+
+    <!-- 1.3.0: menu de IA, modo IA offline -->
+    <string name="settings_ai_hub_row">人工智能</string>
+    <string name="settings_ai_hub_row_sub_gemini">使用中：Gemini（云端）</string>
+    <string name="settings_ai_hub_row_sub_offline">使用中：离线 AI（%1$s）</string>
+    <string name="ai_hub_title">人工智能</string>
+    <string name="ai_hub_engine_section">使用中的引擎</string>
+    <string name="ai_engine_gemini_title">Gemini（云端）</string>
+    <string name="ai_engine_gemini_sub">使用您的 Google API 密钥，需要联网。</string>
+    <string name="ai_engine_offline_title">离线 AI</string>
+    <string name="ai_engine_offline_sub">在设备上运行，无需联网，也不会把文字发给任何人。</string>
+    <string name="ai_hub_setup_section">设置</string>
+    <string name="ai_hub_gemini_row">Gemini</string>
+    <string name="ai_hub_gemini_row_sub">API 密钥、模型和温度</string>
+    <string name="ai_hub_offline_row">离线 AI 模式</string>
+    <string name="ai_hub_offline_row_sub">下载、导入和选择模型</string>
+    <string name="ai_hub_offline_needs_model">使用离线模式前请先安装一个模型。</string>
+    <string name="offline_title">离线 AI 模式</string>
+    <string name="offline_intro">直接在设备上运行 AI。可在下方下载模型，或导入 .litertlm 或 .gguf 文件。您的文字不会离开手机，无需联网也能使用。第一次回答较慢，因为需要先加载模型。</string>
+    <string name="offline_installed_section">已安装的模型</string>
+    <string name="offline_installed_empty">还没有安装任何模型。</string>
+    <string name="offline_model_active">使用中</string>
+    <string name="offline_model_delete">删除模型</string>
+    <string name="offline_delete_title">删除模型？</string>
+    <string name="offline_delete_message">文件 %1$s 将从设备中删除。</string>
+    <string name="offline_delete_confirm">删除</string>
+    <string name="offline_download_section">下载模型</string>
+    <string name="offline_download_note">下载由 Android 处理，会在后台继续。大型模型占用大量空间和内存。</string>
+    <string name="offline_download_button">下载</string>
+    <string name="offline_download_cancel">取消</string>
+    <string name="offline_download_installed">已安装</string>
+    <string name="offline_download_progress">%1$s / %2$s</string>
+    <string name="offline_open_page">打开页面</string>
+    <string name="offline_cat_gemma4_desc">质量最佳，需要内存充足的高性能手机。</string>
+    <string name="offline_import_section">导入文件</string>
+    <string name="offline_import_sub">已经下载了模型？请在设备上选择 .litertlm 或 .gguf 文件，它会被复制到应用内。</string>
+    <string name="offline_import_button">选择文件</string>
+    <string name="offline_import_progress">正在复制… %1$s</string>
+    <string name="offline_import_done">已导入模型 %1$s。</string>
+    <string name="offline_import_bad_format">该文件不是受支持的模型。应用可打开 .litertlm 和 .gguf 文件；.bin、.task 等其他格式无法使用。</string>
+    <string name="offline_import_no_space">空间不足，无法保存该模型。</string>
+    <string name="offline_import_failed">无法导入该文件。</string>
+    <string name="offline_download_failed">下载失败。请检查网络连接和可用空间。</string>
+    <string name="offline_download_denied">该模型需要在 Hugging Face 登录或接受许可。请打开页面，用浏览器下载，再使用“导入”。</string>
+    <string name="offline_download_done">下载完成：%1$s。</string>
+    <string name="offline_download_invalid">下载的文件不是有效模型，已删除。</string>
+    <string name="offline_no_storage">设备存储不可用于下载。请使用“导入”。</string>
+    <string name="offline_temp_title">温度</string>
+    <string name="offline_temp_sub">较低时回答更贴近原文，较高时更有创意。</string>
+    <string name="offline_test_button">测试模型</string>
+    <string name="offline_testing">正在加载并测试模型…</string>
+    <string name="offline_test_ok">成功！用时 %1$s 秒，回复：%2$s</string>
+    <string name="offline_warn_ram">该模型对此设备的内存来说偏大，可能导致卡死或应用关闭。</string>
+    <string name="err_offline_no_model">尚未选择离线模型。请打开 设置 &gt; 人工智能 &gt; 离线 AI 模式。</string>
+    <string name="err_offline_load_failed">无法加载离线模型：%1$s</string>
+    <string name="err_offline_failed">离线 AI 失败：%1$s</string>
+    <string name="err_offline_timeout">离线 AI 耗时过长。请尝试更短的文字或更轻量的模型。</string>
+
+    <!-- 1.3.1 -->
+    <string name="offline_cat_gemma3_desc">轻巧，葡萄牙语表现不错，非常适合配置较低的手机。GGUF 格式。</string>
+    <string name="offline_cat_gemma4_e4b_desc">质量最高。需要性能很强、内存 12 GB 或以上的手机。</string>
+
+    <!-- 1.3.2 -->
+    <string name="engine_badge_label">使用中的 AI 引擎</string>
+    <string name="engine_badge_no_model">尚未选择模型</string>
+    <string name="engine_badge_hint">轻点已停用的那个来开启 · 长按设置</string>
+    <string name="settings_overlay_row">键盘上方的悬浮栏</string>
+    <string name="settings_overlay_row_sub">输入时显示、随键盘隐藏以及振动</string>
+
+    <!-- 1.3.3 -->
+    <string name="assistant_mic_start">说话</string>
+    <string name="assistant_mic_stop">停止</string>
+    <string name="assistant_mic_listening">正在聆听… 文字会随着您说话出现并被纠正。</string>
+
+    <!-- 1.3.4 -->
+    <string name="err_field_text_hidden">此应用不会把输入的文字交给 TecladoIA，因此无法在这里处理。</string>
+
+    <!-- 1.3.5 -->
+
+    <!-- 1.3.6 -->
+    <string name="engine_state_online">在线</string>
+    <string name="engine_state_offline">离线</string>
+    <string name="engine_gemini_no_key">尚未设置 API 密钥</string>
+    <string name="news_release_since">自 %1$s 版本以来的所有变化</string>
+    <string name="news_all_1">离线 AI 模式：直接在设备上运行 AI，无需联网，也不会把文字发给任何人。可下载现成模型（Gemma 4 和 Gemma 3），或导入 .litertlm 和 .gguf 文件，并调整温度。</string>
+    <string name="news_all_2">新增“人工智能”菜单，Gemini 与离线模式并列。选择离线模型后，整条悬浮栏会自动启用离线模式。</string>
+    <string name="news_all_3">助手顶部的 AI 引擎：正在使用的显示“在线”，另一个已停用的显示“离线”。轻点已停用的来开启；长按设置。</string>
+    <string name="news_all_4">Gemini 更稳定：当某个模型过载或额度用完时，应用会自动尝试其他模型，模型列表也只显示可用的。</string>
+    <string name="news_all_5">听写可实时纠正：每次停顿时，您刚说的那段会立即加标点并修正。结束听写几乎是瞬间完成。</string>
+    <string name="news_all_6">文字的语言得到尊重：纠错、润色、摘要、改变语气和您的功能都会沿用您书写的语言，翻译之后也一样。</string>
+    <string name="news_all_7">支持更多应用，如 YouTube 评论，读取文字更聪明，应用隐藏已输入的内容时会明确提示。</string>
+    <string name="news_all_8">所有应用：可在任意已安装的应用中关闭悬浮栏，包括系统应用。银行和数字钱包默认已受保护。</string>
+    <string name="news_all_9">为小米、Poco、OPPO 等手机提供帮助，含自启动和电池快捷入口，并在 Android 停止服务时提示。</string>
+    <string name="news_all_10">“在此测试 AI”新增了麦克风，使用与悬浮栏相同的实时听写。</string>
+    <string name="news_all_11">“键盘上方的悬浮栏”菜单汇集了悬浮栏选项，功能的表情符号输入框可更换、删除和粘贴（“其他”会打开表情键盘）。</string>
+    <string name="news_all_12">正在使用的离线模型有彩色高亮，模型目录现在只保留葡萄牙语表现好的模型。</string>
+
+    <!-- 1.3.7 -->
+    <string name="settings_update_section">更新</string>
+    <string name="settings_update_row">更新应用</string>
+    <string name="settings_update_row_sub_current">已安装版本：%1$s</string>
+    <string name="settings_update_row_sub_new">有新版本 %1$s</string>
+    <string name="update_title">更新</string>
+    <string name="update_installed">已安装版本</string>
+    <string name="update_check_button">检查更新</string>
+    <string name="update_checking">正在检查…</string>
+    <string name="update_up_to_date">您已是最新版本。</string>
+    <string name="update_available">有新版本 %1$s</string>
+    <string name="update_notes_title">更新内容</string>
+    <string name="update_download_button">下载更新</string>
+    <string name="update_open_page">在 GitHub 查看</string>
+    <string name="update_install_hint">浏览器会下载 APK。随后打开该文件进行安装：Android 可能会要求您允许该浏览器安装应用。只有使用与本应用相同密钥签名的更新才能安装。</string>
+    <string name="update_auto_title">打开应用时检查</string>
+    <string name="update_auto_sub">最多每 12 小时查询一次 GitHub，不会发送任何个人数据。</string>
+    <string name="update_error_network">无法检查，请检查网络连接后重试。</string>
+    <string name="update_error_limit">GitHub 暂时限制了查询，请稍后再试。</string>
+    <string name="update_error_no_release">GitHub 上还没有发布任何版本。</string>
+    <string name="update_banner_title">有新版本 %1$s</string>
+    <string name="update_banner_update">更新</string>
+    <string name="update_banner_later">稍后</string>
+    <string name="news_all_13">更新菜单已突出显示：GitHub 有新版本时，应用会通过通知和助手提醒您，显示更新内容并带您前往下载。</string>
+
+    <!-- 1.3.8 -->
+    <string name="about_app_6_title">通过 GitHub 更新</string>
+    <string name="about_app_6_body">GitHub 发布新版本时，应用会通过通知和助手提醒您。下载由浏览器完成，只有使用相同密钥签名的更新，Android 才会安装。</string>
+    <string name="about_data_6_title">唯一的额外连接：更新</string>
+    <string name="about_data_6_body">为了知道是否有新版本，应用会查询 GitHub（最多每 12 小时一次，可以关闭）。该查询不会带上您的文字或数据。</string>
+    <string name="about_data_7_title">已安装应用列表</string>
+    <string name="about_data_7_body">它只在设备本机读取，用于让您选择在哪些应用中关闭悬浮栏。其中的任何内容都不会发送给任何人。</string>
+    <string name="about_blocked_4_title">银行要求卸载</string>
+    <string name="about_blocked_4_body">部分银行在开启了任何非 Play 商店安装的无障碍服务时拒绝运行。在“设置 &gt; 权限”中有按钮，可在使用银行应用前关闭该服务，用完后再开启。</string>
+    <string name="update_new_pill">新</string>
+    <string name="update_notify_title">通过通知提醒</string>
+    <string name="update_notify_sub">发布新版本时显示提示，即使应用已关闭。</string>
+    <string name="update_channel_name">应用更新</string>
+    <string name="update_channel_desc">TecladoIA 新版本提醒</string>
+    <string name="update_notif_title">有新版本 %1$s</string>
+    <string name="update_notif_text">轻点查看更新内容并更新。</string>
+    <string name="github_card_title">GitHub 上的 TecladoIA</string>
+    <string name="github_card_sub">源代码、历史版本和问题反馈</string>
+    <string name="github_open_repo">打开仓库</string>
+    <string name="github_open_releases">所有版本</string>
+    <string name="github_share">分享</string>
+    <string name="github_share_title">分享 TecladoIA</string>
+    <string name="github_share_text">TecladoIA：安卓键盘上方的 AI 栏。%1$s</string>
+    <string name="perm_notifications">通知</string>
+    <string name="perm_notifications_sub">可选：新版本提醒</string>
+    <string name="news_all_14">“关于”已更新，加入了离线模式、GitHub 更新和应用列表。</string>
 </resources>

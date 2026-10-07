@@ -52,12 +52,22 @@ class GeminiService(
         explicitNulls = false
     }
 
-    suspend fun generate(call: GeminiCall): AiResult<String> =
-        generate(call, disableThinking = true)
+    /**
+     * [quick] encurta a espera pela resposta: usado nas tentativas de reserva,
+     * para que um modelo que "trava" nao segure o usuario por muito tempo.
+     */
+    suspend fun generate(call: GeminiCall, quick: Boolean = false): AiResult<String> =
+        generate(call, disableThinking = true, quick = quick)
+
+    /** Mesmo cliente HTTP (pool de conexoes compartilhado), com espera menor. */
+    private val quickClient: OkHttpClient by lazy {
+        client.newBuilder().readTimeout(QUICK_READ_TIMEOUT_S, TimeUnit.SECONDS).build()
+    }
 
     private suspend fun generate(
         call: GeminiCall,
-        disableThinking: Boolean
+        disableThinking: Boolean,
+        quick: Boolean
     ): AiResult<String> = withContext(Dispatchers.IO) {
         if (call.apiKey.isBlank()) return@withContext AiResult.Failure(AiError.MissingApiKey)
         if (call.userText.isBlank()) return@withContext AiResult.Failure(AiError.EmptyInput)
@@ -72,7 +82,10 @@ class GeminiService(
                 temperature = call.temperature,
                 // Teto proporcional ao texto: corrigir uma frase nao precisa do
                 // mesmo espaco de saida que resumir um paragrafo longo.
-                maxOutputTokens = outputBudgetFor(call.userText),
+                // Sem o orcamento zero o modelo "pensa" e esses tokens saem da
+                // mesma cota de saida: sem folga a resposta voltava vazia.
+                maxOutputTokens = outputBudgetFor(call.userText) +
+                    if (disableThinking) 0 else THINKING_HEADROOM_TOKENS,
                 // Modelos 2.5+ "pensam" antes de responder e isso domina a
                 // latencia em tarefas simples de reescrita. O orcamento zero
                 // devolve a resposta direta; modelos que nao aceitam o campo
@@ -90,7 +103,7 @@ class GeminiService(
         val preparedAt = System.nanoTime()
 
         try {
-            client.newCall(request).execute().use { response ->
+            (if (quick) quickClient else client).newCall(request).execute().use { response ->
                 val respondedAt = System.nanoTime()
                 val body = response.body?.string().orEmpty()
                 if (!response.isSuccessful) {
@@ -99,7 +112,7 @@ class GeminiService(
                     if (disableThinking && response.code == 400 &&
                         api.second.contains("thinking", ignoreCase = true)
                     ) {
-                        return@withContext generate(call, disableThinking = false)
+                        return@withContext generate(call, disableThinking = false, quick = quick)
                     }
                     logTiming(call.model, startedAt, preparedAt, respondedAt, response.code)
                     return@withContext AiResult.Failure(
@@ -132,7 +145,7 @@ class GeminiService(
 
                 if (text.isNullOrBlank()) {
                     val finish = parsed.candidates?.firstOrNull()?.finishReason
-                    if (finish != null && finish != "STOP") {
+                    if (finish != null && finish != "STOP" && finish != "MAX_TOKENS") {
                         return@withContext AiResult.Failure(AiError.Blocked(finish))
                     }
                     return@withContext AiResult.Failure(AiError.EmptyResponse)
@@ -197,13 +210,7 @@ class GeminiService(
                 val ids = parsed.models.orEmpty()
                     .filter { it.supportedGenerationMethods.orEmpty().contains("generateContent") }
                     .mapNotNull { it.name?.removePrefix("models/") }
-                    .filterNot { id ->
-                        // Fora modelos que nao servem para texto simples.
-                        listOf("embedding", "aqa", "tts", "image", "veo", "lyria", "live")
-                            .any { id.contains(it) }
-                    }
-                    .distinct()
-                    .sortedDescending()
+                    .let { ModelRanking.rank(it) }
                 if (ids.isEmpty()) {
                     AiResult.Failure(AiError.NoTextModels)
                 } else {
@@ -255,6 +262,8 @@ class GeminiService(
     private companion object {
         const val TAG = "GeminiService"
         const val BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models"
+        const val QUICK_READ_TIMEOUT_S = 14L
+        const val THINKING_HEADROOM_TOKENS = 3072
         val JSON_MEDIA = "application/json; charset=utf-8".toMediaType()
     }
 }

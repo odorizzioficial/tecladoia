@@ -175,7 +175,11 @@ fun WhatsNewScreen(
 @Composable
 private fun ReleaseCard(release: ReleaseNotes) {
     SectionHeader(
-        title = stringResource(R.string.news_release, release.version, stringResource(release.dateRes)),
+        title = if (release.sinceVersion != null) {
+            stringResource(R.string.news_release_since, release.sinceVersion)
+        } else {
+            stringResource(R.string.news_release, release.version, stringResource(release.dateRes))
+        },
         icon = Icons.Rounded.NewReleases
     )
     AppCard {

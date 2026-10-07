@@ -4,10 +4,13 @@ import android.accessibilityservice.AccessibilityService
 import android.content.Intent
 import android.content.Context
 import android.content.res.Configuration
+import android.os.SystemClock
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import android.view.inputmethod.InputMethodManager
 import com.odorizzioficial.tecladoia.AppGraph
 import com.odorizzioficial.tecladoia.data.LocaleHelper
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,6 +19,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import com.odorizzioficial.tecladoia.data.UpdateChecker
+import com.odorizzioficial.tecladoia.data.UpdateError
+import com.odorizzioficial.tecladoia.data.UpdateNotifier
+import com.odorizzioficial.tecladoia.data.UpdateResult
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.delay
 
 /**
  * Servico responsavel pela barra flutuante. Ele nao substitui o teclado: o
@@ -43,13 +52,38 @@ class KeyboardOverlayService : AccessibilityService() {
     private var controller: OverlayController? = null
     private var watcher: KeyboardWatcher? = null
 
+    /** Preferencias de protecao, lidas a cada evento sem tocar no DataStore. */
+    @Volatile private var protectFinancial = true
+    @Volatile private var ignoredApps: Set<String> = emptySet()
+
+    /** Ultimo app (que nao seja teclado nem sistema) visto em primeiro plano. */
+    private var foregroundPackage: String? = null
+    private var keyboardPackages: Set<String> = emptySet()
+    private var keyboardPackagesAt = 0L
+
     override fun onServiceConnected() {
         super.onServiceConnected()
+        // Qualquer excecao aqui derruba o processo, e o Android passa a mostrar
+        // o servico como "parado" ate o usuario religar. Nunca deixa escapar.
+        try {
+            connect()
+        } catch (t: Throwable) {
+            Log.e(TAG, "Falha ao conectar o servico", t)
+        }
+    }
+
+    private fun connect() {
         // Reconexao: derruba o que sobrou da sessao anterior antes de recriar.
         teardown()
         AppGraph.init(this)
 
-        val sessionScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+        // Excecoes soltas em corrotinas (leitura do campo, rede, janela) caem
+        // aqui em vez de matar o app.
+        val safety = CoroutineExceptionHandler { _, t ->
+            val current = controller
+            if (current != null) current.onUnexpectedError(t) else Log.e(TAG, "Erro", t)
+        }
+        val sessionScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate + safety)
         scope = sessionScope
 
         val keyboardWatcher = KeyboardWatcher(this)
@@ -65,8 +99,15 @@ class KeyboardOverlayService : AccessibilityService() {
         instanceRef = this
         _connected.value = true
 
+        sessionScope.launch { watchForUpdates() }
+
         sessionScope.launch {
-            AppGraph.settings.settings.collect { overlayController.updateSettings(it) }
+            AppGraph.settings.settings.collect {
+                protectFinancial = it.protectFinancialApps
+                ignoredApps = it.ignoredApps
+                overlayController.updateSettings(it)
+                overlayController.setProtectedApp(isForegroundProtected())
+            }
         }
         sessionScope.launch {
             AppGraph.prompts.prompts.collect { overlayController.updatePrompts(it) }
@@ -77,21 +118,88 @@ class KeyboardOverlayService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        if (event == null) return
         val watcher = watcher ?: return
         val controller = controller ?: return
-        when (event?.eventType) {
-            AccessibilityEvent.TYPE_WINDOWS_CHANGED,
-            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED,
-            AccessibilityEvent.TYPE_VIEW_FOCUSED,
-            AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED ->
-                // Uma excecao aqui derrubaria o servico inteiro e o Android
-                // desligaria a acessibilidade do app, por isso o runCatching.
-                runCatching { controller.onKeyboardStateChanged(watcher.currentState()) }
-                    .onFailure { Log.w(TAG, "Evento de acessibilidade ignorado", it) }
+        val type = event.eventType
+        if (type != AccessibilityEvent.TYPE_WINDOWS_CHANGED &&
+            type != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
+            type != AccessibilityEvent.TYPE_VIEW_FOCUSED &&
+            type != AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED
+        ) return
 
-            else -> Unit
+        // Uma excecao aqui derrubaria o servico inteiro e o Android
+        // desligaria a acessibilidade do app, por isso o runCatching.
+        runCatching {
+            trackForegroundApp(event)
+            // Em banco ou carteira: barra fora da tela e nenhum conteudo lido.
+            val inProtectedApp = isForegroundProtected()
+            controller.setProtectedApp(inProtectedApp)
+            if (!inProtectedApp) controller.onKeyboardStateChanged(watcher.currentState())
+        }.onFailure { Log.w(TAG, "Evento de acessibilidade ignorado", it) }
+    }
+
+    /**
+     * Procura versao nova no GitHub de tempos em tempos e avisa por notificacao, mesmo
+     * com o app fechado: o servico de acessibilidade ja fica vivo enquanto o app esta em
+     * uso, entao nao precisa de agendador nem de permissao extra. So consulta quando
+     * passaram 12 horas da ultima verificacao.
+     */
+    private suspend fun watchForUpdates() {
+        val checker = UpdateChecker(this)
+        while (true) {
+            try {
+                val saved = AppGraph.settings.snapshot()
+                val due = System.currentTimeMillis() - saved.lastUpdateCheck > UPDATE_INTERVAL_MS
+                if (saved.autoUpdateCheck && due) {
+                    val result = checker.check()
+                    val offline = result is UpdateResult.Failure && result.error == UpdateError.NETWORK
+                    if (!offline) AppGraph.settings.setLastUpdateCheck(System.currentTimeMillis())
+                    if (result is UpdateResult.Available) {
+                        UpdateNotifier.notifyOnce(this, AppGraph.settings, result.info)
+                    }
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (t: Throwable) {
+                Log.w(TAG, "Verificacao de atualizacao ignorada", t)
+            }
+            delay(UPDATE_WATCH_PERIOD_MS)
         }
     }
+
+    /**
+     * Descobre qual app esta na frente usando so o nome do pacote que vem no
+     * evento, sem abrir o conteudo da tela. Teclado e barras do sistema nao
+     * contam: eles aparecem por cima de qualquer app.
+     */
+    private fun trackForegroundApp(event: AccessibilityEvent) {
+        val type = event.eventType
+        if (type != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
+            type != AccessibilityEvent.TYPE_VIEW_FOCUSED
+        ) return
+        val pkg = event.packageName?.toString()
+        if (pkg.isNullOrEmpty() || isSystemOrKeyboard(pkg)) return
+        foregroundPackage = pkg
+    }
+
+    private fun isForegroundProtected(): Boolean =
+        SensitiveApps.isProtected(foregroundPackage, protectFinancial, ignoredApps)
+
+    private fun isSystemOrKeyboard(pkg: String): Boolean {
+        if (pkg == "android" || pkg == "com.android.systemui") return true
+        val now = SystemClock.elapsedRealtime()
+        if (now - keyboardPackagesAt > KEYBOARD_PACKAGES_TTL_MS) {
+            keyboardPackages = loadKeyboardPackages()
+            keyboardPackagesAt = now
+        }
+        return pkg in keyboardPackages
+    }
+
+    private fun loadKeyboardPackages(): Set<String> = runCatching {
+        val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager.enabledInputMethodList.map { it.packageName }.toSet()
+    }.getOrDefault(emptySet())
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -132,6 +240,9 @@ class KeyboardOverlayService : AccessibilityService() {
 
     companion object {
         private const val TAG = "KeyboardOverlayService"
+        private const val KEYBOARD_PACKAGES_TTL_MS = 30_000L
+        private const val UPDATE_INTERVAL_MS = 12 * 60 * 60 * 1000L
+        private const val UPDATE_WATCH_PERIOD_MS = 30 * 60 * 1000L
 
         private val _connected = MutableStateFlow(false)
 

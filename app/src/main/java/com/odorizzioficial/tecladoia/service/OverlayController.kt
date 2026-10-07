@@ -18,6 +18,7 @@ import com.odorizzioficial.tecladoia.R
 import com.odorizzioficial.tecladoia.ai.AiEngine
 import com.odorizzioficial.tecladoia.data.SettingsRepository
 import com.odorizzioficial.tecladoia.domain.AiAction
+import com.odorizzioficial.tecladoia.domain.AiProvider
 import com.odorizzioficial.tecladoia.domain.AnimationStyle
 import com.odorizzioficial.tecladoia.domain.AiError
 import com.odorizzioficial.tecladoia.domain.AiResult
@@ -34,6 +35,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.odorizzioficial.tecladoia.ai.LiveDictation
 
 /**
  * Dono da janela flutuante. Cria a View somente quando o teclado aparece,
@@ -67,12 +69,15 @@ class OverlayController(
     private var voiceBase = ""
 
     /** Ultimo trecho que o ditado escreveu ao vivo no campo. */
-    private var liveTranscript = ""
-
-    /** Trecho cru que ja passou pela correcao e o resultado dela. */
-    private var polishedFor = ""
-    private var polishedText = ""
-    private var livePolishJob: Job? = null
+    /** Ditado: mostra o texto cru na hora e o corrige por trecho enquanto a pessoa fala. */
+    private val dictation = LiveDictation(
+        engine = engine,
+        scope = scope,
+        onDisplay = { shown -> bridge.replaceFocusedText(joinWithBase(shown)) },
+        minGapMs = {
+            if (_state.value.settings.aiProvider == AiProvider.OFFLINE) 0L else CLOUD_POLISH_GAP_MS
+        }
+    )
 
     private var offsetsLoaded = false
     private var saveOffsetJob: Job? = null
@@ -88,6 +93,9 @@ class OverlayController(
     private var params: WindowManager.LayoutParams? = null
 
     private var keyboard = KeyboardState()
+
+    /** Ligado enquanto um app protegido (banco, carteira) esta na tela. */
+    private var protectedApp = false
     private var undoText: String? = null
     private var timerJob: Job? = null
     private var pendingVoiceRequest = false
@@ -146,16 +154,40 @@ class OverlayController(
 
     fun destroy() {
         hideJob?.cancel()
-        livePolishJob?.cancel()
+        dictation.cancel()
         saveOffsetJob?.cancel()
         timerJob?.cancel()
         voice.release()
         removeBar()
     }
 
+    /**
+     * Em app de banco ou pagamento a janela da barra sai da tela de vez: nada
+     * fica desenhado por cima e o ditado e interrompido.
+     */
+    fun setProtectedApp(blocked: Boolean) {
+        if (blocked == protectedApp) return
+        protectedApp = blocked
+        if (blocked) {
+            hideJob?.cancel()
+            voice.cancel()
+            dictation.cancel()
+            removeBar()
+        } else {
+            refreshVisibility()
+        }
+    }
+
+    /** Ultima rede de seguranca: erro inesperado vira aviso, nao queda do servico. */
+    fun onUnexpectedError(t: Throwable) {
+        Log.e(TAG, "Erro inesperado na barra", t)
+        runCatching { showError(AiError.Unknown(t.javaClass.simpleName)) }
+    }
+
     private fun refreshVisibility() {
         val settings = _state.value.settings
         val shouldShow = when {
+            protectedApp -> false
             !settings.autoBar -> false
             // Teclado na tela basta: alguns apps (busca, WebView, campos em
             // Compose) nao expoem um no editavel, e antes a barra nem aparecia.
@@ -176,6 +208,7 @@ class OverlayController(
      * ComposeView a cada abertura de teclado era o que travava a animacao.
      */
     private fun ensureBar() {
+        if (protectedApp) return
         if (rootView != null) {
             reposition()
             return
@@ -479,7 +512,7 @@ class OverlayController(
         lastLabel = label
         val startedAt = System.nanoTime()
         when (val read = bridge.readFocusedText()) {
-            is AiResult.Failure -> showError(read.error)
+            is AiResult.Failure -> showError(read.error, diagnosticFor(read.error))
             is AiResult.Success -> {
                 val source = read.value
                 val readAt = System.nanoTime()
@@ -539,9 +572,20 @@ class OverlayController(
 
             is AiResult.Failure -> showError(
                 outcome.error,
-                suffix = service.getString(R.string.overlay_clipboard_suffix)
+                suffix = service.getString(R.string.overlay_clipboard_suffix) +
+                    diagnosticFor(outcome.error)
             )
         }
+    }
+
+    /** So os erros de campo ganham o resumo tecnico: nos outros ele so atrapalharia. */
+    private fun diagnosticFor(error: AiError): String {
+        if (error !is AiError.FieldNotReadable &&
+            error !is AiError.FieldNotEditable &&
+            error !is AiError.FieldTextHidden
+        ) return ""
+        val text = bridge.diagnostic()
+        return if (text.isBlank()) "" else " [$text]"
     }
 
     private fun showError(error: AiError, suffix: String = "") {
@@ -583,10 +627,7 @@ class OverlayController(
         // Base capturada uma vez: o que ja estava escrito no campo. O ditado e
         // acrescentado a ela a cada parcial, entao o texto aparece em tempo real.
         voiceBase = bridge.dictationBaseText()
-        liveTranscript = ""
-        polishedFor = ""
-        polishedText = ""
-        livePolishJob?.cancel()
+        dictation.start()
         _state.update {
             it.copy(
                 mode = OverlayMode.VOICE,
@@ -617,13 +658,13 @@ class OverlayController(
     override fun onVoiceCancel() {
         haptic()
         timerJob?.cancel()
-        livePolishJob?.cancel()
         voice.cancel()
         // Desfaz o que o ditado tinha escrito ao vivo.
-        if (liveTranscript.isNotEmpty()) {
+        val wrote = dictation.hasText()
+        dictation.cancel()
+        if (wrote) {
             bridge.replaceFocusedText(voiceBase)
         }
-        liveTranscript = ""
         _state.update {
             it.copy(mode = OverlayMode.COLLAPSED, busy = false, voice = VoiceUiState())
         }
@@ -647,44 +688,7 @@ class OverlayController(
 
     override fun onPartialTranscript(text: String) {
         _state.update { it.copy(voice = it.voice.copy(transcript = text)) }
-        writeLive(text)
-    }
-
-    /**
-     * Escreve o ditado no campo enquanto o usuario fala, ja usando a parte que
-     * a IA corrigiu. O trecho novo entra cru e e corrigido logo depois.
-     */
-    private fun writeLive(text: String) {
-        if (text.isBlank() || text == liveTranscript) return
-        liveTranscript = text
-        bridge.replaceFocusedText(joinWithBase(displayFor(text)))
-        scheduleLivePolish(text)
-    }
-
-    /** Junta o trecho corrigido com o que ainda esta cru. */
-    private fun displayFor(raw: String): String {
-        if (polishedText.isEmpty() || !raw.startsWith(polishedFor)) return raw.trim()
-        val tail = raw.removePrefix(polishedFor).trim()
-        return if (tail.isEmpty()) polishedText else "$polishedText $tail"
-    }
-
-    /**
-     * Correcao em tempo real: 700 ms depois da ultima fala nova, o texto ate
-     * ali vai para a IA e volta pontuado, sem esperar o usuario concluir.
-     */
-    private fun scheduleLivePolish(raw: String) {
-        livePolishJob?.cancel()
-        livePolishJob = scope.launch {
-            delay(LIVE_POLISH_DELAY_MS)
-            if (_state.value.mode != OverlayMode.VOICE) return@launch
-            val result = engine.polishTranscript(raw)
-            if (result !is AiResult.Success) return@launch
-            // Se a fala continuou, o trecho corrigido segue valido como prefixo.
-            if (!liveTranscript.startsWith(raw)) return@launch
-            polishedFor = raw
-            polishedText = result.value.trim()
-            bridge.replaceFocusedText(joinWithBase(displayFor(liveTranscript)))
-        }
+        dictation.onPartial(text)
     }
 
     private fun joinWithBase(addition: String): String {
@@ -695,33 +699,17 @@ class OverlayController(
 
     override fun onFinalTranscript(text: String) {
         timerJob?.cancel()
-        livePolishJob?.cancel()
-        // O texto ja esta no campo (corrigido ate o penultimo trecho); aqui
-        // entra a passada final sobre a frase inteira.
-        liveTranscript = text
-        bridge.replaceFocusedText(joinWithBase(displayFor(text)))
+        // O final do reconhecedor pode trazer palavras que os parciais nao tinham:
+        // mostra ja, antes da ultima correcao.
+        dictation.onPartial(text)
         scope.launch {
-            var polishError: String? = null
-            // Duas tentativas de correcao antes de aceitar o texto cru: o
-            // polimento dedicado e, se falhar, a acao Corrigir.
-            val polished = when (val result = engine.polishTranscript(text)) {
-                is AiResult.Success -> result.value
-                is AiResult.Failure -> when (
-                    val retry = engine.run(action = AiAction.FIX, text = text)
-                ) {
-                    is AiResult.Success -> retry.value
-                    is AiResult.Failure -> {
-                        polishError = retry.error.message(service)
-                        text
-                    }
-                }
-            }
-            when (val outcome = bridge.replaceFocusedText(joinWithBase(polished.trim()))) {
+            // So o que ainda estava cru passa pela IA: o resto ja foi corrigido
+            // durante a fala, entao concluir e quase imediato.
+            val done = dictation.finish(text)
+            val polishError = done.error?.message(service)
+            when (val outcome = bridge.replaceFocusedText(joinWithBase(done.text.trim()))) {
                 is AiResult.Success -> {
                     undoText = voiceBase
-                    liveTranscript = ""
-                    polishedFor = ""
-                    polishedText = ""
                     _state.update {
                         it.copy(
                             mode = if (it.mode == OverlayMode.MINI) it.mode else OverlayMode.COLLAPSED,
@@ -769,8 +757,8 @@ class OverlayController(
         /** Folga entre a barra e o teclado, para a ultima mensagem respirar. */
         const val GAP_PX = 6
 
-        /** Pausa na fala que dispara a correcao do trecho ja dito. */
-        const val LIVE_POLISH_DELAY_MS = 700L
+        /** Intervalo minimo entre correcoes do ditado na nuvem (cota do Gemini). */
+        const val CLOUD_POLISH_GAP_MS = 1_200L
 
         /** Variacao de altura que ja conta como teclado fechando. */
         const val CLOSING_TOLERANCE_PX = 24

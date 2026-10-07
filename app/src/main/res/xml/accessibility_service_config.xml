@@ -3,11 +3,15 @@
   isAccessibilityTool NAO e declarado (padrao = false): este app nao se apresenta
   como ferramenta de acessibilidade. O servico e usado apenas para posicionar a
   barra de IA acima do teclado e para ler/substituir o campo de texto focado.
+
+  flagIncludeNotImportantViews: apps como o YouTube marcam o editor de
+  comentarios como "nao importante para acessibilidade", e sem esta flag ele
+  some da arvore que o servico enxerga.
 -->
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:accessibilityEventTypes="typeWindowStateChanged|typeWindowsChanged|typeViewFocused|typeViewTextSelectionChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
-    android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagReportViewIds"
+    android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagReportViewIds|flagIncludeNotImportantViews"
     android:canRetrieveWindowContent="true"
     android:description="@string/accessibility_service_description"
     android:notificationTimeout="100"

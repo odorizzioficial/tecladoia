@@ -99,7 +99,7 @@
     <string name="err_no_connection">इंटरनेट कनेक्शन नहीं है. कनेक्शन जाँचकर फिर कोशिश करें.</string>
     <string name="err_network_failure">अनुरोध के बीच कनेक्शन टूट गया. फिर कोशिश करें.</string>
     <string name="err_timeout">Gemini ने जवाब देने में बहुत समय लिया. फिर कोशिश करें.</string>
-    <string name="err_service_unavailable">Gemini फ़िलहाल उपलब्ध नहीं है. थोड़ी देर बाद कोशिश करें.</string>
+    <string name="err_service_unavailable">इस समय Google पर Gemini की मांग बहुत ज़्यादा है। ऐप ने दूसरे मॉडल भी आज़माए; कृपया थोड़ी देर बाद फिर कोशिश करें।</string>
     <string name="err_bad_request">Gemini ने अनुरोध अस्वीकार किया: %1$s</string>
     <string name="err_empty_response">AI ने कोई नतीजा नहीं लौटाया. फिर कोशिश करें.</string>
     <string name="err_unreadable">AI का जवाब अप्रत्याशित प्रारूप में आया. फिर कोशिश करें.</string>
@@ -267,11 +267,11 @@
     <string name="about_app_1_title">आपके कीबोर्ड के ऊपर AI बार</string>
     <string name="about_app_1_body">यह ऐप आपका कीबोर्ड नहीं बदलता: वह उसके ठीक ऊपर एक बार बनाता है, जिसमें सुधारने, बेहतर करने, अनुवाद, लहजा बदलने, सारांश, दोबारा लिखने और बोलकर लिखने के शॉर्टकट होते हैं.</string>
     <string name="about_app_2_title">हर ऐप में काम करता है</string>
-    <string name="about_app_2_body">बार किसी भी टेक्स्ट फ़ील्ड में दिखती है. आप कोई कार्रवाई दबाते हैं और AI नतीजा सीधे लगा देता है, बार में “पहले जैसा करें” मिलता है.</string>
+    <string name="about_app_2_body">बार किसी भी टेक्स्ट फ़ील्ड में दिखता है, सिर्फ़ बैंक और पेमेंट ऐप को छोड़कर, जहाँ सुरक्षा के लिए बंद रहता है (सेटिंग्स &gt; सभी ऐप में आप दूसरे ऐप चुन सकते हैं)। किसी क्रिया पर टैप करें और AI लागू किया हुआ टेक्स्ट लौटाता है, बार में पूर्ववत करें के साथ।</string>
     <string name="about_app_3_title">आपके फ़ंक्शन, आपके प्रॉम्प्ट</string>
     <string name="about_app_3_body">फ़ंक्शन में आप अपने प्रॉम्प्ट से शॉर्टकट बनाते हैं, इमोजी चुनते हैं, खींचकर क्रम बदलते हैं और पसंदीदा पिन करते हैं.</string>
-    <string name="about_app_4_title">आपकी अपनी Gemini कुंजी से</string>
-    <string name="about_app_4_body">बीच में कोई सर्वर नहीं: ऐप आपकी सहेजी कुंजी से सीधे Gemini API से बात करता है.</string>
+    <string name="about_app_4_title">Gemini या ऑफ़लाइन AI</string>
+    <string name="about_app_4_body">इंजन आप चुनते हैं: Gemini, सीधे आपकी कुंजी से और बिना बीच के सर्वर के, या डिवाइस पर ही चलने वाला AI मॉडल (.litertlm या .gguf फ़ाइलें), बिना इंटरनेट के। उपयोग में इंजन असिस्टेंट के ऊपर दिखता है।</string>
     <string name="about_app_5_title">जगह बदलने की सलाह</string>
     <string name="about_app_5_body">अगर बार किसी संदेश को ढक दे, तो बाईं ओर के हैंडल से खींचें या नीचे वाले तीर से उसे छोटे बटन में समेट दें.</string>
 
@@ -281,12 +281,12 @@
     <string name="about_perm_2_body">पढ़ाई सिर्फ़ तब होती है जब आप शॉर्टकट दबाते हैं, ताकि वह टेक्स्ट AI को भेजा जा सके.</string>
     <string name="about_perm_3_title">आपकी कार्रवाई के बाद टेक्स्ट बदलना</string>
     <string name="about_perm_3_body">बदलाव Android की मानक एडिट कार्रवाई से होता है और सिर्फ़ आपके टैप के बाद चलता है.</string>
-    <string name="about_perm_note">यह ऐप खुद को सुलभता टूल घोषित नहीं करता, कीस्ट्रोक रिकॉर्ड नहीं करता, बैकग्राउंड में ऑडियो नहीं लेता और आपकी कार्रवाई के बिना इंटरनेट पर कुछ नहीं भेजता.</string>
+    <string name="about_perm_note">ऐप खुद को एक्सेसिबिलिटी टूल नहीं बताता, टैप रिकॉर्ड नहीं करता, बैकग्राउंड में ऑडियो रिकॉर्ड नहीं करता और आपकी किसी क्रिया के बिना आपका टेक्स्ट इंटरनेट पर नहीं भेजता।</string>
 
     <string name="about_data_1_title">टेक्स्ट तभी जाता है जब आप दबाते हैं</string>
     <string name="about_data_1_body">कोई स्वचालित कार्रवाई आपका लिखा नहीं भेजती: AI को टेक्स्ट तभी मिलता है जब आप शॉर्टकट चलाते हैं.</string>
-    <string name="about_data_2_title">एक ही गंतव्य: Gemini API</string>
-    <string name="about_data_2_body">अनुरोध आपकी कुंजी के साथ सीधे Gemini के सर्वर पर जाता है. बीच में ऐप का कोई सर्वर नहीं, न एनालिटिक्स, न टेलीमेट्री.</string>
+    <string name="about_data_2_title">गंतव्य: Gemini या आपका डिवाइस</string>
+    <string name="about_data_2_body">Gemini के साथ टेक्स्ट आपकी कुंजी से सीधे Google के सर्वर पर जाता है: बीच में ऐप का कोई सर्वर नहीं, कोई एनालिटिक्स नहीं, कोई टेलीमेट्री नहीं। ऑफ़लाइन AI के साथ टेक्स्ट फ़ोन से बाहर नहीं जाता।</string>
     <string name="about_data_3_title">कुंजी डिवाइस में एन्क्रिप्टेड रहती है</string>
     <string name="about_data_3_body">यह Android Keystore में बनी कुंजी से AES/GCM 256 में सहेजी जाती है, जो डिवाइस से बाहर नहीं जाती.</string>
     <string name="about_data_4_title">कुछ भी सहेजा नहीं जाता</string>
@@ -299,7 +299,7 @@
     <string name="about_blocked_2_title">सुलभता ब्लॉक दिखी</string>
     <string name="about_blocked_2_body">Android 13 से, स्टोर के बाहर इंस्टॉल ऐप्स प्रतिबंधित सेटिंग बंद के साथ शुरू होते हैं. ऐप की जानकारी खोलें, तीन बिंदु दबाएँ और “प्रतिबंधित सेटिंग की अनुमति दें” चुनें.</string>
     <string name="about_blocked_3_title">सेवा अपने आप बंद हो जाती है</string>
-    <string name="about_blocked_3_body">लगभग हमेशा बैटरी बचत बैकग्राउंड में ऐप बंद कर देती है. इसे सेटिंग &gt; अनुमतियाँ में “बैटरी पर पाबंदी नहीं” से हटाएँ.</string>
+    <string name="about_blocked_3_body">लगभग हमेशा बैटरी बचत बैकग्राउंड में ऐप को बंद कर देती है, जो Xiaomi, Poco, Oppo जैसे फ़ोन में आम है। सेटिंग्स &gt; अनुमतियाँ में ऑटोस्टार्ट और बिना प्रतिबंध बैटरी के शॉर्टकट हैं।</string>
     <string name="about_open_app_info">ऐप की जानकारी खोलें</string>
 
     <string name="perm_accessibility">सुलभता सेवा</string>
@@ -320,24 +320,7 @@
     <string name="news_version">संस्करण %1$s</string>
     <string name="news_start">इस्तेमाल शुरू करें</string>
     <string name="news_release">संस्करण %1$s • %2$s</string>
-    <string name="news_date_sep_2026">सितंबर 2026</string>
 
-    <string name="cl_120_1">तेज़ जवाब: आंतरिक तर्क बंद और आउटपुट सीमा टेक्स्ट के अनुपात में.</string>
-    <string name="cl_120_2">कार्रवाइयों के बीच कनेक्शन दोबारा इस्तेमाल और कुंजी मेमोरी से पढ़ी जाती है.</string>
-    <string name="cl_120_3">टैप पर तुरंत प्रतिक्रिया और बार-बार दबाने पर रोक.</string>
-    <string name="cl_120_4">स्पष्ट त्रुटि संदेश, “फिर कोशिश करें” बटन के साथ.</string>
-    <string name="cl_120_5">मॉडल सूची आपकी कुंजी की API से, हर कुंजी के लिए कैश.</string>
-    <string name="cl_120_6">ऐप का 10 भाषाओं में अनुवाद.</string>
-    <string name="cl_110_1">शॉर्टकट टेक्स्ट तुरंत लगाते हैं, बार में “पहले जैसा करें”.</string>
-    <string name="cl_110_2">रीयल-टाइम डिक्टेशन, पहले से सुधरा हुआ और फ़ील्ड का संकेत-टेक्स्ट चिपके बिना.</string>
-    <string name="cl_110_3">बार को खींचा जा सकता है और जगह सहेजी जाती है; छोटा मोड स्क्रीन खाली करता है.</string>
-    <string name="cl_110_4">बार को नीचे खींचें और डिफ़ॉल्ट शॉर्टकट की जगह आपके फ़ंक्शन आ जाते हैं.</string>
-    <string name="cl_110_5">कार्ड खींचकर फ़ंक्शन का क्रम बदलें, पूरा इमोजी चयनकर्ता भी.</string>
-    <string name="cl_110_6">सेटिंग में नए मेन्यू: Gemini API Key, दिखावट, अनुमतियाँ और जानकारी.</string>
-    <string name="cl_100_1">पहला संस्करण: आप जिस कीबोर्ड का उपयोग करते हैं उसके ऊपर AI बार.</string>
-    <string name="cl_100_2">सुधारना, बेहतर करना, अनुवाद, लहजा बदलना, सारांश, दोबारा लिखना और बोलकर लिखना.</string>
-    <string name="cl_100_3">अपने प्रॉम्प्ट वाले कस्टम फ़ंक्शन, बार में पिन किए जा सकते हैं.</string>
-    <string name="cl_100_4">Gemini कुंजी डिवाइस में एन्क्रिप्टेड, बीच में कोई सर्वर नहीं.</string>
 
     <!-- Funcoes iniciais (viram dados do usuario apos o primeiro uso) -->
     <string name="seed_professional_name">पेशेवर</string>
@@ -368,4 +351,175 @@
     <string name="anim_simple">हल्का</string>
     <string name="anim_none">बंद</string>
     <string name="appearance_animation_hint">पूरा: मेनू में साझा सीमा विस्तार और बार का सरकता प्रवेश। हल्का: सिर्फ़ फ़ेड। बंद: तुरंत बदलाव।</string>
+
+    <!-- 1.2.1: apps protegidos, ajuda por fabricante, novidades -->
+    <string name="settings_privacy_section">गोपनीयता</string>
+    <string name="settings_protected_row">सभी ऐप</string>
+    <string name="settings_protected_row_sub">चुनिंदा ऐप में AI बार बंद करें</string>
+    <string name="protected_title">सभी ऐप</string>
+    <string name="protected_default_title">वित्तीय ऐप में रोकें</string>
+    <string name="protected_default_sub">जाने-माने बैंक, डिजिटल वॉलेट और ब्रोकर: बार दिखाई नहीं देता और कोई टेक्स्ट नहीं पढ़ा जाता।</string>
+    <string name="protected_custom_title">इंस्टॉल किए गए ऐप</string>
+    <string name="protected_search_hint">ऐप खोजें</string>
+    <string name="protected_bank_title">बैंक ने अनइंस्टॉल करने को कहा?</string>
+    <string name="protected_bank_body">कुछ बैंक तब तक खुलने से मना कर देते हैं जब तक Play Store के बाहर से इंस्टॉल की गई कोई एक्सेसिबिलिटी सेवा चालू हो। यह बैंक का नियम है और ऐप इसे छिपा नहीं सकता। बैंक ऐप खोलने से पहले सेवा बंद करें और बाद में फिर चालू करें।</string>
+    <string name="protected_disable_now">अभी सेवा बंद करें</string>
+    <string name="protected_reenable">सेटिंग्स में फिर चालू करें</string>
+    <string name="oem_help_title">क्या सेवा अपने-आप बंद हो जाती है?</string>
+    <string name="oem_help_body">Xiaomi, Redmi, Poco, Oppo, Realme, OnePlus और vivo फ़ोन बैकग्राउंड ऐप बंद कर देते हैं। ऑटोस्टार्ट चालू करें, ऐप की बैटरी को बिना प्रतिबंध पर रखें, ऐप को रीसेंट स्क्रीन में लॉक करें, फिर एक्सेसिबिलिटी बंद करके दोबारा चालू करें।</string>
+    <string name="oem_open_autostart">ऑटोस्टार्ट</string>
+    <string name="oem_open_battery">ऐप की बैटरी</string>
+    <string name="perm_accessibility_stalled">Android ने सेवा रोक दी है। एक्सेसिबिलिटी में इसे बंद करके फिर चालू करें।</string>
+    <string name="news_date_oct_2026">अक्टूबर 2026</string>
+    <string name="protected_notice">अगर AI बार किसी ऐप में समस्या करे, तो आप यहाँ से उसे सिर्फ़ उसी ऐप में बंद कर सकते हैं। कोई भी इंस्टॉल किया हुआ ऐप चुनें: उसमें बार नहीं दिखेगा और कोई टेक्स्ट नहीं पढ़ा जाएगा।</string>
+    <string name="protected_system_title">सिस्टम ऐप शामिल करें</string>
+    <string name="protected_system_sub">सिस्टम ऐप और होम स्क्रीन पर बिना आइकन वाले ऐप (जैसे सेवाएं और कीबोर्ड) भी दिखाएं।</string>
+
+    <!-- 1.3.0: menu de IA, modo IA offline -->
+    <string name="settings_ai_hub_row">कृत्रिम बुद्धिमत्ता</string>
+    <string name="settings_ai_hub_row_sub_gemini">उपयोग में: Gemini (क्लाउड)</string>
+    <string name="settings_ai_hub_row_sub_offline">उपयोग में: ऑफ़लाइन AI (%1$s)</string>
+    <string name="ai_hub_title">कृत्रिम बुद्धिमत्ता</string>
+    <string name="ai_hub_engine_section">उपयोग में इंजन</string>
+    <string name="ai_engine_gemini_title">Gemini (क्लाउड)</string>
+    <string name="ai_engine_gemini_sub">आपकी Google API कुंजी इस्तेमाल करता है और इंटरनेट चाहिए।</string>
+    <string name="ai_engine_offline_title">ऑफ़लाइन AI</string>
+    <string name="ai_engine_offline_sub">डिवाइस पर चलता है, बिना इंटरनेट के और किसी को टेक्स्ट भेजे बिना।</string>
+    <string name="ai_hub_setup_section">सेटअप</string>
+    <string name="ai_hub_gemini_row">Gemini</string>
+    <string name="ai_hub_gemini_row_sub">API कुंजी, मॉडल और तापमान</string>
+    <string name="ai_hub_offline_row">ऑफ़लाइन AI मोड</string>
+    <string name="ai_hub_offline_row_sub">मॉडल डाउनलोड, इंपोर्ट और चुनें</string>
+    <string name="ai_hub_offline_needs_model">ऑफ़लाइन मोड इस्तेमाल करने से पहले एक मॉडल इंस्टॉल करें।</string>
+    <string name="offline_title">ऑफ़लाइन AI मोड</string>
+    <string name="offline_intro">AI को सीधे डिवाइस पर चलाएं। नीचे से कोई मॉडल डाउनलोड करें या .litertlm या .gguf फ़ाइल इंपोर्ट करें। आपका कोई भी टेक्स्ट फ़ोन से बाहर नहीं जाता और यह बिना इंटरनेट के काम करता है। पहला जवाब देर से आता है क्योंकि मॉडल लोड होना होता है।</string>
+    <string name="offline_installed_section">इंस्टॉल किए गए मॉडल</string>
+    <string name="offline_installed_empty">अभी तक कोई मॉडल इंस्टॉल नहीं है।</string>
+    <string name="offline_model_active">उपयोग में</string>
+    <string name="offline_model_delete">मॉडल हटाएं</string>
+    <string name="offline_delete_title">मॉडल हटाएं?</string>
+    <string name="offline_delete_message">फ़ाइल %1$s डिवाइस से मिटा दी जाएगी।</string>
+    <string name="offline_delete_confirm">हटाएं</string>
+    <string name="offline_download_section">मॉडल डाउनलोड करें</string>
+    <string name="offline_download_note">डाउनलोड Android संभालता है और बैकग्राउंड में जारी रहता है। बड़े मॉडल बहुत जगह और मेमोरी लेते हैं।</string>
+    <string name="offline_download_button">डाउनलोड करें</string>
+    <string name="offline_download_cancel">रद्द करें</string>
+    <string name="offline_download_installed">इंस्टॉल है</string>
+    <string name="offline_download_progress">%2$s में से %1$s</string>
+    <string name="offline_open_page">पेज खोलें</string>
+    <string name="offline_cat_gemma4_desc">सबसे अच्छी गुणवत्ता। ज़्यादा मेमोरी वाला दमदार फ़ोन चाहिए।</string>
+    <string name="offline_import_section">फ़ाइल इंपोर्ट करें</string>
+    <string name="offline_import_sub">मॉडल पहले ही डाउनलोड कर लिया है? डिवाइस से .litertlm या .gguf फ़ाइल चुनें। वह ऐप के अंदर कॉपी हो जाएगी।</string>
+    <string name="offline_import_button">फ़ाइल चुनें</string>
+    <string name="offline_import_progress">कॉपी हो रही है… %1$s</string>
+    <string name="offline_import_done">मॉडल %1$s इंपोर्ट हो गया।</string>
+    <string name="offline_import_bad_format">यह फ़ाइल समर्थित मॉडल नहीं है। ऐप .litertlm और .gguf फ़ाइलें खोलता है; .bin और .task जैसे दूसरे फ़ॉर्मैट नहीं चलते।</string>
+    <string name="offline_import_no_space">मॉडल सहेजने के लिए पर्याप्त जगह नहीं है।</string>
+    <string name="offline_import_failed">फ़ाइल इंपोर्ट नहीं हो सकी।</string>
+    <string name="offline_download_failed">डाउनलोड विफल हो गया। कनेक्शन और खाली जगह जाँचें।</string>
+    <string name="offline_download_denied">इस मॉडल के लिए Hugging Face पर लॉगिन या लाइसेंस स्वीकार करना ज़रूरी है। पेज खोलें, ब्राउज़र से डाउनलोड करें और इंपोर्ट इस्तेमाल करें।</string>
+    <string name="offline_download_done">डाउनलोड पूरा हुआ: %1$s।</string>
+    <string name="offline_download_invalid">डाउनलोड की गई फ़ाइल वैध मॉडल नहीं है और हटा दी गई।</string>
+    <string name="offline_no_storage">डाउनलोड के लिए डिवाइस स्टोरेज उपलब्ध नहीं है। इंपोर्ट इस्तेमाल करें।</string>
+    <string name="offline_temp_title">तापमान</string>
+    <string name="offline_temp_sub">कम रखने पर जवाब टेक्स्ट के ज़्यादा करीब रहता है; ज़्यादा रखने पर ज़्यादा रचनात्मक होता है।</string>
+    <string name="offline_test_button">मॉडल टेस्ट करें</string>
+    <string name="offline_testing">मॉडल लोड और टेस्ट हो रहा है…</string>
+    <string name="offline_test_ok">चल गया! %1$s सेकंड में जवाब दिया: %2$s</string>
+    <string name="offline_warn_ram">यह मॉडल इस डिवाइस की मेमोरी के हिसाब से बड़ा है और ऐप अटक या बंद हो सकता है।</string>
+    <string name="err_offline_no_model">कोई ऑफ़लाइन मॉडल नहीं चुना गया। सेटिंग्स &gt; कृत्रिम बुद्धिमत्ता &gt; ऑफ़लाइन AI मोड खोलें।</string>
+    <string name="err_offline_load_failed">ऑफ़लाइन मॉडल लोड नहीं हो सका: %1$s</string>
+    <string name="err_offline_failed">ऑफ़लाइन AI विफल रहा: %1$s</string>
+    <string name="err_offline_timeout">ऑफ़लाइन AI में बहुत देर लगी। छोटा टेक्स्ट या हल्का मॉडल आज़माएं।</string>
+
+    <!-- 1.3.1 -->
+    <string name="offline_cat_gemma3_desc">हल्का और पुर्तगाली में अच्छा। साधारण फ़ोन के लिए बढ़िया विकल्प। GGUF फ़ॉर्मैट।</string>
+    <string name="offline_cat_gemma4_e4b_desc">सर्वोत्तम गुणवत्ता। 12 GB या ज़्यादा मेमोरी वाला बहुत दमदार फ़ोन चाहिए।</string>
+
+    <!-- 1.3.2 -->
+    <string name="engine_badge_label">उपयोग में AI इंजन</string>
+    <string name="engine_badge_no_model">कोई मॉडल नहीं चुना गया</string>
+    <string name="engine_badge_hint">बंद वाले पर टैप करके चालू करें · सेटिंग के लिए दबाए रखें</string>
+    <string name="settings_overlay_row">कीबोर्ड के ऊपर का बार</string>
+    <string name="settings_overlay_row_sub">टाइप करते समय दिखें, कीबोर्ड के साथ छिपें और वाइब्रेशन</string>
+
+    <!-- 1.3.3 -->
+    <string name="assistant_mic_start">बोलें</string>
+    <string name="assistant_mic_stop">रोकें</string>
+    <string name="assistant_mic_listening">सुन रहा है… बोलते समय टेक्स्ट दिखता है और ठीक होता रहता है।</string>
+
+    <!-- 1.3.4 -->
+    <string name="err_field_text_hidden">यह ऐप टाइप किया हुआ टेक्स्ट TecladoIA को नहीं देता, इसलिए यहाँ उसे प्रोसेस नहीं किया जा सकता।</string>
+
+    <!-- 1.3.5 -->
+
+    <!-- 1.3.6 -->
+    <string name="engine_state_online">ऑनलाइन</string>
+    <string name="engine_state_offline">ऑफ़लाइन</string>
+    <string name="engine_gemini_no_key">API कुंजी सेट नहीं है</string>
+    <string name="news_release_since">संस्करण %1$s के बाद से सब कुछ जो बदला</string>
+    <string name="news_all_1">ऑफ़लाइन AI मोड: AI को सीधे डिवाइस पर चलाएं, बिना इंटरनेट के और किसी को टेक्स्ट भेजे बिना। तैयार मॉडल (Gemma 4 और Gemma 3) डाउनलोड करें या .litertlm और .gguf फ़ाइलें इंपोर्ट करें, और तापमान समायोजित करें।</string>
+    <string name="news_all_2">नया \'कृत्रिम बुद्धिमत्ता\' मेन्यू, जिसमें Gemini और ऑफ़लाइन मोड साथ-साथ हैं। ऑफ़लाइन मॉडल चुनते ही पूरे बार में मोड चालू हो जाता है।</string>
+    <string name="news_all_3">असिस्टेंट के ऊपर AI इंजन: उपयोग में वाला \'ऑनलाइन\' और दूसरा, बंद, \'ऑफ़लाइन\' दिखता है। बंद वाले पर टैप करके चालू करें; सेटिंग के लिए दबाए रखें।</string>
+    <string name="news_all_4">ज़्यादा स्थिर Gemini: अगर कोई मॉडल ओवरलोड हो या कोटा खत्म हो, तो ऐप खुद दूसरे मॉडल आज़माता है, और मॉडल सूची में सिर्फ़ चलने वाले दिखते हैं।</string>
+    <string name="news_all_5">डिक्टेशन अब रीयल-टाइम में ठीक होता है: हर विराम पर आपने जो अभी कहा उसमें विराम-चिह्न लगते हैं और गलतियाँ ठीक होती हैं। पूरा करना लगभग तुरंत होता है।</string>
+    <string name="news_all_6">टेक्स्ट की भाषा का सम्मान होता है: ठीक करें, बेहतर करें, सारांश, लहजा बदलें और आपके फ़ंक्शन अनुवाद के बाद भी उसी भाषा में रहते हैं जिसमें आपने लिखा।</string>
+    <string name="news_all_7">ज़्यादा ऐप में काम करता है, जैसे YouTube कमेंट, टेक्स्ट पढ़ना ज़्यादा समझदार है और जब कोई ऐप टाइप किया हुआ छिपाए तो साफ़ चेतावनी मिलती है।</string>
+    <string name="news_all_8">सभी ऐप: सिस्टम ऐप समेत किसी भी इंस्टॉल किए गए ऐप में बार बंद करें। बैंक और डिजिटल वॉलेट पहले से सुरक्षित हैं।</string>
+    <string name="news_all_9">Xiaomi, Poco, Oppo जैसे फ़ोन के लिए मदद, ऑटोस्टार्ट और बैटरी के शॉर्टकट के साथ, और Android के सेवा रोकने पर चेतावनी।</string>
+    <string name="news_all_10">\'यहाँ AI टेस्ट करें\' में अब माइक्रोफ़ोन है, बार जैसा ही रीयल-टाइम डिक्टेशन।</string>
+    <string name="news_all_11">\'कीबोर्ड के ऊपर का बार\' मेन्यू में ओवरले के विकल्प एक जगह हैं, और फ़ंक्शन का इमोजी फ़ील्ड बदलने, मिटाने और पेस्ट करने देता है (\'अन्य\' इमोजी कीबोर्ड खोलता है)।</string>
+    <string name="news_all_12">उपयोग में ऑफ़लाइन मॉडल रंगीन हाइलाइट के साथ दिखता है, और कैटलॉग में अब सिर्फ़ पुर्तगाली में अच्छे मॉडल हैं।</string>
+
+    <!-- 1.3.7 -->
+    <string name="settings_update_section">अपडेट</string>
+    <string name="settings_update_row">ऐप अपडेट करें</string>
+    <string name="settings_update_row_sub_current">इंस्टॉल किया गया संस्करण: %1$s</string>
+    <string name="settings_update_row_sub_new">नया संस्करण %1$s उपलब्ध है</string>
+    <string name="update_title">अपडेट</string>
+    <string name="update_installed">इंस्टॉल किया गया संस्करण</string>
+    <string name="update_check_button">अपडेट जाँचें</string>
+    <string name="update_checking">जाँच हो रही है…</string>
+    <string name="update_up_to_date">आप नवीनतम संस्करण पर हैं।</string>
+    <string name="update_available">नया संस्करण %1$s उपलब्ध है</string>
+    <string name="update_notes_title">क्या बदला</string>
+    <string name="update_download_button">अपडेट डाउनलोड करें</string>
+    <string name="update_open_page">GitHub पर देखें</string>
+    <string name="update_install_hint">ब्राउज़र APK डाउनलोड करता है। फिर उसे इंस्टॉल करने के लिए फ़ाइल खोलें: Android उस ब्राउज़र से इंस्टॉल की अनुमति माँग सकता है। अपडेट तभी इंस्टॉल होता है जब वह ऐप की ही कुंजी से साइन किया गया हो।</string>
+    <string name="update_auto_title">ऐप खोलते समय जाँचें</string>
+    <string name="update_auto_sub">GitHub को ज़्यादा से ज़्यादा हर 12 घंटे में देखता है। आपका कोई डेटा नहीं भेजा जाता।</string>
+    <string name="update_error_network">जाँच नहीं हो सकी। कनेक्शन देखें और फिर कोशिश करें।</string>
+    <string name="update_error_limit">GitHub ने फ़िलहाल अनुरोध सीमित कर दिए हैं। बाद में फिर कोशिश करें।</string>
+    <string name="update_error_no_release">GitHub पर अभी कोई संस्करण प्रकाशित नहीं है।</string>
+    <string name="update_banner_title">नया संस्करण %1$s उपलब्ध है</string>
+    <string name="update_banner_update">अपडेट करें</string>
+    <string name="update_banner_later">बाद में</string>
+    <string name="news_all_13">अपडेट मेन्यू को उभारा गया: GitHub पर नया संस्करण आने पर ऐप सूचना और असिस्टेंट में बताता है, क्या बदला यह दिखाता है और डाउनलोड तक ले जाता है।</string>
+
+    <!-- 1.3.8 -->
+    <string name="about_app_6_title">GitHub से अपडेट</string>
+    <string name="about_app_6_body">GitHub पर नया संस्करण आने पर ऐप सूचना और असिस्टेंट में बताता है। डाउनलोड ब्राउज़र करता है, और Android तभी इंस्टॉल करता है जब वह ऐप की ही कुंजी से साइन किया गया हो।</string>
+    <string name="about_data_6_title">अकेला अतिरिक्त कनेक्शन: अपडेट</string>
+    <string name="about_data_6_body">नया संस्करण है या नहीं जानने के लिए ऐप GitHub को देखता है (ज़्यादा से ज़्यादा हर 12 घंटे में, और इसे बंद कर सकते हैं)। इस अनुरोध में आपका कोई टेक्स्ट या डेटा नहीं जाता।</string>
+    <string name="about_data_7_title">इंस्टॉल किए गए ऐप की सूची</string>
+    <string name="about_data_7_body">यह सिर्फ़ डिवाइस पर पढ़ी जाती है, ताकि आप चुन सकें कि किन ऐप में बार बंद करना है। इसमें से कुछ भी किसी को नहीं भेजा जाता।</string>
+    <string name="about_blocked_4_title">बैंक ने अनइंस्टॉल करने को कहा</string>
+    <string name="about_blocked_4_body">कुछ बैंक तब तक खुलने से मना कर देते हैं जब तक Play Store के बाहर से इंस्टॉल की गई कोई एक्सेसिबिलिटी सेवा चालू हो। सेटिंग्स &gt; अनुमतियाँ में बैंक इस्तेमाल करने से पहले सेवा बंद करने और बाद में फिर चालू करने का बटन है।</string>
+    <string name="update_new_pill">नया</string>
+    <string name="update_notify_title">सूचना से बताएं</string>
+    <string name="update_notify_sub">नया संस्करण आने पर, ऐप बंद होने पर भी, सूचना दिखाता है।</string>
+    <string name="update_channel_name">ऐप अपडेट</string>
+    <string name="update_channel_desc">TecladoIA के नए संस्करण की सूचनाएँ</string>
+    <string name="update_notif_title">नया संस्करण %1$s उपलब्ध है</string>
+    <string name="update_notif_text">क्या बदला देखने और अपडेट करने के लिए टैप करें।</string>
+    <string name="github_card_title">GitHub पर TecladoIA</string>
+    <string name="github_card_sub">सोर्स कोड, पुराने संस्करण और समस्या रिपोर्ट</string>
+    <string name="github_open_repo">रिपॉज़िटरी खोलें</string>
+    <string name="github_open_releases">सभी संस्करण</string>
+    <string name="github_share">शेयर करें</string>
+    <string name="github_share_title">TecladoIA शेयर करें</string>
+    <string name="github_share_text">TecladoIA: Android कीबोर्ड के ऊपर AI बार। %1$s</string>
+    <string name="perm_notifications">सूचनाएँ</string>
+    <string name="perm_notifications_sub">वैकल्पिक: नए संस्करण की सूचनाएँ</string>
+    <string name="news_all_14">जानकारी को ऑफ़लाइन मोड, GitHub अपडेट और ऐप सूची के साथ अपडेट किया गया।</string>
 </resources>

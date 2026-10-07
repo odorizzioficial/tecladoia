@@ -3,6 +3,7 @@ package com.odorizzioficial.tecladoia.ui.screens
 import android.Manifest
 import android.app.Activity
 import android.app.LocaleManager
+import android.content.pm.ApplicationInfo
 import android.content.Intent
 import android.os.Build
 import android.os.LocaleList
@@ -31,7 +32,10 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -87,6 +91,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -94,11 +99,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -110,6 +117,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.odorizzioficial.tecladoia.R
 import com.odorizzioficial.tecladoia.data.LocaleHelper
+import com.odorizzioficial.tecladoia.domain.AiProvider
 import com.odorizzioficial.tecladoia.domain.AnimationStyle
 import com.odorizzioficial.tecladoia.domain.AppLanguage
 import com.odorizzioficial.tecladoia.domain.AppLanguages
@@ -125,13 +133,30 @@ import com.odorizzioficial.tecladoia.ui.components.AppCard
 import com.odorizzioficial.tecladoia.ui.components.AuroraButton
 import com.odorizzioficial.tecladoia.ui.components.ErrorBanner
 import com.odorizzioficial.tecladoia.ui.components.IconBadge
+import com.odorizzioficial.tecladoia.ui.components.OemHelp
 import com.odorizzioficial.tecladoia.ui.components.PermissionsCard
 import com.odorizzioficial.tecladoia.ui.components.PillChip
 import com.odorizzioficial.tecladoia.ui.components.SectionHeader
 import com.odorizzioficial.tecladoia.ui.components.SettingRow
 import com.odorizzioficial.tecladoia.ui.components.ToggleRow
 import com.odorizzioficial.tecladoia.ui.theme.PillShape
+import androidx.core.graphics.drawable.toBitmap
+import androidx.compose.ui.text.style.TextOverflow
+import com.odorizzioficial.tecladoia.service.KeyboardOverlayService
+import com.odorizzioficial.tecladoia.service.SensitiveApps
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
+import com.odorizzioficial.tecladoia.data.UpdateChecker
+import com.odorizzioficial.tecladoia.data.UpdateError
+import android.content.pm.PackageManager
+import androidx.compose.foundation.border
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.rounded.Code
+import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.Notifications
+import com.odorizzioficial.tecladoia.ui.components.AuroraBrush
 
 /** Link oficial para criar a chave da API Gemini. */
 private const val AI_STUDIO_URL = "https://aistudio.google.com/apikey"
@@ -140,7 +165,7 @@ private const val AI_STUDIO_URL = "https://aistudio.google.com/apikey"
 private const val YOUTUBE_URL = "https://www.youtube.com/@odorizzioficial"
 
 /** Paginas internas da aba Ajustes. */
-private enum class SettingsPage { LIST, GEMINI, APPEARANCE, PERMISSIONS, BACKUP, ABOUT }
+private enum class SettingsPage { LIST, AI_HUB, GEMINI, OFFLINE, OVERLAY, APPEARANCE, PERMISSIONS, BACKUP, PROTECTED, UPDATE, ABOUT }
 
 /** Assuntos do menu Sobre, cada um com a sua propria pagina. */
 private enum class AboutTopic(@androidx.annotation.StringRes val titleRes: Int) {
@@ -199,6 +224,9 @@ fun SettingsScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
     var page by rememberSaveable { mutableStateOf(SettingsPage.LIST) }
     var topic by rememberSaveable { mutableStateOf(AboutTopic.NONE) }
     val apiKeyRequest by viewModel.openApiKeyRequest.collectAsStateWithLifecycle()
+    val offlineRequest by viewModel.openOfflineRequest.collectAsStateWithLifecycle()
+    val aiHubRequest by viewModel.openAiHubRequest.collectAsStateWithLifecycle()
+    val updateRequest by viewModel.openUpdateRequest.collectAsStateWithLifecycle()
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val style = settings.animationStyle
 
@@ -206,6 +234,24 @@ fun SettingsScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
         if (apiKeyRequest) {
             page = SettingsPage.GEMINI
             viewModel.consumeApiKeyRequest()
+        }
+    }
+    LaunchedEffect(offlineRequest) {
+        if (offlineRequest) {
+            page = SettingsPage.OFFLINE
+            viewModel.consumeOfflineRequest()
+        }
+    }
+    LaunchedEffect(aiHubRequest) {
+        if (aiHubRequest) {
+            page = SettingsPage.AI_HUB
+            viewModel.consumeAiHubRequest()
+        }
+    }
+    LaunchedEffect(updateRequest) {
+        if (updateRequest) {
+            page = SettingsPage.UPDATE
+            viewModel.consumeUpdateRequest()
         }
     }
 
@@ -228,10 +274,36 @@ fun SettingsScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
             }
 
             when (current) {
-                SettingsPage.GEMINI -> GeminiSettingsScreen(
+                SettingsPage.AI_HUB -> AiHubScreen(
+                    viewModel = viewModel,
+                    modifier = Modifier.sharedPage(scopes, "page-ai-hub"),
+                    onOpenGemini = { page = SettingsPage.GEMINI },
+                    onOpenOffline = { page = SettingsPage.OFFLINE },
+                    onBack = { page = SettingsPage.LIST }
+                )
+
+                SettingsPage.OFFLINE -> OfflineAiScreen(
+                    viewModel = viewModel,
+                    modifier = Modifier.sharedPage(scopes, "page-offline"),
+                    onBack = { page = SettingsPage.AI_HUB }
+                )
+
+                SettingsPage.UPDATE -> UpdateScreen(
                     viewModel = viewModel,
                     scopes = scopes,
                     onBack = { page = SettingsPage.LIST }
+                )
+
+                SettingsPage.OVERLAY -> OverlayBehaviorScreen(
+                    viewModel = viewModel,
+                    scopes = scopes,
+                    onBack = { page = SettingsPage.LIST }
+                )
+
+                SettingsPage.GEMINI -> GeminiSettingsScreen(
+                    viewModel = viewModel,
+                    scopes = scopes,
+                    onBack = { page = SettingsPage.AI_HUB }
                 )
 
                 SettingsPage.APPEARANCE -> AppearanceScreen(
@@ -241,6 +313,12 @@ fun SettingsScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 )
 
                 SettingsPage.PERMISSIONS -> PermissionsScreen(
+                    scopes = scopes,
+                    onBack = { page = SettingsPage.LIST }
+                )
+
+                SettingsPage.PROTECTED -> ProtectedAppsScreen(
+                    viewModel = viewModel,
                     scopes = scopes,
                     onBack = { page = SettingsPage.LIST }
                 )
@@ -268,10 +346,13 @@ fun SettingsScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
                 SettingsPage.LIST -> SettingsList(
                     viewModel = viewModel,
                     scopes = scopes,
-                    onOpenGemini = { page = SettingsPage.GEMINI },
+                    onOpenAi = { page = SettingsPage.AI_HUB },
+                    onOpenOverlay = { page = SettingsPage.OVERLAY },
+                    onOpenUpdate = { page = SettingsPage.UPDATE },
                     onOpenAppearance = { page = SettingsPage.APPEARANCE },
                     onOpenPermissions = { page = SettingsPage.PERMISSIONS },
                     onOpenBackup = { page = SettingsPage.BACKUP },
+                    onOpenProtected = { page = SettingsPage.PROTECTED },
                     onOpenAbout = {
                         topic = AboutTopic.NONE
                         page = SettingsPage.ABOUT
@@ -286,10 +367,13 @@ fun SettingsScreen(viewModel: MainViewModel, modifier: Modifier = Modifier) {
 private fun SettingsList(
     viewModel: MainViewModel,
     scopes: SharedPageScopes?,
-    onOpenGemini: () -> Unit,
+    onOpenAi: () -> Unit,
+    onOpenOverlay: () -> Unit,
+    onOpenUpdate: () -> Unit,
     onOpenAppearance: () -> Unit,
     onOpenPermissions: () -> Unit,
     onOpenBackup: () -> Unit,
+    onOpenProtected: () -> Unit,
     onOpenAbout: () -> Unit
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -309,19 +393,19 @@ private fun SettingsList(
 
         // --- Menu da IA --------------------------------------------------
         SectionHeader(title = stringResource(R.string.settings_ai_section), icon = Icons.Rounded.Bolt)
-        AppCard(modifier = Modifier.sharedPage(scopes, "page-gemini")) {
+        AppCard(modifier = Modifier.sharedPage(scopes, "page-ai-hub")) {
             SettingRow(
-                title = stringResource(R.string.settings_gemini_key),
-                subtitle = if (settings.hasApiKey) {
+                title = stringResource(R.string.settings_ai_hub_row),
+                subtitle = if (settings.aiProvider == AiProvider.OFFLINE) {
                     stringResource(
-                        R.string.settings_key_saved_with_model,
-                        GeminiModels.prettyLabel(settings.model)
+                        R.string.settings_ai_hub_row_sub_offline,
+                        settings.offlineModel.substringBeforeLast('.')
                     )
                 } else {
-                    stringResource(R.string.settings_key_sub)
+                    stringResource(R.string.settings_ai_hub_row_sub_gemini)
                 },
-                icon = Icons.Rounded.VpnKey,
-                onClick = onOpenGemini
+                icon = Icons.Rounded.Bolt,
+                onClick = onOpenAi
             ) {
                 Icon(
                     Icons.Rounded.ChevronRight,
@@ -358,30 +442,18 @@ private fun SettingsList(
 
         // --- Comportamento do overlay ------------------------------------
         SectionHeader(title = stringResource(R.string.settings_overlay_section), icon = Icons.Rounded.Tune)
-        AppCard {
-            Column {
-                ToggleRow(
-                    title = stringResource(R.string.settings_auto_bar),
-                    subtitle = stringResource(R.string.settings_auto_bar_sub),
-                    icon = Icons.Rounded.Keyboard,
-                    checked = settings.autoBar,
-                    onCheckedChange = viewModel::setAutoBar
-                )
-                Divider()
-                ToggleRow(
-                    title = stringResource(R.string.settings_hide_with_keyboard),
-                    subtitle = stringResource(R.string.settings_hide_with_keyboard_sub),
-                    icon = Icons.Rounded.VisibilityOff,
-                    checked = settings.hideWithKeyboard,
-                    onCheckedChange = viewModel::setHideWithKeyboard
-                )
-                Divider()
-                ToggleRow(
-                    title = stringResource(R.string.settings_haptics),
-                    subtitle = stringResource(R.string.settings_haptics_sub),
-                    icon = Icons.Rounded.Vibration,
-                    checked = settings.haptics,
-                    onCheckedChange = viewModel::setHaptics
+        AppCard(modifier = Modifier.sharedPage(scopes, "page-overlay")) {
+            SettingRow(
+                title = stringResource(R.string.settings_overlay_row),
+                subtitle = stringResource(R.string.settings_overlay_row_sub),
+                icon = Icons.Rounded.Keyboard,
+                onClick = onOpenOverlay
+            ) {
+                Icon(
+                    Icons.Rounded.ChevronRight,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(22.dp)
                 )
             }
         }
@@ -428,6 +500,23 @@ private fun SettingsList(
         }
 
         // --- Backup --------------------------------------------------------
+        SectionHeader(title = stringResource(R.string.settings_privacy_section), icon = Icons.Rounded.Shield)
+        AppCard(modifier = Modifier.sharedPage(scopes, "page-protected")) {
+            SettingRow(
+                title = stringResource(R.string.settings_protected_row),
+                subtitle = stringResource(R.string.settings_protected_row_sub),
+                icon = Icons.Rounded.Shield,
+                onClick = onOpenProtected
+            ) {
+                Icon(
+                    Icons.Rounded.ChevronRight,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+        }
+
         SectionHeader(title = stringResource(R.string.settings_backup_section), icon = Icons.Rounded.Download)
         AppCard(modifier = Modifier.sharedPage(scopes, "page-backup")) {
             SettingRow(
@@ -446,6 +535,18 @@ private fun SettingsList(
         }
 
         // --- Sobre -------------------------------------------------------
+        // --- Atualizacoes ----------------------------------------------------
+        val updateState by viewModel.update.collectAsStateWithLifecycle()
+        SectionHeader(title = stringResource(R.string.settings_update_section), icon = Icons.Rounded.NewReleases)
+        UpdateHighlightRow(
+            subtitle = updateState.available?.let {
+                stringResource(R.string.settings_update_row_sub_new, it.version)
+            } ?: stringResource(R.string.settings_update_row_sub_current, viewModel.installedVersion()),
+            hasUpdate = updateState.available != null,
+            onClick = onOpenUpdate,
+            modifier = Modifier.sharedPage(scopes, "page-update")
+        )
+
         SectionHeader(title = stringResource(R.string.settings_about_section), icon = Icons.Rounded.Info)
         AppCard(modifier = Modifier.sharedPage(scopes, "page-about")) {
             SettingRow(
@@ -1009,6 +1110,10 @@ private fun AboutScreen(
                         title = stringResource(R.string.about_app_5_title),
                         detail = stringResource(R.string.about_app_5_body)
                     )
+                    AboutParagraph(
+                        title = stringResource(R.string.about_app_6_title),
+                        detail = stringResource(R.string.about_app_6_body)
+                    )
                 }
             }
 
@@ -1056,6 +1161,14 @@ private fun AboutScreen(
                         title = stringResource(R.string.about_data_5_title),
                         detail = stringResource(R.string.about_data_5_body)
                     )
+                    AboutParagraph(
+                        title = stringResource(R.string.about_data_6_title),
+                        detail = stringResource(R.string.about_data_6_body)
+                    )
+                    AboutParagraph(
+                        title = stringResource(R.string.about_data_7_title),
+                        detail = stringResource(R.string.about_data_7_body)
+                    )
                 }
             }
 
@@ -1079,6 +1192,10 @@ private fun AboutScreen(
                     AboutParagraph(
                         title = stringResource(R.string.about_blocked_3_title),
                         detail = stringResource(R.string.about_blocked_3_body)
+                    )
+                    AboutParagraph(
+                        title = stringResource(R.string.about_blocked_4_title),
+                        detail = stringResource(R.string.about_blocked_4_body)
                     )
                     AuroraButton(
                         text = stringResource(R.string.about_open_app_info),
@@ -1120,7 +1237,7 @@ private fun AboutParagraph(title: String, detail: String) {
 
 /** Cabecalho com seta de voltar usado nas subpaginas dos Ajustes. */
 @Composable
-private fun SubPageHeader(title: String, onBack: () -> Unit) {
+internal fun SubPageHeader(title: String, onBack: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(top = 16.dp, bottom = 4.dp)
@@ -1457,6 +1574,396 @@ private fun BarHeightPreview(height: BarHeight) {
     }
 }
 
+// --- Atualizacoes -----------------------------------------------------
+
+/**
+ * Linha de "Atualizacoes" com o mesmo destaque do modelo offline em uso: degrade,
+ * borda colorida e icone com o degrade do app. Com versao nova, ganha o selo NOVA.
+ */
+@Composable
+private fun UpdateHighlightRow(
+    subtitle: String,
+    hasUpdate: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val primary = MaterialTheme.colorScheme.primary
+    val secondary = MaterialTheme.colorScheme.secondary
+    val shape = RoundedCornerShape(24.dp)
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(Brush.linearGradient(listOf(primary.copy(alpha = 0.34f), secondary.copy(alpha = 0.18f))))
+            .border(
+                width = 1.dp,
+                brush = Brush.linearGradient(listOf(primary.copy(alpha = 0.8f), secondary.copy(alpha = 0.6f))),
+                shape = shape
+            )
+            .clickable(onClick = onClick)
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(PillShape)
+                .background(AuroraBrush),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Rounded.Download,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(26.dp)
+            )
+        }
+        Spacer(Modifier.width(14.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(R.string.settings_update_row),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (hasUpdate) secondary else MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = if (hasUpdate) FontWeight.SemiBold else FontWeight.Normal
+            )
+        }
+        Spacer(Modifier.width(10.dp))
+        if (hasUpdate) {
+            Box(
+                modifier = Modifier
+                    .clip(PillShape)
+                    .background(AuroraBrush)
+                    .padding(horizontal = 10.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.update_new_pill),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        } else {
+            Icon(
+                Icons.Rounded.ChevronRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+    }
+}
+
+/** Cartao do repositorio no GitHub, no fim da tela de atualizacao. */
+@Composable
+private fun GithubCard() {
+    val context = LocalContext.current
+    val primary = MaterialTheme.colorScheme.primary
+    val secondary = MaterialTheme.colorScheme.secondary
+    val shape = RoundedCornerShape(24.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .border(
+                width = 1.dp,
+                brush = Brush.linearGradient(listOf(primary.copy(alpha = 0.55f), secondary.copy(alpha = 0.35f))),
+                shape = shape
+            )
+            .padding(16.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconBadge(icon = Icons.Rounded.Code)
+            Spacer(Modifier.width(14.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.github_card_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = stringResource(R.string.github_card_sub),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        Spacer(Modifier.height(12.dp))
+        Text(
+            text = UpdateChecker.REPO_URL.removePrefix("https://"),
+            style = MaterialTheme.typography.bodyMedium,
+            color = secondary,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier
+                .clip(PillShape)
+                .clickable { openGithubUrl(context, UpdateChecker.REPO_URL) }
+                .background(secondary.copy(alpha = 0.12f))
+                .padding(horizontal = 14.dp, vertical = 8.dp)
+        )
+        Spacer(Modifier.height(14.dp))
+        AuroraButton(
+            text = stringResource(R.string.github_open_repo),
+            icon = Icons.Rounded.OpenInNew,
+            onClick = { openGithubUrl(context, UpdateChecker.REPO_URL) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(8.dp))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            PillChip(
+                text = stringResource(R.string.github_open_releases),
+                icon = Icons.Rounded.NewReleases,
+                onClick = { openGithubUrl(context, UpdateChecker.RELEASES_URL) },
+                modifier = Modifier.weight(1f),
+                height = 48.dp
+            )
+            Spacer(Modifier.width(8.dp))
+            PillChip(
+                text = stringResource(R.string.github_share),
+                icon = Icons.Rounded.Share,
+                onClick = {
+                    val send = Intent(Intent.ACTION_SEND)
+                        .setType("text/plain")
+                        .putExtra(
+                            Intent.EXTRA_TEXT,
+                            context.getString(R.string.github_share_text, UpdateChecker.REPO_URL)
+                        )
+                    runCatching {
+                        context.startActivity(
+                            Intent.createChooser(send, context.getString(R.string.github_share_title))
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        )
+                    }
+                },
+                modifier = Modifier.weight(1f),
+                height = 48.dp
+            )
+        }
+    }
+}
+
+/** Abre um endereco do GitHub no navegador; o navegador baixa e o Android instala. */
+private fun openGithubUrl(context: android.content.Context, url: String) {
+    if (!UpdateChecker.isTrusted(url)) return
+    runCatching {
+        context.startActivity(
+            Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+    }
+}
+
+@Composable
+private fun UpdateScreen(
+    viewModel: MainViewModel,
+    scopes: SharedPageScopes?,
+    onBack: () -> Unit
+) {
+    val context = LocalContext.current
+    val settings by viewModel.settings.collectAsStateWithLifecycle()
+    val state by viewModel.update.collectAsStateWithLifecycle()
+    val installed = viewModel.installedVersion()
+    val notificationPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { /* sem a permissao o aviso simplesmente nao aparece */ }
+
+    Column(
+        modifier = Modifier
+            .sharedPage(scopes, "page-update")
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp)
+    ) {
+        SubPageHeader(title = stringResource(R.string.update_title), onBack = onBack)
+        Spacer(Modifier.height(8.dp))
+
+        AppCard {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = stringResource(R.string.update_installed),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = installed.ifBlank { "-" },
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(Modifier.height(14.dp))
+                AuroraButton(
+                    text = stringResource(
+                        if (state.checking) R.string.update_checking else R.string.update_check_button
+                    ),
+                    icon = Icons.Rounded.Refresh,
+                    enabled = !state.checking,
+                    onClick = { viewModel.checkForUpdate(manual = true) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                if (state.upToDate) {
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        text = stringResource(R.string.update_up_to_date),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+                state.error?.let { error ->
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        text = stringResource(
+                            when (error) {
+                                UpdateError.NETWORK, UpdateError.INVALID -> R.string.update_error_network
+                                UpdateError.RATE_LIMIT -> R.string.update_error_limit
+                                UpdateError.NO_RELEASE -> R.string.update_error_no_release
+                            }
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+        }
+
+        state.available?.let { info ->
+            Spacer(Modifier.height(16.dp))
+            AppCard {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = stringResource(R.string.update_available, info.version),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    if (info.notes.isNotBlank()) {
+                        Spacer(Modifier.height(10.dp))
+                        Text(
+                            text = stringResource(R.string.update_notes_title),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            // Tira as marcas do Markdown dos releases; o texto fica limpo.
+                            text = info.notes.replace(Regex("[#*`>]"), "").trim().take(900),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    Spacer(Modifier.height(14.dp))
+                    AuroraButton(
+                        text = stringResource(R.string.update_download_button),
+                        icon = Icons.Rounded.Download,
+                        onClick = { openGithubUrl(context, info.downloadUrl) },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    PillChip(
+                        text = stringResource(R.string.update_open_page),
+                        icon = Icons.Rounded.OpenInNew,
+                        onClick = { openGithubUrl(context, info.pageUrl) },
+                        modifier = Modifier.fillMaxWidth(),
+                        height = 52.dp
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        text = stringResource(R.string.update_install_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(16.dp))
+        AppCard {
+            Column {
+                ToggleRow(
+                    title = stringResource(R.string.update_auto_title),
+                    subtitle = stringResource(R.string.update_auto_sub),
+                    icon = Icons.Rounded.Refresh,
+                    checked = settings.autoUpdateCheck,
+                    onCheckedChange = viewModel::setAutoUpdateCheck
+                )
+                Divider()
+                ToggleRow(
+                    title = stringResource(R.string.update_notify_title),
+                    subtitle = stringResource(R.string.update_notify_sub),
+                    icon = Icons.Rounded.Notifications,
+                    checked = settings.updateNotify,
+                    onCheckedChange = { on ->
+                        viewModel.setUpdateNotify(on)
+                        // Android 13+: ligar o aviso pede a permissao de notificacoes.
+                        val missing = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                            context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) !=
+                            PackageManager.PERMISSION_GRANTED
+                        if (on && missing) notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                )
+            }
+        }
+
+        Spacer(Modifier.height(16.dp))
+        GithubCard()
+        Spacer(Modifier.height(28.dp))
+    }
+}
+
+// --- Comportamento do overlay -----------------------------------------
+
+/** As tres chaves que antes ficavam soltas na lista de Ajustes. */
+@Composable
+private fun OverlayBehaviorScreen(
+    viewModel: MainViewModel,
+    scopes: SharedPageScopes?,
+    onBack: () -> Unit
+) {
+    val settings by viewModel.settings.collectAsStateWithLifecycle()
+
+    Column(
+        modifier = Modifier
+            .sharedPage(scopes, "page-overlay")
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp)
+    ) {
+        SubPageHeader(title = stringResource(R.string.settings_overlay_section), onBack = onBack)
+        Spacer(Modifier.height(8.dp))
+        AppCard {
+            Column {
+                ToggleRow(
+                    title = stringResource(R.string.settings_auto_bar),
+                    subtitle = stringResource(R.string.settings_auto_bar_sub),
+                    icon = Icons.Rounded.Keyboard,
+                    checked = settings.autoBar,
+                    onCheckedChange = viewModel::setAutoBar
+                )
+                Divider()
+                ToggleRow(
+                    title = stringResource(R.string.settings_hide_with_keyboard),
+                    subtitle = stringResource(R.string.settings_hide_with_keyboard_sub),
+                    icon = Icons.Rounded.VisibilityOff,
+                    checked = settings.hideWithKeyboard,
+                    onCheckedChange = viewModel::setHideWithKeyboard
+                )
+                Divider()
+                ToggleRow(
+                    title = stringResource(R.string.settings_haptics),
+                    subtitle = stringResource(R.string.settings_haptics_sub),
+                    icon = Icons.Rounded.Vibration,
+                    checked = settings.haptics,
+                    onCheckedChange = viewModel::setHaptics
+                )
+            }
+        }
+        Spacer(Modifier.height(28.dp))
+    }
+}
+
 // --- Backup -----------------------------------------------------------
 
 @Composable
@@ -1600,7 +2107,314 @@ private fun PermissionsScreen(scopes: SharedPageScopes?, onBack: () -> Unit) {
             modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
         )
         PermissionsCard()
+        Spacer(Modifier.height(16.dp))
+        OemHelpCard()
+        Spacer(Modifier.height(16.dp))
+        BankHelpCard()
         Spacer(Modifier.height(28.dp))
+    }
+}
+
+/** Ajuda para aparelhos que desligam o servico sozinhos (Xiaomi, Oppo e familia). */
+@Composable
+private fun OemHelpCard() {
+    val context = LocalContext.current
+    AppCard {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconBadge(icon = Icons.Rounded.Bolt)
+                Spacer(Modifier.width(12.dp))
+                Text(
+                    text = stringResource(R.string.oem_help_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Spacer(Modifier.height(10.dp))
+            Text(
+                text = stringResource(R.string.oem_help_body),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(Modifier.height(14.dp))
+            if (OemHelp.hasAutostartScreen()) {
+                AuroraButton(
+                    text = stringResource(R.string.oem_open_autostart),
+                    icon = Icons.Rounded.OpenInNew,
+                    onClick = { OemHelp.openAutostart(context) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(8.dp))
+            }
+            AuroraButton(
+                text = stringResource(R.string.oem_open_battery),
+                icon = Icons.Rounded.OpenInNew,
+                onClick = { OemHelp.openBattery(context) },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}
+
+/**
+ * Alguns bancos recusam abrir com qualquer servico de acessibilidade de fora
+ * da Play Store ligado. O app nao tem como esconder isso do banco, entao a
+ * saida honesta e permitir desligar o servico na hora e religar depois.
+ */
+@Composable
+private fun BankHelpCard() {
+    val context = LocalContext.current
+    AppCard {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconBadge(icon = Icons.Rounded.Shield)
+                Spacer(Modifier.width(12.dp))
+                Text(
+                    text = stringResource(R.string.protected_bank_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Spacer(Modifier.height(10.dp))
+            Text(
+                text = stringResource(R.string.protected_bank_body),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(Modifier.height(14.dp))
+            AuroraButton(
+                text = stringResource(R.string.protected_disable_now),
+                icon = Icons.Rounded.VisibilityOff,
+                onClick = {
+                    val service = KeyboardOverlayService.instance
+                    if (service != null) {
+                        runCatching { service.disableSelf() }
+                    } else {
+                        openAccessibilitySettings(context)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(Modifier.height(8.dp))
+            AuroraButton(
+                text = stringResource(R.string.protected_reenable),
+                icon = Icons.Rounded.OpenInNew,
+                onClick = { openAccessibilitySettings(context) },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}
+
+private fun openAccessibilitySettings(context: android.content.Context) {
+    runCatching {
+        context.startActivity(
+            Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+    }
+}
+
+// --- Apps ignorados ---------------------------------------------------
+
+private data class LaunchableApp(
+    val packageName: String,
+    val label: String,
+    /** Veio com o aparelho e nao foi atualizado pelo usuario (telefone, ajustes...). */
+    val isSystem: Boolean
+)
+
+/**
+ * Todos os apps instalados, inclusive os do sistema e os sem icone na tela
+ * inicial. Precisa da permissao QUERY_ALL_PACKAGES; sem ela o Android esconde
+ * os apps que o TecladoIA nao tem motivo declarado para enxergar.
+ */
+@Suppress("DEPRECATION")
+private fun loadInstalledApps(context: android.content.Context): List<LaunchableApp> {
+    val pm = context.packageManager
+    return pm.getInstalledApplications(0)
+        .asSequence()
+        .filter { it.packageName != context.packageName && it.enabled }
+        .map { info ->
+            val flags: Int = info.flags
+            // Apps de fabrica que a pessoa atualizou (YouTube, Chrome...) contam como dela.
+            val system = (flags and ApplicationInfo.FLAG_SYSTEM) != 0 &&
+                (flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0
+            LaunchableApp(
+                packageName = info.packageName,
+                label = runCatching { pm.getApplicationLabel(info).toString() }
+                    .getOrDefault(info.packageName),
+                isSystem = system
+            )
+        }
+        .distinctBy { it.packageName }
+        .sortedBy { it.label.lowercase() }
+        .toList()
+}
+
+/** Apps com icone na tela inicial, sem precisar da permissao de listar todos os apps. */
+private fun loadLaunchableApps(context: android.content.Context): List<LaunchableApp> {
+    val pm = context.packageManager
+    val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+    return pm.queryIntentActivities(intent, 0)
+        .map {
+            val flags: Int = it.activityInfo.applicationInfo.flags
+            // Apps de fabrica que a pessoa atualizou (YouTube, Chrome...) contam como dela.
+            val system = (flags and ApplicationInfo.FLAG_SYSTEM) != 0 &&
+                (flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) == 0
+            LaunchableApp(it.activityInfo.packageName, it.loadLabel(pm).toString(), system)
+        }
+        .filter { it.packageName != context.packageName }
+        .distinctBy { it.packageName }
+        .sortedBy { it.label.lowercase() }
+}
+
+@Composable
+private fun ProtectedAppsScreen(
+    viewModel: MainViewModel,
+    scopes: SharedPageScopes?,
+    onBack: () -> Unit
+) {
+    val context = LocalContext.current
+    val settings by viewModel.settings.collectAsStateWithLifecycle()
+    var query by rememberSaveable { mutableStateOf("") }
+    var showSystem by rememberSaveable { mutableStateOf(false) }
+    val apps by produceState(initialValue = emptyList<LaunchableApp>(), context) {
+        value = withContext(Dispatchers.IO) {
+            // Se a lista completa falhar, cai nos apps com icone, que sempre aparecem.
+            runCatching { loadInstalledApps(context) }
+                .getOrElse { runCatching { loadLaunchableApps(context) }.getOrDefault(emptyList()) }
+        }
+    }
+    val shown = remember(apps, query, showSystem, settings.ignoredApps) {
+        apps.filter { app ->
+            // Apps do sistema so entram na lista com a chave ligada, exceto os
+            // que ja estao desligados: esses nunca somem da vista.
+            (showSystem || !app.isSystem || app.packageName in settings.ignoredApps) &&
+                (query.isBlank() ||
+                    app.label.contains(query, ignoreCase = true) ||
+                    app.packageName.contains(query, ignoreCase = true))
+        }
+    }
+
+    LazyColumn(
+        modifier = Modifier
+            .sharedPage(scopes, "page-protected")
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
+        item { SubPageHeader(title = stringResource(R.string.protected_title), onBack = onBack) }
+        // Cada item da lista e uma coluna so: varios componentes soltos no
+        // mesmo item ficariam um por cima do outro.
+        item {
+            Column {
+                Spacer(Modifier.height(8.dp))
+                AppCard {
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        IconBadge(icon = Icons.Rounded.Info)
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            text = stringResource(R.string.protected_notice),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
+                AppCard {
+                    ToggleRow(
+                        title = stringResource(R.string.protected_default_title),
+                        subtitle = stringResource(R.string.protected_default_sub),
+                        icon = Icons.Rounded.Shield,
+                        checked = settings.protectFinancialApps,
+                        onCheckedChange = viewModel::setProtectFinancialApps
+                    )
+                }
+                Spacer(Modifier.height(12.dp))
+                AppCard {
+                    ToggleRow(
+                        title = stringResource(R.string.protected_system_title),
+                        subtitle = stringResource(R.string.protected_system_sub),
+                        icon = Icons.Rounded.Dashboard,
+                        checked = showSystem,
+                        onCheckedChange = { showSystem = it }
+                    )
+                }
+            }
+        }
+        item {
+            Column {
+                SectionHeader(
+                    title = stringResource(R.string.protected_custom_title),
+                    icon = Icons.Rounded.Shield
+                )
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    singleLine = true,
+                    label = { Text(stringResource(R.string.protected_search_hint)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(8.dp))
+            }
+        }
+        items(shown, key = { it.packageName }) { app ->
+            val auto = settings.protectFinancialApps && SensitiveApps.isFinancial(app.packageName)
+            ProtectedAppRow(
+                app = app,
+                checked = auto || app.packageName in settings.ignoredApps,
+                locked = auto,
+                onChange = { viewModel.setAppIgnored(app.packageName, it) }
+            )
+        }
+        item { Spacer(Modifier.height(28.dp)) }
+    }
+}
+
+@Composable
+private fun ProtectedAppRow(
+    app: LaunchableApp,
+    checked: Boolean,
+    locked: Boolean,
+    onChange: (Boolean) -> Unit
+) {
+    val context = LocalContext.current
+    val icon = remember(app.packageName) {
+        runCatching {
+            context.packageManager.getApplicationIcon(app.packageName)
+                .toBitmap(96, 96)
+                .asImageBitmap()
+        }.getOrNull()
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(enabled = !locked) { onChange(!checked) }
+            .padding(horizontal = 4.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (icon != null) {
+            Image(bitmap = icon, contentDescription = null, modifier = Modifier.size(36.dp))
+        } else {
+            Spacer(Modifier.size(36.dp))
+        }
+        Spacer(Modifier.width(12.dp))
+        Text(
+            text = app.label,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f)
+        )
+        Switch(
+            checked = checked,
+            onCheckedChange = if (locked) null else onChange,
+            enabled = !locked
+        )
     }
 }
 

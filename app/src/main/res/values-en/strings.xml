@@ -99,7 +99,7 @@
     <string name="err_no_connection">No internet connection. Check your connection and try again.</string>
     <string name="err_network_failure">The connection dropped mid-request. Try again.</string>
     <string name="err_timeout">Gemini took too long to answer. Try again.</string>
-    <string name="err_service_unavailable">Gemini is temporarily unavailable. Try again in a moment.</string>
+    <string name="err_service_unavailable">Gemini is under high demand at Google right now. The app already tried other models; please try again shortly.</string>
     <string name="err_bad_request">Gemini refused the request: %1$s</string>
     <string name="err_empty_response">The AI returned no result. Try again.</string>
     <string name="err_unreadable">The AI response came in an unexpected format. Try again.</string>
@@ -267,11 +267,11 @@
     <string name="about_app_1_title">An AI bar above your keyboard</string>
     <string name="about_app_1_body">The app doesn\'t replace your keyboard: it draws a bar right above it, with shortcuts to fix, improve, translate, change the tone, summarize, rewrite and dictate.</string>
     <string name="about_app_2_title">Works in any app</string>
-    <string name="about_app_2_body">The bar shows up in any text field. You tap an action and the AI returns the text already applied, with Undo on the bar.</string>
+    <string name="about_app_2_body">The bar shows in any text field, except in banking and payment apps, where it stays off for safety (in Settings &gt; All apps you choose other apps). Tap an action and the AI returns the text already applied, with Undo on the bar.</string>
     <string name="about_app_3_title">Your functions, your prompts</string>
     <string name="about_app_3_body">In Functions you create shortcuts with your own prompts, pick the emoji, reorder by dragging and pin your favorites.</string>
-    <string name="about_app_4_title">With your own Gemini key</string>
-    <string name="about_app_4_body">There is no middle server: the app talks straight to the Gemini API using the key you saved.</string>
+    <string name="about_app_4_title">Gemini or offline AI</string>
+    <string name="about_app_4_body">You choose the engine: Gemini, straight with your key and no middle server, or an AI model that runs on the device itself (.litertlm or .gguf files), with no internet. The engine in use shows at the top of the Assistant.</string>
     <string name="about_app_5_title">Positioning tip</string>
     <string name="about_app_5_body">If the bar covers a message, drag it by the handle on the left, or tap the down arrow to shrink everything into a small button.</string>
 
@@ -281,12 +281,12 @@
     <string name="about_perm_2_body">Reading only happens when you tap a shortcut, to send that text to the AI.</string>
     <string name="about_perm_3_title">Replacing the text after your action</string>
     <string name="about_perm_3_body">The swap uses Android\'s standard editing action and only runs after your tap.</string>
-    <string name="about_perm_note">The app doesn\'t declare itself an accessibility tool, doesn\'t log keystrokes, doesn\'t record audio in the background and sends nothing to the internet without an action from you.</string>
+    <string name="about_perm_note">The app doesn\'t declare itself an accessibility tool, doesn\'t log taps, doesn\'t record audio in the background and doesn\'t send your text over the internet without an action from you.</string>
 
     <string name="about_data_1_title">Text only leaves when you tap</string>
     <string name="about_data_1_body">No automatic action sends what you type: the AI receives the text only when you run a shortcut.</string>
-    <string name="about_data_2_title">One destination: the Gemini API</string>
-    <string name="about_data_2_body">The request goes straight to Gemini\'s server with your key. There is no app server in between, no analytics and no telemetry.</string>
+    <string name="about_data_2_title">Destination: Gemini or your device</string>
+    <string name="about_data_2_body">With Gemini, the text goes straight to Google\'s server with your key: there is no app server in between, no analytics and no telemetry. With offline AI, the text never leaves the phone.</string>
     <string name="about_data_3_title">The key stays encrypted on the device</string>
     <string name="about_data_3_body">It is stored with AES/GCM 256 using a key generated in the Android Keystore, which never leaves the device.</string>
     <string name="about_data_4_title">Nothing is kept</string>
@@ -299,7 +299,7 @@
     <string name="about_blocked_2_title">Accessibility appeared blocked</string>
     <string name="about_blocked_2_body">Since Android 13, apps installed outside the store start with restricted settings off. Open the app info, tap the three dots and choose Allow restricted settings.</string>
     <string name="about_blocked_3_title">The service turns itself off</string>
-    <string name="about_blocked_3_body">It is almost always battery saving killing the app in the background. Unrestrict it in Settings &gt; Permissions, under Unrestricted battery.</string>
+    <string name="about_blocked_3_body">Almost always it is battery saving closing the app in the background, common on Xiaomi, Poco, Oppo and similar phones. In Settings &gt; Permissions there are shortcuts for autostart and unrestricted battery.</string>
     <string name="about_open_app_info">Open app info</string>
 
     <string name="perm_accessibility">Accessibility service</string>
@@ -320,24 +320,7 @@
     <string name="news_version">Version %1$s</string>
     <string name="news_start">Start using</string>
     <string name="news_release">Version %1$s • %2$s</string>
-    <string name="news_date_sep_2026">September 2026</string>
 
-    <string name="cl_120_1">Faster answers: internal reasoning off and output cap proportional to the text.</string>
-    <string name="cl_120_2">Connection reused between actions and the key read from memory.</string>
-    <string name="cl_120_3">Immediate feedback on tap and repeated taps blocked.</string>
-    <string name="cl_120_4">Specific error messages, with a Try again button.</string>
-    <string name="cl_120_5">Model list fetched from your key\'s API, cached per key.</string>
-    <string name="cl_120_6">App translated into 10 languages.</string>
-    <string name="cl_110_1">Shortcuts apply the text right away, with Undo on the bar.</string>
-    <string name="cl_110_2">Real-time dictation, already corrected and without pasting the field placeholder.</string>
-    <string name="cl_110_3">Draggable bar with saved position, and a minimized mode that frees the screen.</string>
-    <string name="cl_110_4">Pull the bar down and the default shortcuts give way to your functions.</string>
-    <string name="cl_110_5">Functions reordered by dragging the card, with a full emoji picker.</string>
-    <string name="cl_110_6">New menus in Settings: Gemini API Key, Appearance, Permissions and About.</string>
-    <string name="cl_100_1">First release: an AI bar above the keyboard you already use.</string>
-    <string name="cl_100_2">Fix, improve, translate, change tone, summarize, rewrite and voice dictation.</string>
-    <string name="cl_100_3">Custom functions with your own prompts, pinnable to the bar.</string>
-    <string name="cl_100_4">Gemini key encrypted on the device, with no middle server.</string>
 
     <!-- Funcoes iniciais (viram dados do usuario apos o primeiro uso) -->
     <string name="seed_professional_name">Professional</string>
@@ -368,4 +351,175 @@
     <string name="anim_simple">Subtle</string>
     <string name="anim_none">Off</string>
     <string name="appearance_animation_hint">Full uses shared bounds expansion in the menus and a sliding entrance for the bar. Subtle only fades. Off switches instantly.</string>
+
+    <!-- 1.2.1: apps protegidos, ajuda por fabricante, novidades -->
+    <string name="settings_privacy_section">Privacy</string>
+    <string name="settings_protected_row">All apps</string>
+    <string name="settings_protected_row_sub">Turn the AI bar off in specific apps</string>
+    <string name="protected_title">All apps</string>
+    <string name="protected_default_title">Pause in financial apps</string>
+    <string name="protected_default_sub">Known banks, digital wallets and brokers: the bar doesn\'t appear and no text is read.</string>
+    <string name="protected_custom_title">Installed apps</string>
+    <string name="protected_search_hint">Search apps</string>
+    <string name="protected_bank_title">Did your bank ask you to uninstall?</string>
+    <string name="protected_bank_body">Some banks refuse to open while any accessibility service installed outside the Play Store is on. That\'s the bank\'s rule, and the app can\'t hide it. Turn the service off before opening your bank app and turn it back on afterwards.</string>
+    <string name="protected_disable_now">Turn service off now</string>
+    <string name="protected_reenable">Turn on again in Settings</string>
+    <string name="oem_help_title">Does the service turn itself off?</string>
+    <string name="oem_help_body">Xiaomi, Redmi, Poco, Oppo, Realme, OnePlus and vivo phones close background apps. Enable autostart, set the app\'s battery to No restrictions, lock the app in the recents screen, then turn accessibility off and on again.</string>
+    <string name="oem_open_autostart">Autostart</string>
+    <string name="oem_open_battery">App battery</string>
+    <string name="perm_accessibility_stalled">Android stopped the service. Turn it off and on again in Accessibility.</string>
+    <string name="news_date_oct_2026">October 2026</string>
+    <string name="protected_notice">If the AI bar causes any problem in an app, you can turn it off just there from here. Pick any installed app: the bar won\'t show up in it and no text is read.</string>
+    <string name="protected_system_title">Include system apps</string>
+    <string name="protected_system_sub">Also lists system apps and apps with no icon on the home screen, like services and keyboards.</string>
+
+    <!-- 1.3.0: menu de IA, modo IA offline -->
+    <string name="settings_ai_hub_row">Artificial intelligence</string>
+    <string name="settings_ai_hub_row_sub_gemini">In use: Gemini (cloud)</string>
+    <string name="settings_ai_hub_row_sub_offline">In use: offline AI (%1$s)</string>
+    <string name="ai_hub_title">Artificial intelligence</string>
+    <string name="ai_hub_engine_section">Engine in use</string>
+    <string name="ai_engine_gemini_title">Gemini (cloud)</string>
+    <string name="ai_engine_gemini_sub">Uses your Google API key and needs internet.</string>
+    <string name="ai_engine_offline_title">Offline AI</string>
+    <string name="ai_engine_offline_sub">Runs on the device, with no internet and without sending text to anyone.</string>
+    <string name="ai_hub_setup_section">Set up</string>
+    <string name="ai_hub_gemini_row">Gemini</string>
+    <string name="ai_hub_gemini_row_sub">API key, model and temperature</string>
+    <string name="ai_hub_offline_row">Offline AI mode</string>
+    <string name="ai_hub_offline_row_sub">Download, import and choose models</string>
+    <string name="ai_hub_offline_needs_model">Install a model before using offline mode.</string>
+    <string name="offline_title">Offline AI mode</string>
+    <string name="offline_intro">Run the AI right on the device. Download a model below or import a .litertlm or .gguf file. None of your text leaves the phone and it works without internet. The first answer takes longer because the model has to load.</string>
+    <string name="offline_installed_section">Installed models</string>
+    <string name="offline_installed_empty">No model installed yet.</string>
+    <string name="offline_model_active">In use</string>
+    <string name="offline_model_delete">Delete model</string>
+    <string name="offline_delete_title">Delete model?</string>
+    <string name="offline_delete_message">The file %1$s will be erased from the device.</string>
+    <string name="offline_delete_confirm">Delete</string>
+    <string name="offline_download_section">Download a model</string>
+    <string name="offline_download_note">The download is handled by Android and continues in the background. Large models take a lot of space and memory.</string>
+    <string name="offline_download_button">Download</string>
+    <string name="offline_download_cancel">Cancel</string>
+    <string name="offline_download_installed">Installed</string>
+    <string name="offline_download_progress">%1$s of %2$s</string>
+    <string name="offline_open_page">Open page</string>
+    <string name="offline_cat_gemma4_desc">Best quality. Needs a powerful phone with plenty of memory.</string>
+    <string name="offline_import_section">Import file</string>
+    <string name="offline_import_sub">Already downloaded a model? Pick the .litertlm or .gguf file on the device. It will be copied into the app.</string>
+    <string name="offline_import_button">Choose file</string>
+    <string name="offline_import_progress">Copying… %1$s</string>
+    <string name="offline_import_done">Model %1$s imported.</string>
+    <string name="offline_import_bad_format">That file isn\'t a supported model. The app opens .litertlm and .gguf files; other formats, such as .bin and .task, don\'t work.</string>
+    <string name="offline_import_no_space">Not enough space to store the model.</string>
+    <string name="offline_import_failed">Couldn\'t import the file.</string>
+    <string name="offline_download_failed">The download failed. Check your connection and free space.</string>
+    <string name="offline_download_denied">This model requires a login or license acceptance on Hugging Face. Open the page, download it in the browser and use Import.</string>
+    <string name="offline_download_done">Download finished: %1$s.</string>
+    <string name="offline_download_invalid">The downloaded file isn\'t a valid model and was deleted.</string>
+    <string name="offline_no_storage">Device storage isn\'t available for downloads. Use Import.</string>
+    <string name="offline_temp_title">Temperature</string>
+    <string name="offline_temp_sub">Lower keeps the answer closer to your text; higher makes it more creative.</string>
+    <string name="offline_test_button">Test model</string>
+    <string name="offline_testing">Loading and testing the model…</string>
+    <string name="offline_test_ok">It works! Answered in %1$s s: %2$s</string>
+    <string name="offline_warn_ram">This model is large for this device\'s memory and may freeze or close the app.</string>
+    <string name="err_offline_no_model">No offline model chosen. Open Settings &gt; Artificial intelligence &gt; Offline AI mode.</string>
+    <string name="err_offline_load_failed">Couldn\'t load the offline model: %1$s</string>
+    <string name="err_offline_failed">Offline AI failed: %1$s</string>
+    <string name="err_offline_timeout">Offline AI took too long. Try shorter text or a lighter model.</string>
+
+    <!-- 1.3.1 -->
+    <string name="offline_cat_gemma3_desc">Light and good in Portuguese. A great pick for simple phones. GGUF format.</string>
+    <string name="offline_cat_gemma4_e4b_desc">Top quality. Needs a very powerful phone with 12 GB of memory or more.</string>
+
+    <!-- 1.3.2 -->
+    <string name="engine_badge_label">AI engine in use</string>
+    <string name="engine_badge_no_model">No model chosen</string>
+    <string name="engine_badge_hint">Tap the disabled one to turn it on · hold to configure</string>
+    <string name="settings_overlay_row">Bar above the keyboard</string>
+    <string name="settings_overlay_row_sub">Show while typing, hide with the keyboard and vibration</string>
+
+    <!-- 1.3.3 -->
+    <string name="assistant_mic_start">Speak</string>
+    <string name="assistant_mic_stop">Stop</string>
+    <string name="assistant_mic_listening">Listening… the text appears and is corrected as you speak.</string>
+
+    <!-- 1.3.4 -->
+    <string name="err_field_text_hidden">This app doesn\'t hand the typed text over to TecladoIA, so it can\'t be processed here.</string>
+
+    <!-- 1.3.5 -->
+
+    <!-- 1.3.6 -->
+    <string name="engine_state_online">Online</string>
+    <string name="engine_state_offline">Offline</string>
+    <string name="engine_gemini_no_key">API key not set up</string>
+    <string name="news_release_since">Everything that changed since version %1$s</string>
+    <string name="news_all_1">Offline AI mode: run the AI right on the device, with no internet and without sending text to anyone. Download ready-made models (Gemma 4 and Gemma 3) or import .litertlm and .gguf files, and adjust the temperature.</string>
+    <string name="news_all_2">New Artificial intelligence menu, with Gemini and offline mode side by side. Choosing an offline model already turns the mode on for the whole bar.</string>
+    <string name="news_all_3">AI engine at the top of the Assistant: the one in use shows Online and the other, disabled, shows Offline. Tap the disabled one to turn it on; hold to configure.</string>
+    <string name="news_all_4">More stable Gemini: if a model is overloaded or out of quota, the app tries others on its own, and the model list only shows the ones that work.</string>
+    <string name="news_all_5">Dictation corrected in real time: at each pause, the part you just said is already punctuated and fixed. Finishing is almost instant.</string>
+    <string name="news_all_6">The text\'s language is respected: Fix, Improve, Summarize, Change tone and your functions keep the language you wrote in, even after translating.</string>
+    <string name="news_all_7">Works in more apps, like YouTube comments, with smarter text reading and a clear warning when an app hides what was typed.</string>
+    <string name="news_all_8">All apps: turn the bar off in any installed app, including system apps. Banks and digital wallets come protected.</string>
+    <string name="news_all_9">Help for Xiaomi, Poco, Oppo and similar phones, with shortcuts to autostart and battery, and a warning when Android stops the service.</string>
+    <string name="news_all_10">Test the AI here now has a microphone, with the same real-time dictation as the bar.</string>
+    <string name="news_all_11">The Bar above the keyboard menu gathers the overlay options, and the function emoji field lets you change, delete and paste (Others opens the emoji keyboard).</string>
+    <string name="news_all_12">The offline model in use is highlighted in color, and the catalog now only has models that are good in Portuguese.</string>
+
+    <!-- 1.3.7 -->
+    <string name="settings_update_section">Updates</string>
+    <string name="settings_update_row">Update the app</string>
+    <string name="settings_update_row_sub_current">Installed version: %1$s</string>
+    <string name="settings_update_row_sub_new">New version %1$s available</string>
+    <string name="update_title">Updates</string>
+    <string name="update_installed">Installed version</string>
+    <string name="update_check_button">Check for update</string>
+    <string name="update_checking">Checking…</string>
+    <string name="update_up_to_date">You are on the latest version.</string>
+    <string name="update_available">New version %1$s available</string>
+    <string name="update_notes_title">What changed</string>
+    <string name="update_download_button">Download update</string>
+    <string name="update_open_page">View on GitHub</string>
+    <string name="update_install_hint">The browser downloads the APK. Then open the file to install it: Android may ask you to allow installs from that browser. The update only installs if it is signed with the same key as the app.</string>
+    <string name="update_auto_title">Check when opening the app</string>
+    <string name="update_auto_sub">Checks GitHub at most every 12 hours. None of your data is sent.</string>
+    <string name="update_error_network">Couldn\'t check. Check your connection and try again.</string>
+    <string name="update_error_limit">GitHub has limited requests for now. Try again later.</string>
+    <string name="update_error_no_release">There is no version published on GitHub yet.</string>
+    <string name="update_banner_title">New version %1$s available</string>
+    <string name="update_banner_update">Update</string>
+    <string name="update_banner_later">Later</string>
+    <string name="news_all_13">Updates menu highlighted: the app notifies you, and tells you in the Assistant, when there is a new version on GitHub, shows what changed and takes you to the download.</string>
+
+    <!-- 1.3.8 -->
+    <string name="about_app_6_title">Updates from GitHub</string>
+    <string name="about_app_6_body">The app tells you, with a notification and in the Assistant, when a new version is out on GitHub. The download is done by the browser, and Android only installs it if it is signed with the same key.</string>
+    <string name="about_data_6_title">The only extra connection: updates</string>
+    <string name="about_data_6_body">To know whether there is a new version, the app checks GitHub (at most every 12 hours, and you can turn it off). That request carries no text or data of yours.</string>
+    <string name="about_data_7_title">List of installed apps</string>
+    <string name="about_data_7_body">It is read only on the device, so you can choose in which apps to turn the bar off. None of it is sent to anyone.</string>
+    <string name="about_blocked_4_title">A bank asked you to uninstall</string>
+    <string name="about_blocked_4_body">Some banks refuse to open while any accessibility service installed outside the Play Store is on. In Settings &gt; Permissions there is a button to turn the service off before using the bank and back on afterwards.</string>
+    <string name="update_new_pill">NEW</string>
+    <string name="update_notify_title">Notify me</string>
+    <string name="update_notify_sub">Shows a notice when a new version comes out, even with the app closed.</string>
+    <string name="update_channel_name">App updates</string>
+    <string name="update_channel_desc">New TecladoIA version notices</string>
+    <string name="update_notif_title">New version %1$s available</string>
+    <string name="update_notif_text">Tap to see what changed and update.</string>
+    <string name="github_card_title">TecladoIA on GitHub</string>
+    <string name="github_card_sub">Source code, earlier versions and problem reports</string>
+    <string name="github_open_repo">Open repository</string>
+    <string name="github_open_releases">All versions</string>
+    <string name="github_share">Share</string>
+    <string name="github_share_title">Share TecladoIA</string>
+    <string name="github_share_text">TecladoIA: AI bar above the Android keyboard. %1$s</string>
+    <string name="perm_notifications">Notifications</string>
+    <string name="perm_notifications_sub">Optional: new version notices</string>
+    <string name="news_all_14">About was updated with offline mode, GitHub updates and the apps list.</string>
 </resources>

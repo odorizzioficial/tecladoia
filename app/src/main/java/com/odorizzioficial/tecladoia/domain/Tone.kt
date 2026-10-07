@@ -20,49 +20,49 @@ enum class Tone(
     PROFESSIONAL(
         R.string.tone_professional,
         R.string.tone_professional_desc,
-        "profissional",
-        "objetividade corporativa, sem girias, prazos claros"
+        "professional",
+        "corporate objectivity, no slang, clear deadlines"
     ),
     FRIENDLY(
         R.string.tone_friendly,
         R.string.tone_friendly_desc,
-        "amigavel",
-        "proximo e simpatico, sem perder a informacao"
+        "friendly",
+        "warm and approachable, without losing the information"
     ),
     CASUAL(
         R.string.tone_casual,
         R.string.tone_casual_desc,
         "casual",
-        "leve e conversado, como no dia a dia"
+        "light and conversational, like everyday talk"
     ),
     FORMAL(
         R.string.tone_formal,
         R.string.tone_formal_desc,
         "formal",
-        "tratamento cerimonioso e estrutura cuidadosa"
+        "ceremonious address and careful structure"
     ),
     ROMANTIC(
         R.string.tone_romantic,
         R.string.tone_romantic_desc,
-        "romantico",
-        "afeto e delicadeza sem exagero"
+        "romantic",
+        "affection and gentleness without overdoing it"
     ),
     DIRECT(
         R.string.tone_direct,
         R.string.tone_direct_desc,
-        "direto",
-        "sem rodeios, ao ponto em poucas palavras"
+        "direct",
+        "no beating around the bush, to the point in few words"
     ),
     POLITE(
         R.string.tone_polite,
         R.string.tone_polite_desc,
-        "educado",
-        "pedidos e recusas com cortesia"
+        "polite",
+        "requests and refusals made with courtesy"
     ),
     CREATIVE(
         R.string.tone_creative,
         R.string.tone_creative_desc,
-        "criativo",
-        "personalidade e imagens, sem mudar o sentido"
+        "creative",
+        "personality and imagery, without changing the meaning"
     )
 }

@@ -44,7 +44,10 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.odorizzioficial.tecladoia.R
+import com.odorizzioficial.tecladoia.service.AccessibilityStatus
 import com.odorizzioficial.tecladoia.service.KeyboardOverlayService
+import android.os.Build
+import androidx.compose.material.icons.rounded.Notifications
 
 /**
  * Bloco de permissoes reutilizado na aba Assistente e no menu Ajustes >
@@ -65,7 +68,19 @@ fun PermissionsCard(modifier: Modifier = Modifier) {
         return power.isIgnoringBatteryOptimizations(context.packageName)
     }
 
+    fun enabledInSettings(): Boolean =
+        runCatching { AccessibilityStatus.isEnabled(context) }.getOrDefault(false)
+
+    // Antes do Android 13 notificacao nao pede permissao: a linha nem aparece.
+    val asksNotifications = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+
+    fun notificationsGranted(): Boolean = !asksNotifications ||
+        context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) ==
+        PackageManager.PERMISSION_GRANTED
+
+    var notifications by remember { mutableStateOf(notificationsGranted()) }
     var mic by remember { mutableStateOf(micGranted()) }
+    var enabledSetting by remember { mutableStateOf(enabledInSettings()) }
     var battery by remember { mutableStateOf(batteryFree()) }
     val accessibility by KeyboardOverlayService.connected.collectAsStateWithLifecycle()
 
@@ -74,7 +89,9 @@ fun PermissionsCard(modifier: Modifier = Modifier) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 mic = micGranted()
+                notifications = notificationsGranted()
                 battery = batteryFree()
+                enabledSetting = enabledInSettings()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -85,12 +102,24 @@ fun PermissionsCard(modifier: Modifier = Modifier) {
         ActivityResultContracts.RequestPermission()
     ) { granted -> mic = granted }
 
+    val notificationsLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted -> notifications = granted }
+
     AppCard(modifier = modifier) {
         Column {
             PermissionRow(
                 icon = Icons.Rounded.Accessibility,
                 title = stringResource(R.string.perm_accessibility),
-                detail = stringResource(R.string.perm_accessibility_sub),
+                // Ligado nos Ajustes mas sem conexao: o Android parou o servico
+                // (comum em Xiaomi e Oppo) e so volta desligando e ligando.
+                detail = stringResource(
+                    if (!accessibility && enabledSetting) {
+                        R.string.perm_accessibility_stalled
+                    } else {
+                        R.string.perm_accessibility_sub
+                    }
+                ),
                 granted = accessibility,
                 actionLabel = stringResource(if (accessibility) R.string.common_open else R.string.common_activate),
                 onAction = {
@@ -120,6 +149,31 @@ fun PermissionsCard(modifier: Modifier = Modifier) {
                 }
             )
             RowDivider()
+            if (asksNotifications) {
+                PermissionRow(
+                    icon = Icons.Rounded.Notifications,
+                    title = stringResource(R.string.perm_notifications),
+                    detail = stringResource(R.string.perm_notifications_sub),
+                    granted = notifications,
+                    actionLabel = stringResource(
+                        if (notifications) R.string.common_manage else R.string.common_allow
+                    ),
+                    onAction = {
+                        if (notifications) {
+                            runCatching {
+                                context.startActivity(
+                                    Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                        .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                )
+                            }
+                        } else {
+                            notificationsLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        }
+                    }
+                )
+                RowDivider()
+            }
             PermissionRow(
                 icon = Icons.Rounded.BatteryAlert,
                 title = stringResource(R.string.perm_battery),

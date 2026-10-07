@@ -99,7 +99,7 @@
     <string name="err_no_connection">インターネットに接続していません。接続を確認して再試行してください。</string>
     <string name="err_network_failure">リクエスト中に接続が切れました。再試行してください。</string>
     <string name="err_timeout">Geminiの応答に時間がかかりすぎました。再試行してください。</string>
-    <string name="err_service_unavailable">Geminiは一時的に利用できません。少し待ってから再試行してください。</string>
+    <string name="err_service_unavailable">現在、GoogleのGeminiは混雑しています。アプリは他のモデルも試しました。しばらくしてからもう一度お試しください。</string>
     <string name="err_bad_request">Geminiがリクエストを拒否しました：%1$s</string>
     <string name="err_empty_response">AIから結果が返りませんでした。再試行してください。</string>
     <string name="err_unreadable">AIの応答が想定外の形式でした。再試行してください。</string>
@@ -267,11 +267,11 @@
     <string name="about_app_1_title">キーボードの上のAIバー</string>
     <string name="about_app_1_body">このアプリはキーボードを置き換えません。すぐ上にバーを描画し、修正・改善・翻訳・トーン変更・要約・書き直し・音声入力のショートカットを並べます。</string>
     <string name="about_app_2_title">どのアプリでも動作</string>
-    <string name="about_app_2_body">どの入力欄でもバーが表示されます。操作をタップするとAIが結果をそのまま反映し、バーには「元に戻す」が出ます。</string>
+    <string name="about_app_2_body">バーはあらゆるテキスト欄に表示されますが、銀行・決済アプリでは安全のためオフのままです（「設定 &gt; すべてのアプリ」で他のアプリを選べます）。操作をタップすると、AIが適用済みのテキストを返し、バーに元に戻すが出ます。</string>
     <string name="about_app_3_title">あなたの機能、あなたのプロンプト</string>
     <string name="about_app_3_body">「機能」では自分のプロンプトでショートカットを作り、絵文字を選び、ドラッグで並べ替え、よく使うものをピン留めできます。</string>
-    <string name="about_app_4_title">自分のGeminiキーで動く</string>
-    <string name="about_app_4_body">中継サーバーはありません。保存したキーでGemini APIと直接やり取りします。</string>
+    <string name="about_app_4_title">Geminiまたはオフラインを選ぶ</string>
+    <string name="about_app_4_body">エンジンは選べます：自分のキーで直接使うGemini（中継サーバーなし）、または端末上で動くAIモデル（.litertlmまたは.ggufファイル）でインターネット不要。使用中のエンジンはアシスタント上部に表示されます。</string>
     <string name="about_app_5_title">配置のヒント</string>
     <string name="about_app_5_body">バーがメッセージを隠す場合は、左のハンドルでドラッグするか、下向き矢印で小さなボタンに縮小してください。</string>
 
@@ -281,12 +281,12 @@
     <string name="about_perm_2_body">読み取りはショートカットをタップしたときだけ行い、そのテキストをAIへ送ります。</string>
     <string name="about_perm_3_title">あなたの操作の後にテキストを置き換えるため</string>
     <string name="about_perm_3_body">置換はAndroid標準の編集操作を使い、あなたがタップした後にだけ実行されます。</string>
-    <string name="about_perm_note">このアプリはユーザー補助ツールを名乗らず、キー入力を記録せず、バックグラウンドで録音せず、あなたの操作なしにインターネットへ何も送りません。</string>
+    <string name="about_perm_note">アプリはユーザー補助ツールを名乗らず、タップを記録せず、バックグラウンドで録音せず、あなたの操作なしにテキストをインターネットへ送りません。</string>
 
     <string name="about_data_1_title">テキストはタップした時だけ送られます</string>
     <string name="about_data_1_body">自動で送信する処理はありません。ショートカットを実行したときだけAIがテキストを受け取ります。</string>
-    <string name="about_data_2_title">送信先はGemini APIのみ</string>
-    <string name="about_data_2_body">リクエストはあなたのキーを添えてGeminiのサーバーへ直接送られます。アプリ側のサーバーも解析も計測もありません。</string>
+    <string name="about_data_2_title">送信先：Geminiまたは端末</string>
+    <string name="about_data_2_body">Geminiではテキストがあなたのキーで直接Googleのサーバーに送られます。アプリのサーバーは間に入らず、分析もテレメトリもありません。オフラインAIではテキストは端末の外に出ません。</string>
     <string name="about_data_3_title">キーは端末内で暗号化</string>
     <string name="about_data_3_body">Android Keystoreで生成した鍵を使いAES/GCM 256で保存します。その鍵は端末外に出ません。</string>
     <string name="about_data_4_title">履歴は残しません</string>
@@ -299,7 +299,7 @@
     <string name="about_blocked_2_title">ユーザー補助がブロック表示になる</string>
     <string name="about_blocked_2_body">Android 13以降、ストア外からインストールしたアプリは制限された設定が無効の状態で始まります。アプリ情報を開き、右上のメニューから「制限された設定を許可」を選んでください。</string>
     <string name="about_blocked_3_title">サービスが勝手にオフになる</string>
-    <string name="about_blocked_3_body">ほとんどは省電力機能がバックグラウンドでアプリを終了させているためです。「設定 &gt; 権限」の「電池の制限なし」で解除してください。</string>
+    <string name="about_blocked_3_body">ほとんどの場合、バッテリー節約がバックグラウンドのアプリを終了しています。Xiaomi、Poco、OPPOなどでよくあります。「設定 &gt; 権限」に、自動起動とバッテリー制限なしへのショートカットがあります。</string>
     <string name="about_open_app_info">アプリ情報を開く</string>
 
     <string name="perm_accessibility">ユーザー補助サービス</string>
@@ -320,24 +320,7 @@
     <string name="news_version">バージョン %1$s</string>
     <string name="news_start">使ってみる</string>
     <string name="news_release">バージョン %1$s • %2$s</string>
-    <string name="news_date_sep_2026">2026年9月</string>
 
-    <string name="cl_120_1">応答が高速化：内部推論をオフにし、出力上限を文章量に合わせました。</string>
-    <string name="cl_120_2">操作間で接続を再利用し、キーはメモリから読み取ります。</string>
-    <string name="cl_120_3">タップ直後に反応し、連打による重複実行を防ぎます。</string>
-    <string name="cl_120_4">原因別のエラーメッセージと「再試行」ボタン。</string>
-    <string name="cl_120_5">モデル一覧をあなたのキーのAPIから取得し、キーごとにキャッシュ。</string>
-    <string name="cl_120_6">アプリを10言語に翻訳。</string>
-    <string name="cl_110_1">ショートカットが即座に反映され、バーに「元に戻す」。</string>
-    <string name="cl_110_2">リアルタイム音声入力。修正済みで、入力欄のヒント文字も混ざりません。</string>
-    <string name="cl_110_3">バーをドラッグでき位置を保存。最小化モードで画面が空きます。</string>
-    <string name="cl_110_4">バーを下に引くと、既定のショートカットがあなたの機能に入れ替わります。</string>
-    <string name="cl_110_5">カードのドラッグで機能を並べ替え、絵文字ピッカーも充実。</string>
-    <string name="cl_110_6">設定に新メニュー：Gemini API Key、外観、権限、このアプリについて。</string>
-    <string name="cl_100_1">初回リリース：今使っているキーボードの上にAIバー。</string>
-    <string name="cl_100_2">修正、改善、翻訳、トーン変更、要約、書き直し、音声入力。</string>
-    <string name="cl_100_3">自分のプロンプトで作るカスタム機能。バーにピン留め可能。</string>
-    <string name="cl_100_4">Geminiキーは端末内で暗号化、中継サーバーなし。</string>
 
     <!-- Funcoes iniciais (viram dados do usuario apos o primeiro uso) -->
     <string name="seed_professional_name">ビジネス</string>
@@ -368,4 +351,175 @@
     <string name="anim_simple">控えめ</string>
     <string name="anim_none">オフ</string>
     <string name="appearance_animation_hint">フルはメニューで共有バウンズの展開、バーはスライドで登場します。控えめはフェードのみ。オフは即座に切り替わります。</string>
+
+    <!-- 1.2.1: apps protegidos, ajuda por fabricante, novidades -->
+    <string name="settings_privacy_section">プライバシー</string>
+    <string name="settings_protected_row">すべてのアプリ</string>
+    <string name="settings_protected_row_sub">特定のアプリでAIバーをオフにします</string>
+    <string name="protected_title">すべてのアプリ</string>
+    <string name="protected_default_title">金融アプリで一時停止</string>
+    <string name="protected_default_sub">既知の銀行・電子ウォレット・証券アプリでは、バーを表示せず、テキストも読み取りません。</string>
+    <string name="protected_custom_title">インストール済みのアプリ</string>
+    <string name="protected_search_hint">アプリを検索</string>
+    <string name="protected_bank_title">銀行にアンインストールを求められた？</string>
+    <string name="protected_bank_body">Playストア以外からインストールしたユーザー補助サービスが有効だと、起動を拒否する銀行があります。これは銀行側のルールで、アプリ側では隠せません。銀行アプリを開く前にサービスをオフにし、終わったらオンに戻してください。</string>
+    <string name="protected_disable_now">今すぐサービスをオフ</string>
+    <string name="protected_reenable">設定でオンに戻す</string>
+    <string name="oem_help_title">サービスが勝手にオフになる？</string>
+    <string name="oem_help_body">Xiaomi、Redmi、Poco、OPPO、realme、OnePlus、vivo の端末はバックグラウンドのアプリを終了します。自動起動を有効にし、アプリのバッテリーを「制限なし」にし、最近使用したアプリで固定してから、ユーザー補助をオフにして再度オンにしてください。</string>
+    <string name="oem_open_autostart">自動起動</string>
+    <string name="oem_open_battery">アプリのバッテリー</string>
+    <string name="perm_accessibility_stalled">Androidがサービスを停止しました。ユーザー補助でオフにして、もう一度オンにしてください。</string>
+    <string name="news_date_oct_2026">2026年10月</string>
+    <string name="protected_notice">AIバーがあるアプリで不具合を起こす場合、ここからそのアプリだけオフにできます。インストール済みのアプリを自由に選べます。そのアプリではバーが表示されず、テキストも読み取りません。</string>
+    <string name="protected_system_title">システムアプリを含める</string>
+    <string name="protected_system_sub">システムアプリや、ホーム画面にアイコンがないアプリ（サービスやキーボードなど）も表示します。</string>
+
+    <!-- 1.3.0: menu de IA, modo IA offline -->
+    <string name="settings_ai_hub_row">人工知能</string>
+    <string name="settings_ai_hub_row_sub_gemini">使用中：Gemini（クラウド）</string>
+    <string name="settings_ai_hub_row_sub_offline">使用中：オフラインAI（%1$s）</string>
+    <string name="ai_hub_title">人工知能</string>
+    <string name="ai_hub_engine_section">使用中のエンジン</string>
+    <string name="ai_engine_gemini_title">Gemini（クラウド）</string>
+    <string name="ai_engine_gemini_sub">あなたのGoogle APIキーを使い、インターネットが必要です。</string>
+    <string name="ai_engine_offline_title">オフラインAI</string>
+    <string name="ai_engine_offline_sub">端末上で動作し、インターネット不要で、テキストを誰にも送りません。</string>
+    <string name="ai_hub_setup_section">設定</string>
+    <string name="ai_hub_gemini_row">Gemini</string>
+    <string name="ai_hub_gemini_row_sub">APIキー、モデル、温度</string>
+    <string name="ai_hub_offline_row">オフラインAIモード</string>
+    <string name="ai_hub_offline_row_sub">モデルのダウンロード、インポート、選択</string>
+    <string name="ai_hub_offline_needs_model">オフラインモードを使う前にモデルをインストールしてください。</string>
+    <string name="offline_title">オフラインAIモード</string>
+    <string name="offline_intro">AIを端末上で直接実行します。下のモデルをダウンロードするか、.litertlmまたは.ggufファイルをインポートしてください。テキストは端末の外に出ず、インターネットなしで動作します。モデルの読み込みが必要なため、最初の応答は時間がかかります。</string>
+    <string name="offline_installed_section">インストール済みのモデル</string>
+    <string name="offline_installed_empty">まだモデルがインストールされていません。</string>
+    <string name="offline_model_active">使用中</string>
+    <string name="offline_model_delete">モデルを削除</string>
+    <string name="offline_delete_title">モデルを削除しますか？</string>
+    <string name="offline_delete_message">ファイル %1$s を端末から削除します。</string>
+    <string name="offline_delete_confirm">削除</string>
+    <string name="offline_download_section">モデルをダウンロード</string>
+    <string name="offline_download_note">ダウンロードはAndroidが行い、バックグラウンドで続きます。大きなモデルは容量とメモリを多く使います。</string>
+    <string name="offline_download_button">ダウンロード</string>
+    <string name="offline_download_cancel">キャンセル</string>
+    <string name="offline_download_installed">インストール済み</string>
+    <string name="offline_download_progress">%1$s / %2$s</string>
+    <string name="offline_open_page">ページを開く</string>
+    <string name="offline_cat_gemma4_desc">最高品質。メモリに余裕のある高性能な端末が必要です。</string>
+    <string name="offline_import_section">ファイルをインポート</string>
+    <string name="offline_import_sub">すでにモデルをダウンロードしましたか？端末内の.litertlmまたは.ggufファイルを選んでください。アプリ内にコピーされます。</string>
+    <string name="offline_import_button">ファイルを選択</string>
+    <string name="offline_import_progress">コピー中… %1$s</string>
+    <string name="offline_import_done">モデル %1$s をインポートしました。</string>
+    <string name="offline_import_bad_format">このファイルは対応していないモデルです。アプリは.litertlmと.ggufを開けます。.binや.taskなどの形式は使えません。</string>
+    <string name="offline_import_no_space">モデルを保存する空き容量が足りません。</string>
+    <string name="offline_import_failed">ファイルをインポートできませんでした。</string>
+    <string name="offline_download_failed">ダウンロードに失敗しました。接続と空き容量を確認してください。</string>
+    <string name="offline_download_denied">このモデルはHugging Faceでのログインまたはライセンスへの同意が必要です。ページを開き、ブラウザでダウンロードしてから「インポート」を使ってください。</string>
+    <string name="offline_download_done">ダウンロード完了：%1$s。</string>
+    <string name="offline_download_invalid">ダウンロードしたファイルは有効なモデルではないため、削除しました。</string>
+    <string name="offline_no_storage">端末のストレージをダウンロードに使えません。「インポート」を使ってください。</string>
+    <string name="offline_temp_title">温度</string>
+    <string name="offline_temp_sub">低いと元のテキストに忠実に、高いとより創造的になります。</string>
+    <string name="offline_test_button">モデルをテスト</string>
+    <string name="offline_testing">モデルを読み込んでテスト中…</string>
+    <string name="offline_test_ok">成功！%1$s 秒で応答：%2$s</string>
+    <string name="offline_warn_ram">このモデルは端末のメモリに対して大きく、フリーズやアプリの終了が起こる可能性があります。</string>
+    <string name="err_offline_no_model">オフラインモデルが選ばれていません。設定 &gt; 人工知能 &gt; オフラインAIモードを開いてください。</string>
+    <string name="err_offline_load_failed">オフラインモデルを読み込めませんでした：%1$s</string>
+    <string name="err_offline_failed">オフラインAIが失敗しました：%1$s</string>
+    <string name="err_offline_timeout">オフラインAIの処理に時間がかかりすぎました。短いテキストか軽いモデルをお試しください。</string>
+
+    <!-- 1.3.1 -->
+    <string name="offline_cat_gemma3_desc">軽くてポルトガル語も得意。シンプルな端末に最適です。GGUF形式。</string>
+    <string name="offline_cat_gemma4_e4b_desc">最高品質。メモリ12GB以上の非常に高性能な端末が必要です。</string>
+
+    <!-- 1.3.2 -->
+    <string name="engine_badge_label">使用中のAIエンジン</string>
+    <string name="engine_badge_no_model">モデルが選択されていません</string>
+    <string name="engine_badge_hint">無効のほうをタップでオン · 長押しで設定</string>
+    <string name="settings_overlay_row">キーボード上のバー</string>
+    <string name="settings_overlay_row_sub">入力中に表示、キーボードと一緒に非表示、バイブレーション</string>
+
+    <!-- 1.3.3 -->
+    <string name="assistant_mic_start">話す</string>
+    <string name="assistant_mic_stop">停止</string>
+    <string name="assistant_mic_listening">聞き取り中… 話しながらテキストが表示され、修正されます。</string>
+
+    <!-- 1.3.4 -->
+    <string name="err_field_text_hidden">このアプリは入力されたテキストをTecladoIAに渡さないため、ここでは処理できません。</string>
+
+    <!-- 1.3.5 -->
+
+    <!-- 1.3.6 -->
+    <string name="engine_state_online">オンライン</string>
+    <string name="engine_state_offline">オフライン</string>
+    <string name="engine_gemini_no_key">APIキーが未設定です</string>
+    <string name="news_release_since">バージョン%1$s以降のすべての変更</string>
+    <string name="news_all_1">オフラインAIモード：AIを端末上で直接実行。インターネット不要で、テキストを誰にも送りません。用意されたモデル（Gemma 4とGemma 3）をダウンロードするか、.litertlmと.ggufファイルをインポートして、温度を調整できます。</string>
+    <string name="news_all_2">新しい「人工知能」メニューで、Geminiとオフラインモードが並びます。オフラインモデルを選ぶと、バー全体でモードがオンになります。</string>
+    <string name="news_all_3">アシスタント上部のAIエンジン：使用中のものは「オンライン」、無効のものは「オフライン」と表示されます。無効のほうをタップでオン、長押しで設定。</string>
+    <string name="news_all_4">Geminiがより安定：モデルが混雑中または上限に達した場合、アプリが自動で別のモデルを試し、モデル一覧には使えるものだけが表示されます。</string>
+    <string name="news_all_5">音声入力がリアルタイムで修正されます。話の区切りごとに、直前の部分に句読点がつき修正されます。完了もほぼ一瞬です。</string>
+    <string name="news_all_6">テキストの言語が守られます：修正、改善、要約、トーン変更、カスタム機能は、翻訳した後も、書いた言語のままです。</string>
+    <string name="news_all_7">YouTubeのコメントなど対応アプリが増え、テキストの読み取りが賢くなり、入力内容を隠すアプリでは分かりやすく知らせます。</string>
+    <string name="news_all_8">すべてのアプリ：システムアプリを含め、インストール済みのどのアプリでもバーをオフにできます。銀行や電子ウォレットは最初から保護されています。</string>
+    <string name="news_all_9">Xiaomi、Poco、OPPOなど向けに、自動起動とバッテリーへのショートカットを用意し、Androidがサービスを止めたときに知らせます。</string>
+    <string name="news_all_10">「ここでAIをテスト」にマイクが加わり、バーと同じリアルタイム音声入力を試せます。</string>
+    <string name="news_all_11">「キーボード上のバー」メニューにオーバーレイの設定がまとまり、機能の絵文字欄で変更・削除・貼り付けができます（「その他」で絵文字キーボード）。</string>
+    <string name="news_all_12">使用中のオフラインモデルが色付きで強調され、カタログはポルトガル語に強いモデルだけになりました。</string>
+
+    <!-- 1.3.7 -->
+    <string name="settings_update_section">アップデート</string>
+    <string name="settings_update_row">アプリを更新</string>
+    <string name="settings_update_row_sub_current">インストール済みのバージョン：%1$s</string>
+    <string name="settings_update_row_sub_new">新しいバージョン %1$s があります</string>
+    <string name="update_title">アップデート</string>
+    <string name="update_installed">インストール済みのバージョン</string>
+    <string name="update_check_button">アップデートを確認</string>
+    <string name="update_checking">確認中…</string>
+    <string name="update_up_to_date">最新バージョンです。</string>
+    <string name="update_available">新しいバージョン %1$s があります</string>
+    <string name="update_notes_title">変更内容</string>
+    <string name="update_download_button">アップデートをダウンロード</string>
+    <string name="update_open_page">GitHubで見る</string>
+    <string name="update_install_hint">ブラウザがAPKをダウンロードします。そのあとファイルを開いてインストールしてください。Androidがそのブラウザからのインストールの許可を求める場合があります。アプリと同じ鍵で署名されたアップデートだけがインストールされます。</string>
+    <string name="update_auto_title">アプリを開いたときに確認</string>
+    <string name="update_auto_sub">GitHubへの問い合わせは12時間に1回まで。あなたのデータは送信されません。</string>
+    <string name="update_error_network">確認できませんでした。接続を確認してもう一度お試しください。</string>
+    <string name="update_error_limit">GitHubが一時的に問い合わせを制限しています。しばらくしてからお試しください。</string>
+    <string name="update_error_no_release">GitHubにはまだ公開されたバージョンがありません。</string>
+    <string name="update_banner_title">新しいバージョン %1$s があります</string>
+    <string name="update_banner_update">更新</string>
+    <string name="update_banner_later">あとで</string>
+    <string name="news_all_13">アップデートメニューを目立つ表示に：GitHubに新しいバージョンが出ると、通知とアシスタントでお知らせし、変更内容を表示してダウンロードへ案内します。</string>
+
+    <!-- 1.3.8 -->
+    <string name="about_app_6_title">GitHubからのアップデート</string>
+    <string name="about_app_6_body">GitHubに新しいバージョンが出ると、通知とアシスタントでお知らせします。ダウンロードはブラウザが行い、アプリと同じ鍵で署名されている場合だけAndroidがインストールします。</string>
+    <string name="about_data_6_title">追加の接続は1つだけ：アップデート</string>
+    <string name="about_data_6_body">新しいバージョンがあるか確認するため、アプリはGitHubに問い合わせます（最大12時間に1回、オフにできます）。この問い合わせにテキストやデータは含まれません。</string>
+    <string name="about_data_7_title">インストール済みアプリの一覧</string>
+    <string name="about_data_7_body">端末内でのみ読み取り、バーをオフにするアプリを選ぶために使います。一覧は誰にも送信されません。</string>
+    <string name="about_blocked_4_title">銀行にアンインストールを求められた</string>
+    <string name="about_blocked_4_body">Playストア以外からインストールしたユーザー補助サービスが有効だと、起動を拒否する銀行があります。「設定 &gt; 権限」に、銀行アプリを使う前にサービスをオフにし、後でオンに戻すボタンがあります。</string>
+    <string name="update_new_pill">新着</string>
+    <string name="update_notify_title">通知でお知らせ</string>
+    <string name="update_notify_sub">新しいバージョンが出たときに、アプリを閉じていても通知します。</string>
+    <string name="update_channel_name">アプリのアップデート</string>
+    <string name="update_channel_desc">TecladoIAの新バージョンのお知らせ</string>
+    <string name="update_notif_title">新しいバージョン %1$s があります</string>
+    <string name="update_notif_text">タップして変更内容を見てアップデート。</string>
+    <string name="github_card_title">GitHubのTecladoIA</string>
+    <string name="github_card_sub">ソースコード、過去のバージョン、問題の報告</string>
+    <string name="github_open_repo">リポジトリを開く</string>
+    <string name="github_open_releases">すべてのバージョン</string>
+    <string name="github_share">共有</string>
+    <string name="github_share_title">TecladoIAを共有</string>
+    <string name="github_share_text">TecladoIA：Androidのキーボード上のAIバー。%1$s</string>
+    <string name="perm_notifications">通知</string>
+    <string name="perm_notifications_sub">任意：新バージョンのお知らせ</string>
+    <string name="news_all_14">「このアプリについて」をオフラインモード、GitHubのアップデート、アプリ一覧の内容で更新しました。</string>
 </resources>

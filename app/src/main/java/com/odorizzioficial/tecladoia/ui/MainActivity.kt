@@ -73,6 +73,9 @@ class MainActivity : ComponentActivity() {
             TAB_SETTINGS -> Tab.SETTINGS
             else -> Tab.ASSISTANT
         }
+        if (intent?.getBooleanExtra(EXTRA_OPEN_UPDATE, false) == true) {
+            viewModel.requestUpdateScreen()
+        }
         setContent {
             val settings by viewModel.settings.collectAsStateWithLifecycle()
             // Fluxo da primeira abertura: permissoes, novidades e depois o app.
@@ -113,6 +116,9 @@ class MainActivity : ComponentActivity() {
     companion object {
         /** Extra do intent que diz em qual aba o app deve abrir. */
         const val EXTRA_OPEN_TAB = "open_tab"
+
+        /** A notificacao de versao nova abre direto a tela de atualizacao. */
+        const val EXTRA_OPEN_UPDATE = "open_update"
         const val TAB_PROMPTS = "prompts"
         const val TAB_SETTINGS = "settings"
     }
@@ -155,6 +161,18 @@ private fun AppShell(viewModel: MainViewModel, initialTab: Tab = Tab.ASSISTANT) 
     // tela de ajustes segue para a pagina da chave.
     LaunchedEffect(apiKeyRequest) {
         if (apiKeyRequest) current = Tab.SETTINGS
+    }
+    val offlineRequest by viewModel.openOfflineRequest.collectAsStateWithLifecycle()
+    LaunchedEffect(offlineRequest) {
+        if (offlineRequest) current = Tab.SETTINGS
+    }
+    val aiHubRequest by viewModel.openAiHubRequest.collectAsStateWithLifecycle()
+    LaunchedEffect(aiHubRequest) {
+        if (aiHubRequest) current = Tab.SETTINGS
+    }
+    val updateRequest by viewModel.openUpdateRequest.collectAsStateWithLifecycle()
+    LaunchedEffect(updateRequest) {
+        if (updateRequest) current = Tab.SETTINGS
     }
 
     Scaffold(

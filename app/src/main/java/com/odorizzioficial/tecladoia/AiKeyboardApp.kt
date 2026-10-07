@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import com.odorizzioficial.tecladoia.ai.AiEngine
 import com.odorizzioficial.tecladoia.ai.GeminiService
+import com.odorizzioficial.tecladoia.ai.offline.OfflineLlm
+import com.odorizzioficial.tecladoia.ai.offline.OfflineModelStore
 import com.odorizzioficial.tecladoia.data.LocaleHelper
 import com.odorizzioficial.tecladoia.data.PromptRepository
 import com.odorizzioficial.tecladoia.data.SettingsRepository
@@ -40,6 +42,10 @@ object AppGraph {
         private set
     lateinit var engine: AiEngine
         private set
+    lateinit var offlineStore: OfflineModelStore
+        private set
+    lateinit var offline: OfflineLlm
+        private set
 
     @Synchronized
     fun init(context: Context) {
@@ -49,7 +55,9 @@ object AppGraph {
         settings = SettingsRepository(app)
         prompts = PromptRepository(app)
         gemini = GeminiService()
-        engine = AiEngine(settings, gemini)
+        offlineStore = OfflineModelStore(app)
+        offline = OfflineLlm(app)
+        engine = AiEngine(settings, gemini, offline, offlineStore)
         initialized = true
     }
 }

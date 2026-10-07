@@ -81,6 +81,8 @@ import com.odorizzioficial.tecladoia.ui.components.AuroraButton
 import com.odorizzioficial.tecladoia.ui.components.PillChip
 import com.odorizzioficial.tecladoia.ui.components.SectionHeader
 import com.odorizzioficial.tecladoia.ui.theme.PillShape
+import androidx.compose.ui.draw.alpha
+import java.text.BreakIterator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -508,21 +510,18 @@ private fun PromptEditor(
                     .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = icon, style = MaterialTheme.typography.headlineSmall)
+                // Campo vazio mostra o icone padrao esmaecido, como previa de que
+                // o atalho ficara com ele se a pessoa nao escolher outro.
+                Text(
+                    text = icon.ifEmpty { CustomPrompt.AVAILABLE_ICONS.first() },
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.alpha(if (icon.isEmpty()) 0.4f else 1f)
+                )
             }
             Spacer(Modifier.width(12.dp))
             OutlinedTextField(
                 value = icon,
-                onValueChange = { typed ->
-                    // Aceita qualquer emoji: o proprio teclado do usuario e o
-                    // seletor completo. Guarda somente o primeiro caractere.
-                    val first = typed.trim().takeIf { it.isNotEmpty() }
-                        ?.let { text ->
-                            val end = text.offsetByCodePoints(0, 1)
-                            text.substring(0, end)
-                        }
-                    if (first != null) icon = first
-                },
+                onValueChange = { typed -> icon = pickEmoji(typed, icon) },
                 label = { Text(stringResource(R.string.editor_emoji_field)) },
                 singleLine = true,
                 modifier = Modifier
@@ -605,7 +604,14 @@ private fun PromptEditor(
             Spacer(Modifier.width(10.dp))
             AuroraButton(
                 text = stringResource(R.string.editor_save),
-                onClick = { onSave(name, icon, body, pinned) },
+                onClick = {
+                    onSave(
+                        name,
+                        icon.ifBlank { CustomPrompt.AVAILABLE_ICONS.first() },
+                        body,
+                        pinned
+                    )
+                },
                 enabled = name.isNotBlank() && body.isNotBlank(),
                 modifier = Modifier
                     .weight(1f)
@@ -613,6 +619,31 @@ private fun PromptEditor(
             )
         }
     }
+}
+
+/**
+ * Resultado de digitar ou colar no campo de emoji.
+ *
+ * O texto do campo e sempre so o icone atual, entao o que a pessoa digita vem
+ * colado depois dele. Fica o ultimo "caractere" visivel (um emoji pode ter
+ * varios codigos, como bandeiras e familias), o que permite trocar por outro
+ * emoji. Apagar tudo deixa o campo vazio. Letras e numeros comuns sao
+ * ignorados: nao servem de icone e quase sempre sao toque errado.
+ */
+private fun pickEmoji(typed: String, current: String): String {
+    if (typed.isEmpty()) return ""
+    val last = lastGrapheme(typed)
+    if (last.isBlank()) return current
+    return if (last.any { it.code > 0x7F }) last else current
+}
+
+/** Ultimo caractere visivel do texto (emoji composto conta como um so). */
+private fun lastGrapheme(text: String): String {
+    val breaks = BreakIterator.getCharacterInstance()
+    breaks.setText(text)
+    val end = breaks.last()
+    val start = breaks.previous()
+    return if (start == BreakIterator.DONE || start < 0) text else text.substring(start, end)
 }
 
 /** Espaco entre os cards da lista; entra na conta do arrasto. */

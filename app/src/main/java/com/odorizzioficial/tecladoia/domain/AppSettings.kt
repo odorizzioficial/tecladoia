@@ -24,6 +24,9 @@ enum class BarHeight(@StringRes val labelRes: Int, val heightDp: Int) {
     EXPANDED(R.string.bar_height_expanded, 64)
 }
 
+/** Quem responde aos pedidos de IA da barra e do assistente. */
+enum class AiProvider { GEMINI, OFFLINE }
+
 data class GeminiModel(val id: String, val label: String)
 
 object GeminiModels {
@@ -32,7 +35,7 @@ object GeminiModels {
      * modelos oferecida ao usuario e sempre a que a API devolve para a chave
      * dele: o app nao mantem catalogo proprio nem inventa nomes.
      */
-    const val DEFAULT = "gemini-flash-latest"
+    const val DEFAULT = "gemini-flash-lite-latest"
 
     /** Prefixos desligados pelo Google: qualquer chave responde 404 neles. */
     private val RETIRED_PREFIXES = listOf(
@@ -117,6 +120,19 @@ object Languages {
     fun promptNameFor(code: String): String =
         ALL.firstOrNull { it.code == code }?.promptName ?: code
 
+    /** Nome em ingles, para os prompts (que sao escritos em ingles). */
+    fun englishNameFor(code: String): String = when (code) {
+        "pt-BR" -> "Brazilian Portuguese"
+        "pt-PT" -> "European Portuguese"
+        "en-US" -> "American English"
+        "es-ES" -> "Spanish"
+        "fr-FR" -> "French"
+        "de-DE" -> "German"
+        "it-IT" -> "Italian"
+        "ja-JP" -> "Japanese"
+        else -> code
+    }
+
     fun badgeFor(code: String): String =
         ALL.firstOrNull { it.code == code }?.badge ?: code.take(2).uppercase()
 }
@@ -152,5 +168,23 @@ data class AppSettings(
     val lastSeenVersion: String = "",
     /** Posicao da barra escolhida no arrasto, em pixels, mantida entre sessoes. */
     val barOffsetX: Int = 0,
-    val barOffsetY: Int = 0
+    val barOffsetY: Int = 0,
+    /** Barra desligada em bancos, carteiras digitais e corretoras conhecidos. */
+    /** Procura versao nova no GitHub ao abrir o app (no maximo a cada 12 horas). */
+    val autoUpdateCheck: Boolean = true,
+    val lastUpdateCheck: Long = 0L,
+    /** Notificacao quando sai versao nova (precisa da permissao de notificacoes no Android 13+). */
+    val updateNotify: Boolean = true,
+    /** Ultima versao ja avisada por notificacao: cada versao avisa uma vez so. */
+    val notifiedUpdate: String = "",
+    /** Versao nova que a pessoa dispensou no aviso do Assistente. */
+    val dismissedUpdate: String = "",
+    /** Gemini (nuvem) ou o modelo que roda no proprio aparelho. */
+    val aiProvider: AiProvider = AiProvider.GEMINI,
+    /** Nome do arquivo (.litertlm) do modelo offline escolhido. Vazio = nenhum. */
+    val offlineModel: String = "",
+    val offlineTemperature: Float = 0.3f,
+    val protectFinancialApps: Boolean = true,
+    /** Pacotes que o usuario escolheu ignorar, alem da lista padrao. */
+    val ignoredApps: Set<String> = emptySet()
 )

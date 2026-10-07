@@ -99,7 +99,7 @@
     <string name="err_no_connection">Nu există conexiune la internet. Verifică conexiunea și încearcă din nou.</string>
     <string name="err_network_failure">Conexiunea a căzut în timpul cererii. Încearcă din nou.</string>
     <string name="err_timeout">Gemini a răspuns prea târziu. Încearcă din nou.</string>
-    <string name="err_service_unavailable">Gemini este temporar indisponibil. Încearcă din nou în câteva momente.</string>
+    <string name="err_service_unavailable">Gemini este foarte solicitat la Google acum. Aplicația a încercat deja alte modele; încearcă din nou peste câteva momente.</string>
     <string name="err_bad_request">Gemini a refuzat cererea: %1$s</string>
     <string name="err_empty_response">IA nu a returnat niciun rezultat. Încearcă din nou.</string>
     <string name="err_unreadable">Răspunsul IA a venit într-un format neașteptat. Încearcă din nou.</string>
@@ -267,11 +267,11 @@
     <string name="about_app_1_title">O bară IA deasupra tastaturii tale</string>
     <string name="about_app_1_body">Aplicația nu îți înlocuiește tastatura: desenează o bară chiar deasupra ei, cu scurtături pentru a corecta, îmbunătăți, traduce, schimba tonul, rezuma, rescrie și dicta.</string>
     <string name="about_app_2_title">Funcționează în orice aplicație</string>
-    <string name="about_app_2_body">Bara apare în orice câmp de text. Atingi o acțiune și IA returnează textul deja aplicat, cu Anulează în bară.</string>
+    <string name="about_app_2_body">Bara apare în orice câmp de text, în afară de aplicațiile bancare și de plată, unde rămâne oprită din siguranță (în Setări &gt; Toate aplicațiile alegi alte aplicații). Atinge o acțiune și IA returnează textul deja aplicat, cu Anulează în bară.</string>
     <string name="about_app_3_title">Funcțiile tale, prompturile tale</string>
     <string name="about_app_3_body">În Funcții creezi scurtături cu prompturile tale, alegi emoji-ul, reordonezi prin tragere și fixezi favoritele.</string>
-    <string name="about_app_4_title">Cu cheia ta Gemini</string>
-    <string name="about_app_4_body">Nu există server intermediar: aplicația vorbește direct cu API-ul Gemini folosind cheia salvată de tine.</string>
+    <string name="about_app_4_title">Gemini sau IA offline</string>
+    <string name="about_app_4_body">Tu alegi motorul: Gemini, direct cu cheia ta și fără server intermediar, sau un model de IA care rulează pe dispozitiv (fișiere .litertlm sau .gguf), fără internet. Motorul în uz apare în partea de sus a Asistentului.</string>
     <string name="about_app_5_title">Sfat de poziționare</string>
     <string name="about_app_5_body">Dacă bara acoperă un mesaj, trage-o de mânerul din stânga sau atinge săgeata în jos pentru a o micșora într-un buton mic.</string>
 
@@ -281,12 +281,12 @@
     <string name="about_perm_2_body">Citirea are loc doar la atingerea unei scurtături, pentru a trimite acel text către IA.</string>
     <string name="about_perm_3_title">Să înlocuiască textul după acțiunea ta</string>
     <string name="about_perm_3_body">Înlocuirea folosește acțiunea standard de editare din Android și rulează doar după atingerea ta.</string>
-    <string name="about_perm_note">Aplicația nu se declară instrument de accesibilitate, nu înregistrează tastele, nu captează audio în fundal și nu trimite nimic pe internet fără o acțiune a ta.</string>
+    <string name="about_perm_note">Aplicația nu se declară instrument de accesibilitate, nu înregistrează atingerile, nu înregistrează audio în fundal și nu trimite textul tău pe internet fără o acțiune a ta.</string>
 
     <string name="about_data_1_title">Textul pleacă doar când atingi</string>
     <string name="about_data_1_body">Nicio acțiune automată nu trimite ce scrii: IA primește textul doar când pornești o scurtătură.</string>
-    <string name="about_data_2_title">O singură destinație: API-ul Gemini</string>
-    <string name="about_data_2_body">Trimiterea merge direct la serverul Gemini cu cheia ta. Nu există server al aplicației la mijloc, fără analytics și fără telemetrie.</string>
+    <string name="about_data_2_title">Destinație: Gemini sau dispozitivul tău</string>
+    <string name="about_data_2_body">Cu Gemini, textul pleacă direct către serverul Google cu cheia ta: nu există server al aplicației la mijloc, nici analytics, nici telemetrie. Cu IA offline, textul nu părăsește telefonul.</string>
     <string name="about_data_3_title">Cheia rămâne criptată pe dispozitiv</string>
     <string name="about_data_3_body">Este păstrată cu AES/GCM 256 folosind o cheie generată în Android Keystore, care nu părăsește dispozitivul.</string>
     <string name="about_data_4_title">Nimic nu este păstrat</string>
@@ -299,7 +299,7 @@
     <string name="about_blocked_2_title">Accesibilitatea a apărut blocată</string>
     <string name="about_blocked_2_body">De la Android 13, aplicațiile instalate în afara magazinului pornesc cu setările restricționate dezactivate. Deschide informațiile aplicației, atinge cele trei puncte și alege Permite setări restricționate.</string>
     <string name="about_blocked_3_title">Serviciul se dezactivează singur</string>
-    <string name="about_blocked_3_body">Aproape întotdeauna este economia de baterie care închide aplicația în fundal. Ridică restricția în Setări &gt; Permisiuni, la Baterie fără restricții.</string>
+    <string name="about_blocked_3_body">Aproape întotdeauna este economisirea bateriei care închide aplicația în fundal, frecvent la Xiaomi, Poco, Oppo și similare. În Setări &gt; Permisiuni există scurtături pentru pornirea automată și baterie fără restricții.</string>
     <string name="about_open_app_info">Deschide informațiile aplicației</string>
 
     <string name="perm_accessibility">Serviciu de accesibilitate</string>
@@ -320,24 +320,7 @@
     <string name="news_version">Versiunea %1$s</string>
     <string name="news_start">Începe să folosești</string>
     <string name="news_release">Versiunea %1$s • %2$s</string>
-    <string name="news_date_sep_2026">Septembrie 2026</string>
 
-    <string name="cl_120_1">Răspunsuri mai rapide: raționamentul interior oprit și limită de ieșire proporțională cu textul.</string>
-    <string name="cl_120_2">Conexiune reutilizată între acțiuni și cheie citită din memorie.</string>
-    <string name="cl_120_3">Feedback imediat la atingere și blocarea atingerilor repetate.</string>
-    <string name="cl_120_4">Mesaje de eroare specifice, cu buton Încearcă din nou.</string>
-    <string name="cl_120_5">Lista de modele preluată din API-ul cheii tale, cu cache pe cheie.</string>
-    <string name="cl_120_6">Aplicație tradusă în 10 limbi.</string>
-    <string name="cl_110_1">Scurtăturile aplică textul imediat, cu Anulează în bară.</string>
-    <string name="cl_110_2">Dictare în timp real, deja corectată și fără a lipi textul sugestiv al câmpului.</string>
-    <string name="cl_110_3">Bară mobilă cu poziția salvată și mod minimizat care eliberează ecranul.</string>
-    <string name="cl_110_4">Trage bara în jos și scurtăturile implicite lasă locul funcțiilor tale.</string>
-    <string name="cl_110_5">Funcții reordonate prin tragerea cardului, cu selector complet de emoji.</string>
-    <string name="cl_110_6">Meniuri noi în Setări: Gemini API Key, Aspect, Permisiuni și Despre.</string>
-    <string name="cl_100_1">Prima versiune: bară IA deasupra tastaturii pe care o folosești deja.</string>
-    <string name="cl_100_2">Corectează, îmbunătățește, tradu, schimbă tonul, rezumă, rescrie și dictare vocală.</string>
-    <string name="cl_100_3">Funcții personalizate cu prompturi proprii, care pot fi fixate în bară.</string>
-    <string name="cl_100_4">Cheie Gemini criptată pe dispozitiv, fără server intermediar.</string>
 
     <!-- Funcoes iniciais (viram dados do usuario apos o primeiro uso) -->
     <string name="seed_professional_name">Profesional</string>
@@ -368,4 +351,175 @@
     <string name="anim_simple">Discretă</string>
     <string name="anim_none">Oprită</string>
     <string name="appearance_animation_hint">Completă folosește expansiunea limitelor partajate în meniuri și o intrare glisantă a barei. Discretă doar estompează. Oprită schimbă instantaneu.</string>
+
+    <!-- 1.2.1: apps protegidos, ajuda por fabricante, novidades -->
+    <string name="settings_privacy_section">Confidențialitate</string>
+    <string name="settings_protected_row">Toate aplicațiile</string>
+    <string name="settings_protected_row_sub">Oprește bara de IA în anumite aplicații</string>
+    <string name="protected_title">Toate aplicațiile</string>
+    <string name="protected_default_title">Pauză în aplicațiile financiare</string>
+    <string name="protected_default_sub">Bănci, portofele digitale și brokeri cunoscuți: bara nu apare și niciun text nu este citit.</string>
+    <string name="protected_custom_title">Aplicații instalate</string>
+    <string name="protected_search_hint">Caută aplicație</string>
+    <string name="protected_bank_title">Banca ți-a cerut să dezinstalezi?</string>
+    <string name="protected_bank_body">Unele bănci refuză să se deschidă cât timp un serviciu de accesibilitate instalat în afara Play Store este pornit. Este regula băncii, iar aplicația nu îl poate ascunde. Oprește serviciul înainte de a deschide aplicația băncii și repornește-l după aceea.</string>
+    <string name="protected_disable_now">Oprește serviciul acum</string>
+    <string name="protected_reenable">Repornește din Setări</string>
+    <string name="oem_help_title">Serviciul se oprește singur?</string>
+    <string name="oem_help_body">Telefoanele Xiaomi, Redmi, Poco, Oppo, Realme, OnePlus și vivo închid aplicațiile din fundal. Activează pornirea automată, setează bateria aplicației pe Fără restricții, fixează aplicația în ecranul de recente, apoi oprește și repornește accesibilitatea.</string>
+    <string name="oem_open_autostart">Pornire automată</string>
+    <string name="oem_open_battery">Bateria aplicației</string>
+    <string name="perm_accessibility_stalled">Android a oprit serviciul. Oprește-l și pornește-l din nou în Accesibilitate.</string>
+    <string name="news_date_oct_2026">Octombrie 2026</string>
+    <string name="protected_notice">Dacă bara de IA cauzează probleme într-o aplicație, o poți opri doar acolo, de aici. Alege orice aplicație instalată: în ea bara nu apare și niciun text nu este citit.</string>
+    <string name="protected_system_title">Include aplicațiile de sistem</string>
+    <string name="protected_system_sub">Afișează și aplicațiile de sistem și pe cele fără pictogramă pe ecranul principal, precum servicii și tastaturi.</string>
+
+    <!-- 1.3.0: menu de IA, modo IA offline -->
+    <string name="settings_ai_hub_row">Inteligență artificială</string>
+    <string name="settings_ai_hub_row_sub_gemini">În uz: Gemini (cloud)</string>
+    <string name="settings_ai_hub_row_sub_offline">În uz: IA offline (%1$s)</string>
+    <string name="ai_hub_title">Inteligență artificială</string>
+    <string name="ai_hub_engine_section">Motor în uz</string>
+    <string name="ai_engine_gemini_title">Gemini (cloud)</string>
+    <string name="ai_engine_gemini_sub">Folosește cheia ta API Google și are nevoie de internet.</string>
+    <string name="ai_engine_offline_title">IA offline</string>
+    <string name="ai_engine_offline_sub">Rulează pe dispozitiv, fără internet și fără să trimită text nimănui.</string>
+    <string name="ai_hub_setup_section">Configurare</string>
+    <string name="ai_hub_gemini_row">Gemini</string>
+    <string name="ai_hub_gemini_row_sub">Cheie API, model și temperatură</string>
+    <string name="ai_hub_offline_row">Mod IA offline</string>
+    <string name="ai_hub_offline_row_sub">Descarcă, importă și alege modele</string>
+    <string name="ai_hub_offline_needs_model">Instalează un model înainte de a folosi modul offline.</string>
+    <string name="offline_title">Mod IA offline</string>
+    <string name="offline_intro">Rulează IA direct pe dispozitiv. Descarcă un model mai jos sau importă un fișier .litertlm sau .gguf. Niciun text nu iese din telefon și funcționează fără internet. Primul răspuns durează mai mult, pentru că modelul trebuie încărcat.</string>
+    <string name="offline_installed_section">Modele instalate</string>
+    <string name="offline_installed_empty">Niciun model instalat încă.</string>
+    <string name="offline_model_active">În uz</string>
+    <string name="offline_model_delete">Șterge modelul</string>
+    <string name="offline_delete_title">Ștergi modelul?</string>
+    <string name="offline_delete_message">Fișierul %1$s va fi șters de pe dispozitiv.</string>
+    <string name="offline_delete_confirm">Șterge</string>
+    <string name="offline_download_section">Descarcă un model</string>
+    <string name="offline_download_note">Descărcarea este gestionată de Android și continuă în fundal. Modelele mari ocupă mult spațiu și multă memorie.</string>
+    <string name="offline_download_button">Descarcă</string>
+    <string name="offline_download_cancel">Anulează</string>
+    <string name="offline_download_installed">Instalat</string>
+    <string name="offline_download_progress">%1$s din %2$s</string>
+    <string name="offline_open_page">Deschide pagina</string>
+    <string name="offline_cat_gemma4_desc">Cea mai bună calitate. Cere un telefon puternic, cu multă memorie.</string>
+    <string name="offline_import_section">Importă fișier</string>
+    <string name="offline_import_sub">Ai descărcat deja un model? Alege fișierul .litertlm sau .gguf de pe dispozitiv. Va fi copiat în aplicație.</string>
+    <string name="offline_import_button">Alege fișier</string>
+    <string name="offline_import_progress">Se copiază… %1$s</string>
+    <string name="offline_import_done">Modelul %1$s a fost importat.</string>
+    <string name="offline_import_bad_format">Acest fișier nu este un model acceptat. Aplicația deschide fișiere .litertlm și .gguf; alte formate, precum .bin și .task, nu funcționează.</string>
+    <string name="offline_import_no_space">Nu este suficient spațiu pentru a stoca modelul.</string>
+    <string name="offline_import_failed">Fișierul nu a putut fi importat.</string>
+    <string name="offline_download_failed">Descărcarea a eșuat. Verifică conexiunea și spațiul liber.</string>
+    <string name="offline_download_denied">Acest model cere autentificare sau acceptarea licenței pe Hugging Face. Deschide pagina, descarcă din browser și folosește Importă.</string>
+    <string name="offline_download_done">Descărcare finalizată: %1$s.</string>
+    <string name="offline_download_invalid">Fișierul descărcat nu este un model valid și a fost șters.</string>
+    <string name="offline_no_storage">Spațiul de stocare al dispozitivului nu este disponibil pentru descărcare. Folosește Importă.</string>
+    <string name="offline_temp_title">Temperatură</string>
+    <string name="offline_temp_sub">Mai mică păstrează răspunsul mai aproape de text; mai mare îl face mai creativ.</string>
+    <string name="offline_test_button">Testează modelul</string>
+    <string name="offline_testing">Se încarcă și se testează modelul…</string>
+    <string name="offline_test_ok">A funcționat! A răspuns în %1$s s: %2$s</string>
+    <string name="offline_warn_ram">Acest model este mare pentru memoria dispozitivului și poate bloca sau închide aplicația.</string>
+    <string name="err_offline_no_model">Niciun model offline ales. Deschide Setări &gt; Inteligență artificială &gt; Mod IA offline.</string>
+    <string name="err_offline_load_failed">Modelul offline nu a putut fi încărcat: %1$s</string>
+    <string name="err_offline_failed">IA offline a eșuat: %1$s</string>
+    <string name="err_offline_timeout">IA offline a durat prea mult. Încearcă un text mai scurt sau un model mai ușor.</string>
+
+    <!-- 1.3.1 -->
+    <string name="offline_cat_gemma3_desc">Ușor și bun în portugheză. O alegere excelentă pentru telefoane simple. Format GGUF.</string>
+    <string name="offline_cat_gemma4_e4b_desc">Calitate maximă. Cere un telefon foarte puternic, cu 12 GB de memorie sau mai mult.</string>
+
+    <!-- 1.3.2 -->
+    <string name="engine_badge_label">Motor IA în uz</string>
+    <string name="engine_badge_no_model">Niciun model ales</string>
+    <string name="engine_badge_hint">Atinge cel dezactivat pentru a-l porni · ține apăsat pentru a configura</string>
+    <string name="settings_overlay_row">Bara de deasupra tastaturii</string>
+    <string name="settings_overlay_row_sub">Apare la scris, se ascunde cu tastatura și vibrație</string>
+
+    <!-- 1.3.3 -->
+    <string name="assistant_mic_start">Vorbește</string>
+    <string name="assistant_mic_stop">Oprește</string>
+    <string name="assistant_mic_listening">Ascult… textul apare și este corectat pe măsură ce vorbești.</string>
+
+    <!-- 1.3.4 -->
+    <string name="err_field_text_hidden">Această aplicație nu predă textul scris către TecladoIA, deci nu poate fi procesat aici.</string>
+
+    <!-- 1.3.5 -->
+
+    <!-- 1.3.6 -->
+    <string name="engine_state_online">Online</string>
+    <string name="engine_state_offline">Offline</string>
+    <string name="engine_gemini_no_key">Cheia API nu este configurată</string>
+    <string name="news_release_since">Tot ce s-a schimbat de la versiunea %1$s</string>
+    <string name="news_all_1">Mod IA offline: rulează IA direct pe dispozitiv, fără internet și fără să trimiți text nimănui. Descarcă modele gata făcute (Gemma 4 și Gemma 3) sau importă fișiere .litertlm și .gguf și reglează temperatura.</string>
+    <string name="news_all_2">Meniu nou Inteligență artificială, cu Gemini și modul offline alături. Alegerea unui model offline pornește deja modul pe toată bara.</string>
+    <string name="news_all_3">Motorul IA în partea de sus a Asistentului: cel în uz apare Online, iar celălalt, dezactivat, Offline. Atinge cel dezactivat pentru a-l porni; ține apăsat pentru a configura.</string>
+    <string name="news_all_4">Gemini mai stabil: dacă un model este suprasolicitat sau fără cotă, aplicația încearcă singură altele, iar lista de modele arată doar pe cele care funcționează.</string>
+    <string name="news_all_5">Dictare corectată în timp real: la fiecare pauză, ce tocmai ai spus primește deja punctuație și corectură. Încheierea este aproape instantanee.</string>
+    <string name="news_all_6">Limba textului este respectată: Corectează, Îmbunătățește, Rezumă, Schimbă tonul și funcțiile tale păstrează limba în care ai scris, chiar și după traducere.</string>
+    <string name="news_all_7">Funcționează în mai multe aplicații, ca la comentariile YouTube, cu citire mai isteață a textului și un avertisment clar când o aplicație ascunde ce s-a scris.</string>
+    <string name="news_all_8">Toate aplicațiile: oprește bara în orice aplicație instalată, inclusiv cele de sistem. Băncile și portofelele digitale vin deja protejate.</string>
+    <string name="news_all_9">Ajutor pentru Xiaomi, Poco, Oppo și similare, cu scurtături către pornirea automată și baterie, și un avertisment când Android oprește serviciul.</string>
+    <string name="news_all_10">Testează IA aici are acum microfon, cu aceeași dictare în timp real ca bara.</string>
+    <string name="news_all_11">Meniul Bara de deasupra tastaturii adună opțiunile overlay, iar câmpul de emoji al funcțiilor permite schimbarea, ștergerea și lipirea (Altele deschide tastatura de emoji).</string>
+    <string name="news_all_12">Modelul offline în uz are o evidențiere colorată, iar catalogul are acum doar modele bune în portugheză.</string>
+
+    <!-- 1.3.7 -->
+    <string name="settings_update_section">Actualizări</string>
+    <string name="settings_update_row">Actualizează aplicația</string>
+    <string name="settings_update_row_sub_current">Versiune instalată: %1$s</string>
+    <string name="settings_update_row_sub_new">Versiune nouă %1$s disponibilă</string>
+    <string name="update_title">Actualizări</string>
+    <string name="update_installed">Versiune instalată</string>
+    <string name="update_check_button">Caută actualizare</string>
+    <string name="update_checking">Se caută…</string>
+    <string name="update_up_to_date">Ai cea mai recentă versiune.</string>
+    <string name="update_available">Versiune nouă %1$s disponibilă</string>
+    <string name="update_notes_title">Ce s-a schimbat</string>
+    <string name="update_download_button">Descarcă actualizarea</string>
+    <string name="update_open_page">Vezi pe GitHub</string>
+    <string name="update_install_hint">Browserul descarcă APK-ul. Apoi deschide fișierul pentru a-l instala: Android poate cere să permiți instalarea din acel browser. Actualizarea se instalează doar dacă este semnată cu aceeași cheie ca aplicația.</string>
+    <string name="update_auto_title">Verifică la deschiderea aplicației</string>
+    <string name="update_auto_sub">Consultă GitHub, cel mult o dată la 12 ore. Niciun dată de-a ta nu este trimisă.</string>
+    <string name="update_error_network">Nu s-a putut verifica. Verifică conexiunea și încearcă din nou.</string>
+    <string name="update_error_limit">GitHub a limitat cererile momentan. Încearcă mai târziu.</string>
+    <string name="update_error_no_release">Nu există încă nicio versiune publicată pe GitHub.</string>
+    <string name="update_banner_title">Versiune nouă %1$s disponibilă</string>
+    <string name="update_banner_update">Actualizează</string>
+    <string name="update_banner_later">Mai târziu</string>
+    <string name="news_all_13">Meniul de actualizări pus în evidență: aplicația anunță prin notificare și în Asistent când există o versiune nouă pe GitHub, arată ce s-a schimbat și duce la descărcare.</string>
+
+    <!-- 1.3.8 -->
+    <string name="about_app_6_title">Actualizări prin GitHub</string>
+    <string name="about_app_6_body">Aplicația anunță, prin notificare și în Asistent, când apare o versiune nouă pe GitHub. Descărcarea o face browserul, iar Android o instalează doar dacă este semnată cu aceeași cheie.</string>
+    <string name="about_data_6_title">Singura conexiune în plus: actualizările</string>
+    <string name="about_data_6_body">Pentru a afla dacă există o versiune nouă, aplicația consultă GitHub (cel mult o dată la 12 ore, și poți opri asta). Cererea nu duce text sau date de-ale tale.</string>
+    <string name="about_data_7_title">Lista aplicațiilor instalate</string>
+    <string name="about_data_7_body">Este citită doar pe dispozitiv, ca să alegi în ce aplicații oprești bara. Nimic din ea nu este trimis nimănui.</string>
+    <string name="about_blocked_4_title">O bancă a cerut dezinstalarea</string>
+    <string name="about_blocked_4_body">Unele bănci refuză să se deschidă cât timp un serviciu de accesibilitate instalat în afara Play Store este pornit. În Setări &gt; Permisiuni există un buton pentru a opri serviciul înainte de a folosi banca și a-l reporni după aceea.</string>
+    <string name="update_new_pill">NOU</string>
+    <string name="update_notify_title">Anunță prin notificare</string>
+    <string name="update_notify_sub">Afișează un aviz când apare o versiune nouă, chiar și cu aplicația închisă.</string>
+    <string name="update_channel_name">Actualizările aplicației</string>
+    <string name="update_channel_desc">Avize despre versiuni noi TecladoIA</string>
+    <string name="update_notif_title">Versiune nouă %1$s disponibilă</string>
+    <string name="update_notif_text">Atinge pentru a vedea ce s-a schimbat și a actualiza.</string>
+    <string name="github_card_title">TecladoIA pe GitHub</string>
+    <string name="github_card_sub">Cod sursă, versiuni anterioare și raportări de probleme</string>
+    <string name="github_open_repo">Deschide depozitul</string>
+    <string name="github_open_releases">Toate versiunile</string>
+    <string name="github_share">Distribuie</string>
+    <string name="github_share_title">Distribuie TecladoIA</string>
+    <string name="github_share_text">TecladoIA: bară de IA deasupra tastaturii Android. %1$s</string>
+    <string name="perm_notifications">Notificări</string>
+    <string name="perm_notifications_sub">Opțional: avize despre versiuni noi</string>
+    <string name="news_all_14">Despre a fost actualizat cu modul offline, actualizările prin GitHub și lista de aplicații.</string>
 </resources>

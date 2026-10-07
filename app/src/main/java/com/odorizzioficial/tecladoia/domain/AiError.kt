@@ -57,11 +57,25 @@ sealed class AiError(
     // --- Campo de texto e voz --------------------------------------------
     data object EmptyInput : AiError(R.string.err_empty_input)
     data object FieldNotReadable : AiError(R.string.err_field_not_readable)
+
+    /** O cursor mostra que ha texto no campo, mas o app nao o entrega ao servico. */
+    data object FieldTextHidden : AiError(R.string.err_field_text_hidden)
     data object FieldNotEditable : AiError(R.string.err_field_not_editable)
     data object VoiceUnavailable : AiError(R.string.err_voice_unavailable)
     data object MicPermissionDenied : AiError(R.string.err_mic_permission)
 
     data class VoiceFailed(@StringRes val detailRes: Int) : AiError(detailRes)
+
+    // --- IA offline (modelo no aparelho) ---------------------------------
+    data object OfflineNoModel : AiError(R.string.err_offline_no_model)
+
+    data class OfflineLoadFailed(val detail: String) :
+        AiError(R.string.err_offline_load_failed, args = listOf(detail))
+
+    data class OfflineFailed(val detail: String) :
+        AiError(R.string.err_offline_failed, retryable = true, args = listOf(detail))
+
+    data object OfflineTimeout : AiError(R.string.err_offline_timeout, retryable = true)
 
     // --- Fallback --------------------------------------------------------
     data class Unknown(val detail: String) :

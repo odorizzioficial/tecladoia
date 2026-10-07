@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      O motor de IA offline (LiteRT-LM) e uma biblioteca nativa. Se o AAR dele
+      declarar um minSdk acima do 26 do app, esta linha impede que o build pare;
+      o motor so e carregado quando a pessoa usa o modo offline e qualquer falha
+      vira um aviso, o resto do app continua igual.
+    -->
+    <uses-sdk tools:overrideLibrary="com.google.ai.edge.litertlm" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+      Lista completa de apps em Ajustes > Apps em geral (inclusive os do
+      sistema e os sem icone). Distribuido fora da Play Store; se um dia for
+      publicado la, essa permissao exige declaracao de uso.
+    -->
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Aviso de versao nova (Android 13+ pede ao usuario). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- So usada em Android 9 ou anterior, para salvar o backup das funcoes
          direto na pasta Downloads publica (no 10+ o MediaStore dispensa isso). -->
@@ -20,6 +41,11 @@
         <intent>
             <action android:name="android.speech.RecognitionService" />
         </intent>
+        <!-- Lista de apps na tela "Apps de banco e pagamento" -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
     </queries>
 
     <application
@@ -32,6 +58,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AiKeyboardAssistant">
+
+        <!-- Bibliotecas do sistema que o motor offline pode usar para a GPU. -->
+        <uses-native-library android:name="libvndksupport.so" android:required="false" />
+        <uses-native-library android:name="libOpenCL.so" android:required="false" />
 
         <activity
             android:name=".ui.MainActivity"
