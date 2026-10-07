@@ -2,7 +2,6 @@
 
 <img width="1672" height="941" alt="CapaTecladoIAOdorizzi" src="https://github.com/user-attachments/assets/1c1c8ba2-60f0-40fa-ab6a-a3ca2fc0a83b" />
 
-
 App Android nativo (Kotlin + Jetpack Compose) que desenha uma **barra de IA direto acima do teclado que você já usa** (Gboard, Samsung Keyboard, etc.), em qualquer app do aparelho. Não troca seu teclado por outro: adiciona um overlay compacto de acessibilidade com atalhos de IA sobre o campo de texto em que você está digitando. Corrige, melhora, traduz, muda o tom, resume, reescreve e dita por voz — tudo aplicado na hora, sem tela de confirmação. Usa a **API do Google Gemini** com a chave da própria pessoa, sem servidor intermediário.
 
 ## ⚡ Na barra, sobre o teclado
@@ -93,8 +92,6 @@ Para publicar uma atualização: aumente o `versionCode` e o `versionName`, gere
 ## 🛠️ Solução de problemas
 
 **Xiaomi, Redmi, Poco, Oppo, Realme, OnePlus ou vivo: o serviço desliga sozinho.** O sistema encerra apps em segundo plano. Em **Ajustes › Permissões** o app tem atalhos para isso: ative o *início automático*, deixe a bateria do app como *Sem restrições*, trave o app na tela de recentes e desative/ative a acessibilidade de novo. Se o Android bloquear a opção (“configuração restrita”), abra *Informações do app › ⋮ › Permitir configurações restritas*.
-
-**A barra não funciona em um app (por exemplo, nos comentários do YouTube).** O serviço enxerga os campos de texto pelo que o Android expõe, e alguns apps escondem o editor. Quando o app não deixa o TecladoIA ler ou trocar o texto, a mensagem de erro traz um resumo técnico entre colchetes (classe do campo, tamanho do texto lido, posição do cursor, o que foi recusado): copie e mande ao autor para ele corrigir o caso. A mensagem "este app não entrega o texto digitado" quer dizer que o cursor mostra texto no campo, mas o app não o expõe ao serviço de acessibilidade.
 
 **O banco pediu para desinstalar o app.** Alguns bancos (como o Nubank) recusam abrir com qualquer serviço de acessibilidade instalado fora da Play Store ligado. Nos apps de banco e pagamento conhecidos a barra já fica desligada por padrão — a lista é editável em **Ajustes › Apps em geral** —, mas a decisão de abrir é do banco: desative o serviço antes de usar o app dele e reative depois (há um botão para isso em **Ajustes › Permissões**).
 
