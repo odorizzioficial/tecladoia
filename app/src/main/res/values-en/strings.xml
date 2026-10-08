@@ -484,7 +484,7 @@
     <string name="update_available">New version %1$s available</string>
     <string name="update_notes_title">What changed</string>
     <string name="update_open_page">View on GitHub</string>
-    <string name="update_install_hint">The app downloads the APK and Android asks for your confirmation to install. It only installs if signed with the same key as the app. After installing, open the app again.</string>
+    <string name="update_install_hint">The app downloads the APK and Android asks for your confirmation to install. It only installs if signed with the same key as the app. When it finishes, the app closes and opens again by itself (or shows a notice to tap).</string>
     <string name="update_auto_title">Check when opening the app</string>
     <string name="update_auto_sub">Checks GitHub at most every 12 hours. None of your data is sent.</string>
     <string name="update_error_network">Couldn\'t check. Check your connection and try again.</string>
@@ -528,7 +528,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">Update now</string>
     <string name="update_install_downloading">Downloading… %1$d%%</string>
-    <string name="update_install_awaiting">Confirm the installation in the Android window.</string>
+    <string name="update_install_awaiting">Android\'s confirmation window didn\'t open. Tap Continue to open it.</string>
     <string name="update_install_continue">Continue installation</string>
     <string name="update_install_cancel">Cancel</string>
     <string name="update_install_permission_hint">On the screen that opened, allow TecladoIA to install apps and come back to tap Update now again. This is only needed once.</string>
@@ -545,4 +545,10 @@
     <string name="update_done_title">TecladoIA updated</string>
     <string name="update_done_text">Version %1$s installed. Tap to open the app.</string>
     <string name="news_all_17">After updating inside the app, a "TecladoIA updated" notice takes you back to the app, since Android closes it to install.</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">Installing the update…</string>
+    <string name="update_install_waiting_sub">Confirm in the Android window, if it appears, and wait. The app will close and open again by itself.</string>
+    <string name="update_install_retry">Try again</string>
+    <string name="news_all_18">In-app update with a waiting screen during installation, and no option to install again while it is happening.</string>
 </resources>

@@ -161,6 +161,7 @@ import com.odorizzioficial.tecladoia.data.InstallFailure
 import com.odorizzioficial.tecladoia.data.InstallState
 import com.odorizzioficial.tecladoia.data.UpdateInstaller
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.ui.text.style.TextAlign
 
 /** Link oficial para criar a chave da API Gemini. */
 private const val AI_STUDIO_URL = "https://aistudio.google.com/apikey"
@@ -191,6 +192,9 @@ private val BOUNDS_EASING = FastOutSlowInEasing
 
 /** Duracao da troca entre a lista do Sobre e cada topico dela. */
 private const val ABOUT_TOPIC_ANIM_MS = 220
+
+/** Depois disto sem a instalacao acontecer, a tela de espera oferece tentar de novo. */
+private const val INSTALL_STUCK_AFTER_MS = 60_000L
 
 /** Duracao da entrada/saida do preview de altura da barra, e por quanto tempo ele fica visivel. */
 private const val BAR_HEIGHT_PREVIEW_ANIM_MS = 260
@@ -1752,6 +1756,49 @@ private fun GithubCard() {
     }
 }
 
+/**
+ * Painel de "aguarde" enquanto o Android instala. O app fecha e abre sozinho ao terminar.
+ * Se passar de um minuto sem acontecer nada, oferece limpar o estado e tentar de novo.
+ */
+@Composable
+private fun InstallWaitingPanel(onRetry: () -> Unit) {
+    var stuck by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        delay(INSTALL_STUCK_AFTER_MS)
+        stuck = true
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(40.dp),
+            color = MaterialTheme.colorScheme.secondary
+        )
+        Spacer(Modifier.height(12.dp))
+        Text(
+            text = stringResource(R.string.update_install_waiting_title),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = stringResource(R.string.update_install_waiting_sub),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
+        )
+        if (stuck) {
+            Spacer(Modifier.height(12.dp))
+            PillChip(text = stringResource(R.string.update_install_retry), onClick = onRetry)
+        }
+    }
+}
+
 /** Tela do Android onde se permite que o TecladoIA instale apps (so na primeira vez). */
 private fun openInstallPermissionSettings(context: android.content.Context) {
     runCatching {
@@ -1912,19 +1959,24 @@ private fun UpdateScreen(
                             }
                         }
 
-                        InstallState.AwaitingConfirmation -> {
-                            Text(
-                                text = stringResource(R.string.update_install_awaiting),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.secondary
-                            )
-                            Spacer(Modifier.height(10.dp))
-                            AuroraButton(
-                                text = stringResource(R.string.update_install_continue),
-                                icon = Icons.Rounded.Download,
-                                onClick = { UpdateInstaller.resumeConfirmation(context) },
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                        is InstallState.AwaitingConfirmation -> {
+                            if (progress.shown) {
+                                // Instalando: so aguardar. Nada de botao para instalar de novo.
+                                InstallWaitingPanel(onRetry = UpdateInstaller::reset)
+                            } else {
+                                Text(
+                                    text = stringResource(R.string.update_install_awaiting),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                                Spacer(Modifier.height(10.dp))
+                                AuroraButton(
+                                    text = stringResource(R.string.update_install_continue),
+                                    icon = Icons.Rounded.Download,
+                                    onClick = { UpdateInstaller.resumeConfirmation(context) },
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
                         }
 
                         else -> {
@@ -1966,23 +2018,25 @@ private fun UpdateScreen(
                             }
                         }
                     }
-                    Spacer(Modifier.height(8.dp))
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        PillChip(
-                            text = stringResource(R.string.update_install_browser),
-                            icon = Icons.Rounded.OpenInNew,
-                            onClick = { openGithubUrl(context, info.downloadUrl) },
-                            modifier = Modifier.weight(1f),
-                            height = 48.dp
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        PillChip(
-                            text = stringResource(R.string.update_open_page),
-                            icon = Icons.Rounded.NewReleases,
-                            onClick = { openGithubUrl(context, info.pageUrl) },
-                            modifier = Modifier.weight(1f),
-                            height = 48.dp
-                        )
+                    if (install !is InstallState.Downloading && install !is InstallState.AwaitingConfirmation) {
+                        Spacer(Modifier.height(8.dp))
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            PillChip(
+                                text = stringResource(R.string.update_install_browser),
+                                icon = Icons.Rounded.OpenInNew,
+                                onClick = { openGithubUrl(context, info.downloadUrl) },
+                                modifier = Modifier.weight(1f),
+                                height = 48.dp
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            PillChip(
+                                text = stringResource(R.string.update_open_page),
+                                icon = Icons.Rounded.NewReleases,
+                                onClick = { openGithubUrl(context, info.pageUrl) },
+                                modifier = Modifier.weight(1f),
+                                height = 48.dp
+                            )
+                        }
                     }
                     Spacer(Modifier.height(10.dp))
                     Text(

@@ -25,8 +25,13 @@ sealed interface InstallState {
     data object Idle : InstallState
     data class Downloading(val downloaded: Long, val total: Long) : InstallState
 
-    /** APK entregue ao Android; falta a pessoa confirmar na janela do sistema. */
-    data object AwaitingConfirmation : InstallState
+    /**
+     * APK entregue ao Android; falta a pessoa confirmar e o sistema instalar.
+     * [shown] = a janela de confirmacao abriu (ou ja foi confirmada): so resta
+     * esperar, e nao se oferece instalar de novo, que daria erro. Falso quando o
+     * Android nao deixou abri-la em segundo plano: ai o botao "Continuar" a abre.
+     */
+    data class AwaitingConfirmation(val shown: Boolean) : InstallState
     data class Failed(val kind: InstallFailure, val detail: String = "") : InstallState
 }
 
@@ -72,8 +77,12 @@ object UpdateInstaller {
     /** Reabre a janela de confirmacao quando ela nao chegou a aparecer. */
     fun resumeConfirmation(context: Context): Boolean {
         val intent = pendingConfirm ?: return false
+        // Ja abriu (ou ja foi confirmada): abrir de novo tenta instalar duas vezes e da erro.
+        val current = _state.value
+        if (current is InstallState.AwaitingConfirmation && current.shown) return false
         return try {
             context.startActivity(Intent(intent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            _state.value = InstallState.AwaitingConfirmation(shown = true)
             true
         } catch (t: Throwable) {
             Log.w(TAG, "Nao foi possivel reabrir a confirmacao", t)
@@ -94,7 +103,9 @@ object UpdateInstaller {
         try {
             withContext(Dispatchers.IO) { runInstall(app, info) }
             // O resultado do Android pode chegar antes deste ponto: so troca se nada mudou.
-            _state.update { if (it is InstallState.Downloading) InstallState.AwaitingConfirmation else it }
+            _state.update {
+                if (it is InstallState.Downloading) InstallState.AwaitingConfirmation(shown = true) else it
+            }
         } catch (e: CancellationException) {
             _state.value = InstallState.Idle
             throw e
@@ -184,12 +195,13 @@ object UpdateInstaller {
                 }
                 if (confirm != null) {
                     pendingConfirm = confirm
-                    _state.value = InstallState.AwaitingConfirmation
-                    // Com o app aberto a janela aparece na hora; em segundo plano o botao
-                    // "Continuar instalacao" da tela de atualizacao a reabre.
-                    runCatching {
+                    val inFront = AppForeground.isForeground()
+                    val launched = runCatching {
                         context.startActivity(Intent(confirm).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                    }.onFailure { Log.w(TAG, "Confirmacao nao abriu agora", it) }
+                    }.onFailure { Log.w(TAG, "Confirmacao nao abriu agora", it) }.isSuccess
+                    // Com o app aberto a janela aparece na hora e so resta esperar. Em segundo
+                    // plano o Android a bloqueia sem erro, e o botao "Continuar" a reabre.
+                    _state.value = InstallState.AwaitingConfirmation(shown = inFront && launched)
                 }
             }
 

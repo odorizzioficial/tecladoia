@@ -484,7 +484,7 @@
     <string name="update_available">有新版本 %1$s</string>
     <string name="update_notes_title">更新内容</string>
     <string name="update_open_page">在 GitHub 查看</string>
-    <string name="update_install_hint">应用会下载 APK，并由 Android 请您确认安装。只有使用与应用相同密钥签名的文件才会安装。安装后请重新打开应用。</string>
+    <string name="update_install_hint">应用会下载 APK，并由 Android 请您确认安装。只有使用与应用相同密钥签名的文件才会安装。完成后应用会关闭并自动重新打开（或显示可轻点的提示）。</string>
     <string name="update_auto_title">打开应用时检查</string>
     <string name="update_auto_sub">最多每 12 小时查询一次 GitHub，不会发送任何个人数据。</string>
     <string name="update_error_network">无法检查，请检查网络连接后重试。</string>
@@ -528,7 +528,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">立即更新</string>
     <string name="update_install_downloading">正在下载… %1$d%%</string>
-    <string name="update_install_awaiting">请在 Android 弹出的窗口中确认安装。</string>
+    <string name="update_install_awaiting">Android 的确认窗口没有打开。轻点“继续”来打开它。</string>
     <string name="update_install_continue">继续安装</string>
     <string name="update_install_cancel">取消</string>
     <string name="update_install_permission_hint">在打开的页面中，允许 TecladoIA 安装应用，然后返回再次轻点“立即更新”。只需设置一次。</string>
@@ -545,4 +545,10 @@
     <string name="update_done_title">TecladoIA 已更新</string>
     <string name="update_done_text">已安装版本 %1$s。轻点打开应用。</string>
     <string name="news_all_17">在应用内更新后，会出现“TecladoIA 已更新”的提示，带您回到应用，因为 Android 安装时会关闭应用。</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">正在安装更新…</string>
+    <string name="update_install_waiting_sub">如果出现 Android 窗口，请在其中确认，然后稍等。应用会关闭并自动重新打开。</string>
+    <string name="update_install_retry">重试</string>
+    <string name="news_all_18">应用内更新在安装期间显示等待界面，安装进行时不再提供重复安装的选项。</string>
 </resources>

@@ -503,7 +503,7 @@
     <string name="update_available">Nova versão %1$s disponível</string>
     <string name="update_notes_title">O que mudou</string>
     <string name="update_open_page">Ver no GitHub</string>
-    <string name="update_install_hint">A app transfere o APK e o Android pede a sua confirmação para instalar. Só instala se vier assinado com a mesma chave da app. Depois de instalar, abra a app de novo.</string>
+    <string name="update_install_hint">A app transfere o APK e o Android pede a sua confirmação para instalar. Só instala se vier assinado com a mesma chave da app. No fim, a app fecha e abre de novo sozinha (ou mostra um aviso para tocar).</string>
     <string name="update_auto_title">Verificar ao abrir a app</string>
     <string name="update_auto_sub">Consulta o GitHub, no máximo a cada 12 horas. Nenhum dado seu é enviado.</string>
     <string name="update_error_network">Não foi possível verificar. Confirme a ligação e tente de novo.</string>
@@ -547,7 +547,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">Atualizar agora</string>
     <string name="update_install_downloading">A transferir… %1$d%%</string>
-    <string name="update_install_awaiting">Confirme a instalação na janela do Android.</string>
+    <string name="update_install_awaiting">A janela de confirmação do Android não abriu. Toque em Continuar para a abrir.</string>
     <string name="update_install_continue">Continuar instalação</string>
     <string name="update_install_cancel">Cancelar</string>
     <string name="update_install_permission_hint">No ecrã que abriu, permita que o TecladoIA instale apps e volte para tocar em Atualizar agora de novo. Isto só é necessário uma vez.</string>
@@ -564,4 +564,10 @@
     <string name="update_done_title">TecladoIA atualizado</string>
     <string name="update_done_text">Versão %1$s instalada. Toque para abrir a app.</string>
     <string name="news_all_17">Depois de atualizar dentro da app, um aviso "TecladoIA atualizado" leva de volta à app, já que o Android a fecha para instalar.</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">A instalar a atualização…</string>
+    <string name="update_install_waiting_sub">Confirme na janela do Android, se ela aparecer, e aguarde. A app vai fechar e abrir de novo sozinha.</string>
+    <string name="update_install_retry">Tentar de novo</string>
+    <string name="news_all_18">Atualização dentro da app com ecrã de espera durante a instalação, sem oferecer instalar de novo enquanto ela decorre.</string>
 </resources>

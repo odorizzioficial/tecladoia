@@ -484,7 +484,7 @@
     <string name="update_available">新しいバージョン %1$s があります</string>
     <string name="update_notes_title">変更内容</string>
     <string name="update_open_page">GitHubで見る</string>
-    <string name="update_install_hint">アプリがAPKをダウンロードし、Androidがインストールの確認を求めます。アプリと同じ鍵で署名されている場合だけインストールされます。インストール後はアプリを開き直してください。</string>
+    <string name="update_install_hint">アプリがAPKをダウンロードし、Androidがインストールの確認を求めます。アプリと同じ鍵で署名されている場合だけインストールされます。完了するとアプリは閉じて自動で開き直します（またはタップできる通知を表示します）。</string>
     <string name="update_auto_title">アプリを開いたときに確認</string>
     <string name="update_auto_sub">GitHubへの問い合わせは12時間に1回まで。あなたのデータは送信されません。</string>
     <string name="update_error_network">確認できませんでした。接続を確認してもう一度お試しください。</string>
@@ -528,7 +528,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">今すぐ更新</string>
     <string name="update_install_downloading">ダウンロード中… %1$d%%</string>
-    <string name="update_install_awaiting">Androidのウィンドウでインストールを確認してください。</string>
+    <string name="update_install_awaiting">Androidの確認ウィンドウが開きませんでした。「続ける」をタップして開いてください。</string>
     <string name="update_install_continue">インストールを続ける</string>
     <string name="update_install_cancel">キャンセル</string>
     <string name="update_install_permission_hint">開いた画面でTecladoIAにアプリのインストールを許可し、戻って「今すぐ更新」をもう一度タップしてください。必要なのは最初の1回だけです。</string>
@@ -545,4 +545,10 @@
     <string name="update_done_title">TecladoIAを更新しました</string>
     <string name="update_done_text">バージョン %1$s をインストールしました。タップしてアプリを開きます。</string>
     <string name="news_all_17">アプリ内で更新したあと、「TecladoIAを更新しました」の通知からアプリに戻れます。インストール時にAndroidがアプリを終了するためです。</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">アップデートをインストール中…</string>
+    <string name="update_install_waiting_sub">Androidのウィンドウが表示されたら確認して、しばらくお待ちください。アプリは閉じて自動で開き直します。</string>
+    <string name="update_install_retry">もう一度試す</string>
+    <string name="news_all_18">アプリ内アップデートに、インストール中の待機画面を追加。インストール中は再インストールを案内しません。</string>
 </resources>

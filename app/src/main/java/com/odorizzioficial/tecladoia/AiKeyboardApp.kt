@@ -9,6 +9,7 @@ import com.odorizzioficial.tecladoia.ai.offline.OfflineModelStore
 import com.odorizzioficial.tecladoia.data.LocaleHelper
 import com.odorizzioficial.tecladoia.data.PromptRepository
 import com.odorizzioficial.tecladoia.data.SettingsRepository
+import com.odorizzioficial.tecladoia.data.AppForeground
 
 class AiKeyboardApp : Application() {
 
@@ -18,6 +19,7 @@ class AiKeyboardApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        registerActivityLifecycleCallbacks(AppForeground.callbacks)
         AppGraph.init(this)
     }
 }

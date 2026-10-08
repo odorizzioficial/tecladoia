@@ -20,7 +20,7 @@ data class ReleaseNotes(
 object Changelog {
 
     /** Versao atual: comparada com a ultima vista para abrir as novidades. */
-    const val CURRENT = "1.4.1"
+    const val CURRENT = "1.4.2"
 
     /** Primeira versao coberta pela lista de novidades. */
     const val SINCE = "1.2.1"
@@ -47,7 +47,8 @@ object Changelog {
                 R.string.news_all_14,
                 R.string.news_all_15,
                 R.string.news_all_16,
-                R.string.news_all_17
+                R.string.news_all_17,
+                R.string.news_all_18
             )
         )
     )

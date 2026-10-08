@@ -484,7 +484,7 @@
     <string name="update_available">Nouvelle version %1$s disponible</string>
     <string name="update_notes_title">Ce qui a changé</string>
     <string name="update_open_page">Voir sur GitHub</string>
-    <string name="update_install_hint">L\'app télécharge l\'APK et Android demande votre confirmation pour installer. Il ne s\'installe que s\'il est signé avec la même clé que l\'app. Après l\'installation, rouvrez l\'app.</string>
+    <string name="update_install_hint">L\'app télécharge l\'APK et Android demande votre confirmation pour installer. Il ne s\'installe que s\'il est signé avec la même clé que l\'app. À la fin, l\'app se ferme et se rouvre toute seule (ou affiche un avis à toucher).</string>
     <string name="update_auto_title">Vérifier à l\'ouverture de l\'app</string>
     <string name="update_auto_sub">Consulte GitHub, au plus toutes les 12 heures. Aucune de vos données n\'est envoyée.</string>
     <string name="update_error_network">Impossible de vérifier. Vérifiez la connexion et réessayez.</string>
@@ -528,7 +528,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">Mettre à jour maintenant</string>
     <string name="update_install_downloading">Téléchargement… %1$d%%</string>
-    <string name="update_install_awaiting">Confirmez l\'installation dans la fenêtre d\'Android.</string>
+    <string name="update_install_awaiting">La fenêtre de confirmation d\'Android ne s\'est pas ouverte. Touchez Continuer pour l\'ouvrir.</string>
     <string name="update_install_continue">Continuer l\'installation</string>
     <string name="update_install_cancel">Annuler</string>
     <string name="update_install_permission_hint">Sur l\'écran qui s\'est ouvert, autorisez TecladoIA à installer des apps puis revenez toucher Mettre à jour maintenant. Cela n\'est nécessaire qu\'une fois.</string>
@@ -545,4 +545,10 @@
     <string name="update_done_title">TecladoIA mis à jour</string>
     <string name="update_done_text">Version %1$s installée. Touchez pour ouvrir l\'app.</string>
     <string name="news_all_17">Après une mise à jour dans l\'app, un avis « TecladoIA mis à jour » vous ramène à l\'app, car Android la ferme pour installer.</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">Installation de la mise à jour…</string>
+    <string name="update_install_waiting_sub">Confirmez dans la fenêtre d\'Android, si elle apparaît, et patientez. L\'app va se fermer et se rouvrir toute seule.</string>
+    <string name="update_install_retry">Réessayer</string>
+    <string name="news_all_18">Mise à jour dans l\'app avec un écran d\'attente pendant l\'installation, sans proposer de réinstaller pendant qu\'elle se déroule.</string>
 </resources>

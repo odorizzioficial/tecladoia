@@ -484,7 +484,7 @@
     <string name="update_available">Versiune nouă %1$s disponibilă</string>
     <string name="update_notes_title">Ce s-a schimbat</string>
     <string name="update_open_page">Vezi pe GitHub</string>
-    <string name="update_install_hint">Aplicația descarcă APK-ul, iar Android cere confirmarea ta pentru instalare. Se instalează doar dacă este semnat cu aceeași cheie ca aplicația. După instalare, deschide aplicația din nou.</string>
+    <string name="update_install_hint">Aplicația descarcă APK-ul, iar Android cere confirmarea ta pentru instalare. Se instalează doar dacă este semnat cu aceeași cheie ca aplicația. La final, aplicația se închide și se redeschide singură (sau arată un aviz de atins).</string>
     <string name="update_auto_title">Verifică la deschiderea aplicației</string>
     <string name="update_auto_sub">Consultă GitHub, cel mult o dată la 12 ore. Niciun dată de-a ta nu este trimisă.</string>
     <string name="update_error_network">Nu s-a putut verifica. Verifică conexiunea și încearcă din nou.</string>
@@ -528,7 +528,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">Actualizează acum</string>
     <string name="update_install_downloading">Se descarcă… %1$d%%</string>
-    <string name="update_install_awaiting">Confirmă instalarea în fereastra Android.</string>
+    <string name="update_install_awaiting">Fereastra de confirmare Android nu s-a deschis. Atinge Continuă pentru a o deschide.</string>
     <string name="update_install_continue">Continuă instalarea</string>
     <string name="update_install_cancel">Anulează</string>
     <string name="update_install_permission_hint">Pe ecranul care s-a deschis, permite TecladoIA să instaleze aplicații și revino să atingi din nou Actualizează acum. Este necesar doar o dată.</string>
@@ -545,4 +545,10 @@
     <string name="update_done_title">TecladoIA actualizat</string>
     <string name="update_done_text">Versiunea %1$s a fost instalată. Atinge pentru a deschide aplicația.</string>
     <string name="news_all_17">După actualizarea în aplicație, un aviz „TecladoIA actualizat” te readuce în aplicație, deoarece Android o închide pentru instalare.</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">Se instalează actualizarea…</string>
+    <string name="update_install_waiting_sub">Confirmă în fereastra Android, dacă apare, și așteaptă. Aplicația se va închide și se va redeschide singură.</string>
+    <string name="update_install_retry">Încearcă din nou</string>
+    <string name="news_all_18">Actualizare în aplicație cu ecran de așteptare în timpul instalării, fără a oferi reinstalarea cât timp aceasta se desfășoară.</string>
 </resources>

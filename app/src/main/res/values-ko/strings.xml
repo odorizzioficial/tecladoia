@@ -484,7 +484,7 @@
     <string name="update_available">새 버전 %1$s 사용 가능</string>
     <string name="update_notes_title">변경 내용</string>
     <string name="update_open_page">GitHub에서 보기</string>
-    <string name="update_install_hint">앱이 APK를 다운로드하고 Android가 설치 확인을 요청합니다. 앱과 같은 키로 서명된 경우에만 설치됩니다. 설치 후 앱을 다시 여세요.</string>
+    <string name="update_install_hint">앱이 APK를 다운로드하고 Android가 설치 확인을 요청합니다. 앱과 같은 키로 서명된 경우에만 설치됩니다. 끝나면 앱이 닫혔다가 저절로 다시 열립니다(또는 탭할 수 있는 알림을 표시합니다).</string>
     <string name="update_auto_title">앱을 열 때 확인</string>
     <string name="update_auto_sub">GitHub를 최대 12시간에 한 번 조회합니다. 사용자의 데이터는 전송되지 않습니다.</string>
     <string name="update_error_network">확인하지 못했습니다. 연결을 확인하고 다시 시도하세요.</string>
@@ -528,7 +528,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">지금 업데이트</string>
     <string name="update_install_downloading">다운로드 중… %1$d%%</string>
-    <string name="update_install_awaiting">Android 창에서 설치를 확인하세요.</string>
+    <string name="update_install_awaiting">Android 확인 창이 열리지 않았습니다. 계속을 탭해 여세요.</string>
     <string name="update_install_continue">설치 계속</string>
     <string name="update_install_cancel">취소</string>
     <string name="update_install_permission_hint">열린 화면에서 TecladoIA가 앱을 설치하도록 허용한 뒤 돌아와 \'지금 업데이트\'를 다시 탭하세요. 처음 한 번만 필요합니다.</string>
@@ -545,4 +545,10 @@
     <string name="update_done_title">TecladoIA 업데이트됨</string>
     <string name="update_done_text">버전 %1$s이(가) 설치되었습니다. 탭하여 앱을 여세요.</string>
     <string name="news_all_17">앱 안에서 업데이트한 뒤 \'TecladoIA 업데이트됨\' 알림으로 앱에 돌아올 수 있습니다. 설치할 때 Android가 앱을 종료하기 때문입니다.</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">업데이트 설치 중…</string>
+    <string name="update_install_waiting_sub">Android 창이 나타나면 확인하고 기다려 주세요. 앱이 닫혔다가 저절로 다시 열립니다.</string>
+    <string name="update_install_retry">다시 시도</string>
+    <string name="news_all_18">앱 안 업데이트에 설치 중 대기 화면을 추가했으며, 설치가 진행되는 동안에는 다시 설치하라는 선택지를 보여주지 않습니다.</string>
 </resources>

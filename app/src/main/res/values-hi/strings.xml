@@ -484,7 +484,7 @@
     <string name="update_available">नया संस्करण %1$s उपलब्ध है</string>
     <string name="update_notes_title">क्या बदला</string>
     <string name="update_open_page">GitHub पर देखें</string>
-    <string name="update_install_hint">ऐप APK डाउनलोड करता है और Android इंस्टॉल के लिए आपकी पुष्टि माँगता है। यह तभी इंस्टॉल होता है जब ऐप की ही कुंजी से साइन किया गया हो। इंस्टॉल के बाद ऐप फिर से खोलें।</string>
+    <string name="update_install_hint">ऐप APK डाउनलोड करता है और Android इंस्टॉल के लिए आपकी पुष्टि माँगता है। यह तभी इंस्टॉल होता है जब ऐप की ही कुंजी से साइन किया गया हो। पूरा होने पर ऐप बंद होकर अपने आप फिर खुलता है (या टैप करने के लिए सूचना दिखाता है)।</string>
     <string name="update_auto_title">ऐप खोलते समय जाँचें</string>
     <string name="update_auto_sub">GitHub को ज़्यादा से ज़्यादा हर 12 घंटे में देखता है। आपका कोई डेटा नहीं भेजा जाता।</string>
     <string name="update_error_network">जाँच नहीं हो सकी। कनेक्शन देखें और फिर कोशिश करें।</string>
@@ -528,7 +528,7 @@
     <!-- 1.4.0 -->
     <string name="update_install_button">अभी अपडेट करें</string>
     <string name="update_install_downloading">डाउनलोड हो रहा है… %1$d%%</string>
-    <string name="update_install_awaiting">Android की विंडो में इंस्टॉल की पुष्टि करें।</string>
+    <string name="update_install_awaiting">Android की पुष्टि विंडो नहीं खुली। उसे खोलने के लिए जारी रखें पर टैप करें।</string>
     <string name="update_install_continue">इंस्टॉल जारी रखें</string>
     <string name="update_install_cancel">रद्द करें</string>
     <string name="update_install_permission_hint">खुली स्क्रीन पर TecladoIA को ऐप इंस्टॉल करने की अनुमति दें और लौटकर अभी अपडेट करें पर फिर टैप करें। यह सिर्फ़ एक बार ज़रूरी है।</string>
@@ -545,4 +545,10 @@
     <string name="update_done_title">TecladoIA अपडेट हो गया</string>
     <string name="update_done_text">संस्करण %1$s इंस्टॉल हो गया। ऐप खोलने के लिए टैप करें।</string>
     <string name="news_all_17">ऐप के अंदर अपडेट करने के बाद, "TecladoIA अपडेट हो गया" सूचना आपको ऐप में वापस ले जाती है, क्योंकि इंस्टॉल के लिए Android ऐप बंद कर देता है।</string>
+
+    <!-- 1.4.2 -->
+    <string name="update_install_waiting_title">अपडेट इंस्टॉल हो रहा है…</string>
+    <string name="update_install_waiting_sub">अगर Android की विंडो दिखे तो पुष्टि करें और प्रतीक्षा करें। ऐप बंद होकर अपने आप फिर खुलेगा।</string>
+    <string name="update_install_retry">फिर कोशिश करें</string>
+    <string name="news_all_18">ऐप के अंदर अपडेट में इंस्टॉल के दौरान प्रतीक्षा स्क्रीन जुड़ी है, और इंस्टॉल चलते समय दोबारा इंस्टॉल का विकल्प नहीं दिखता।</string>
 </resources>

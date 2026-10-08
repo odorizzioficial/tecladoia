@@ -38,8 +38,8 @@ android {
         applicationId = "com.odorizzioficial.tecladoia"
         minSdk = 26
         targetSdk = 35
-        versionCode = 16
-        versionName = "1.4.1"
+        versionCode = 17
+        versionName = "1.4.2"
         vectorDrawables.useSupportLibrary = true
     }
 
