@@ -539,4 +539,10 @@
     <string name="update_install_error_blocked">Android가 설치를 차단했습니다(예: Play 프로텍트). 브라우저로 다운로드해 보세요.</string>
     <string name="update_install_error_other">설치할 수 없습니다: %1$s</string>
     <string name="news_all_16">앱 안에서 업데이트: 새 버전을 다운로드해 한 번의 탭으로 설치하며 브라우저를 열 필요가 없습니다(Android가 확인만 요청합니다).</string>
+
+    <!-- 1.4.1 -->
+    <string name="update_done_channel_name">업데이트 완료</string>
+    <string name="update_done_title">TecladoIA 업데이트됨</string>
+    <string name="update_done_text">버전 %1$s이(가) 설치되었습니다. 탭하여 앱을 여세요.</string>
+    <string name="news_all_17">앱 안에서 업데이트한 뒤 \'TecladoIA 업데이트됨\' 알림으로 앱에 돌아올 수 있습니다. 설치할 때 Android가 앱을 종료하기 때문입니다.</string>
 </resources>

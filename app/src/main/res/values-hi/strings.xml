@@ -539,4 +539,10 @@
     <string name="update_install_error_blocked">Android ने इंस्टॉल रोक दिया (जैसे Play Protect से)। ब्राउज़र में डाउनलोड करके देखें।</string>
     <string name="update_install_error_other">इंस्टॉल नहीं हो सका: %1$s</string>
     <string name="news_all_16">ऐप के अंदर अपडेट: नया संस्करण डाउनलोड करके एक टैप में इंस्टॉल करता है, ब्राउज़र खोले बिना (Android सिर्फ़ आपकी पुष्टि माँगता है)।</string>
+
+    <!-- 1.4.1 -->
+    <string name="update_done_channel_name">अपडेट पूरा हुआ</string>
+    <string name="update_done_title">TecladoIA अपडेट हो गया</string>
+    <string name="update_done_text">संस्करण %1$s इंस्टॉल हो गया। ऐप खोलने के लिए टैप करें।</string>
+    <string name="news_all_17">ऐप के अंदर अपडेट करने के बाद, "TecladoIA अपडेट हो गया" सूचना आपको ऐप में वापस ले जाती है, क्योंकि इंस्टॉल के लिए Android ऐप बंद कर देता है।</string>
 </resources>

@@ -539,4 +539,10 @@
     <string name="update_install_error_blocked">Android a bloqué l\'installation (par exemple, par Play Protect). Essayez de télécharger dans le navigateur.</string>
     <string name="update_install_error_other">Installation impossible : %1$s</string>
     <string name="news_all_16">Mettre à jour dans l\'app : télécharge la nouvelle version et l\'installe d\'un toucher, sans ouvrir le navigateur (Android demande seulement votre confirmation).</string>
+
+    <!-- 1.4.1 -->
+    <string name="update_done_channel_name">Mise à jour terminée</string>
+    <string name="update_done_title">TecladoIA mis à jour</string>
+    <string name="update_done_text">Version %1$s installée. Touchez pour ouvrir l\'app.</string>
+    <string name="news_all_17">Après une mise à jour dans l\'app, un avis « TecladoIA mis à jour » vous ramène à l\'app, car Android la ferme pour installer.</string>
 </resources>

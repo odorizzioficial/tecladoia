@@ -539,4 +539,10 @@
     <string name="update_install_error_blocked">Android a blocat instalarea (de exemplu, de Play Protect). Încearcă să descarci din browser.</string>
     <string name="update_install_error_other">Nu s-a putut instala: %1$s</string>
     <string name="news_all_16">Actualizare în aplicație: descarcă versiunea nouă și o instalează cu o atingere, fără să deschizi browserul (Android cere doar confirmarea ta).</string>
+
+    <!-- 1.4.1 -->
+    <string name="update_done_channel_name">Actualizare finalizată</string>
+    <string name="update_done_title">TecladoIA actualizat</string>
+    <string name="update_done_text">Versiunea %1$s a fost instalată. Atinge pentru a deschide aplicația.</string>
+    <string name="news_all_17">După actualizarea în aplicație, un aviz „TecladoIA actualizat” te readuce în aplicație, deoarece Android o închide pentru instalare.</string>
 </resources>

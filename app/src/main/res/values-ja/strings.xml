@@ -539,4 +539,10 @@
     <string name="update_install_error_blocked">Androidがインストールをブロックしました（たとえばPlayプロテクト）。ブラウザでのダウンロードをお試しください。</string>
     <string name="update_install_error_other">インストールできませんでした：%1$s</string>
     <string name="news_all_16">アプリ内で更新：新しいバージョンをダウンロードして1タップでインストールします。ブラウザは開きません（Androidが確認を求めるだけです）。</string>
+
+    <!-- 1.4.1 -->
+    <string name="update_done_channel_name">アップデート完了</string>
+    <string name="update_done_title">TecladoIAを更新しました</string>
+    <string name="update_done_text">バージョン %1$s をインストールしました。タップしてアプリを開きます。</string>
+    <string name="news_all_17">アプリ内で更新したあと、「TecladoIAを更新しました」の通知からアプリに戻れます。インストール時にAndroidがアプリを終了するためです。</string>
 </resources>

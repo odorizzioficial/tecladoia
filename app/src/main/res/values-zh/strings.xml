@@ -539,4 +539,10 @@
     <string name="update_install_error_blocked">Android 阻止了安装（例如被 Play 保护拦截）。请尝试在浏览器中下载。</string>
     <string name="update_install_error_other">无法安装：%1$s</string>
     <string name="news_all_16">在应用内更新：下载新版本并一键安装，无需打开浏览器（Android 只需您确认）。</string>
+
+    <!-- 1.4.1 -->
+    <string name="update_done_channel_name">更新完成</string>
+    <string name="update_done_title">TecladoIA 已更新</string>
+    <string name="update_done_text">已安装版本 %1$s。轻点打开应用。</string>
+    <string name="news_all_17">在应用内更新后，会出现“TecladoIA 已更新”的提示，带您回到应用，因为 Android 安装时会关闭应用。</string>
 </resources>

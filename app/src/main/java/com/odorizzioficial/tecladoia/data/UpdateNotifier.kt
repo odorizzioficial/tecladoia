@@ -22,11 +22,59 @@ object UpdateNotifier {
     private const val TAG = "UpdateNotifier"
     private const val CHANNEL_ID = "app_updates"
     private const val NOTIFICATION_ID = 4107
+    private const val CHANNEL_UPDATED = "app_updated"
+    private const val UPDATED_NOTIFICATION_ID = 4108
 
     /** Notificacoes liberadas (no Android 13+ isso inclui a permissao). */
     fun canNotify(context: Context): Boolean =
         runCatching { NotificationManagerCompat.from(context).areNotificationsEnabled() }
             .getOrDefault(false)
+
+    /** Some o aviso de "nova versao disponivel" (a versao ja foi instalada). */
+    fun cancelAvailable(context: Context) {
+        runCatching { NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID) }
+    }
+
+    /** Some o aviso de "atualizado" quando o app abre: ele ja cumpriu o papel. */
+    fun cancelUpdated(context: Context) {
+        runCatching { NotificationManagerCompat.from(context).cancel(UPDATED_NOTIFICATION_ID) }
+    }
+
+    /**
+     * "TecladoIA atualizado": trocar o APK fecha o app, e esta notificacao (que aparece
+     * por cima da tela) e o caminho de volta quando o Android nao deixa reabri-lo sozinho.
+     */
+    fun showUpdated(context: Context, version: String): Boolean {
+        if (!canNotify(context)) return false
+        return try {
+            val manager = context.getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(
+                NotificationChannel(
+                    CHANNEL_UPDATED,
+                    context.getString(R.string.update_done_channel_name),
+                    NotificationManager.IMPORTANCE_HIGH
+                )
+            )
+            val open = Intent(context, MainActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            val pending = PendingIntent.getActivity(
+                context, 1, open, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            val notification = NotificationCompat.Builder(context, CHANNEL_UPDATED)
+                .setSmallIcon(R.drawable.ic_stat_update)
+                .setContentTitle(context.getString(R.string.update_done_title))
+                .setContentText(context.getString(R.string.update_done_text, version))
+                .setContentIntent(pending)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build()
+            manager.notify(UPDATED_NOTIFICATION_ID, notification)
+            true
+        } catch (t: Throwable) {
+            Log.w(TAG, "Falha ao mostrar o aviso de atualizado", t)
+            false
+        }
+    }
 
     suspend fun notifyOnce(context: Context, settings: SettingsRepository, info: UpdateInfo) {
         val saved = settings.snapshot()

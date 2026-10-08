@@ -52,6 +52,7 @@ import com.odorizzioficial.tecladoia.ui.screens.PromptsScreen
 import com.odorizzioficial.tecladoia.ui.screens.SettingsScreen
 import com.odorizzioficial.tecladoia.ui.screens.WhatsNewScreen
 import com.odorizzioficial.tecladoia.ui.theme.AiKeyboardTheme
+import com.odorizzioficial.tecladoia.data.UpdateNotifier
 
 class MainActivity : ComponentActivity() {
 
@@ -65,6 +66,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppGraph.init(this)
+        // Abriu o app: o aviso "TecladoIA atualizado" ja cumpriu o papel.
+        UpdateNotifier.cancelUpdated(this)
         enableEdgeToEdge()
         // Atalho da barra sobre o teclado: segurar o chip de IA abre direto na
         // aba Funções, em vez de cair sempre no Assistente.

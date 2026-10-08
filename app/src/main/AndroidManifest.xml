@@ -102,6 +102,15 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+        <!-- Depois de atualizar por cima, o Android avisa a versao nova: o app tenta reabrir. -->
+        <receiver
+            android:name=".data.AppUpdatedReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
         <!-- Resultado da instalacao da atualizacao, enviado pelo instalador do Android. -->
         <receiver
             android:name=".data.UpdateInstallReceiver"
