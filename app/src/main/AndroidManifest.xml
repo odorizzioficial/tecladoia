@@ -26,6 +26,13 @@
     <!-- Aviso de versao nova (Android 13+ pede ao usuario). -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!--
+      Atualizar o proprio app sem sair dele: baixa o APK do release e o entrega ao
+      instalador do Android, que ainda pede a confirmacao da pessoa. Na primeira vez
+      ela tambem precisa permitir "instalar apps desconhecidos" para o TecladoIA.
+    -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <!-- So usada em Android 9 ou anterior, para salvar o backup das funcoes
          direto na pasta Downloads publica (no 10+ o MediaStore dispensa isso). -->
     <uses-permission
@@ -95,5 +102,9 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+        <!-- Resultado da instalacao da atualizacao, enviado pelo instalador do Android. -->
+        <receiver
+            android:name=".data.UpdateInstallReceiver"
+            android:exported="false" />
     </application>
 </manifest>

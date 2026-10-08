@@ -483,9 +483,8 @@
     <string name="update_up_to_date">Vous avez la dernière version.</string>
     <string name="update_available">Nouvelle version %1$s disponible</string>
     <string name="update_notes_title">Ce qui a changé</string>
-    <string name="update_download_button">Télécharger la mise à jour</string>
     <string name="update_open_page">Voir sur GitHub</string>
-    <string name="update_install_hint">Le navigateur télécharge l\'APK. Ouvrez ensuite le fichier pour l\'installer : Android peut demander d\'autoriser les installations depuis ce navigateur. La mise à jour ne s\'installe que si elle est signée avec la même clé que l\'app.</string>
+    <string name="update_install_hint">L\'app télécharge l\'APK et Android demande votre confirmation pour installer. Il ne s\'installe que s\'il est signé avec la même clé que l\'app. Après l\'installation, rouvrez l\'app.</string>
     <string name="update_auto_title">Vérifier à l\'ouverture de l\'app</string>
     <string name="update_auto_sub">Consulte GitHub, au plus toutes les 12 heures. Aucune de vos données n\'est envoyée.</string>
     <string name="update_error_network">Impossible de vérifier. Vérifiez la connexion et réessayez.</string>
@@ -498,9 +497,9 @@
 
     <!-- 1.3.8 -->
     <string name="about_app_6_title">Mises à jour par GitHub</string>
-    <string name="about_app_6_body">L\'app prévient, par notification et dans l\'Assistant, quand une nouvelle version sort sur GitHub. Le téléchargement est fait par le navigateur, et Android ne l\'installe que s\'il est signé avec la même clé.</string>
+    <string name="about_app_6_body">L\'app prévient, par notification et dans l\'Assistant, quand une nouvelle version sort sur GitHub. En touchant Mettre à jour maintenant, elle télécharge la version et Android demande votre confirmation ; elle ne s\'installe que si elle est signée avec la même clé.</string>
     <string name="about_data_6_title">Seule connexion en plus : les mises à jour</string>
-    <string name="about_data_6_body">Pour savoir s\'il y a une nouvelle version, l\'app consulte GitHub (au plus toutes les 12 heures, et vous pouvez le désactiver). Cette requête ne transporte ni texte ni données de votre part.</string>
+    <string name="about_data_6_body">Pour savoir s\'il y a une nouvelle version, l\'app consulte GitHub (au plus toutes les 12 heures, et vous pouvez le désactiver), sans transporter de texte ni de données de votre part. Elle ne télécharge l\'APK que lorsque vous touchez Mettre à jour maintenant.</string>
     <string name="about_data_7_title">Liste des apps installées</string>
     <string name="about_data_7_body">Elle est lue uniquement sur l\'appareil, pour que vous choisissiez dans quelles apps désactiver la barre. Rien n\'en est envoyé à personne.</string>
     <string name="about_blocked_4_title">Une banque a demandé de désinstaller</string>
@@ -525,4 +524,19 @@
 
     <!-- 1.3.9 -->
     <string name="news_all_15">La barre revient après un verrouillage et un déverrouillage de l\'écran, sans ouvrir l\'app ni vider le cache.</string>
+
+    <!-- 1.4.0 -->
+    <string name="update_install_button">Mettre à jour maintenant</string>
+    <string name="update_install_downloading">Téléchargement… %1$d%%</string>
+    <string name="update_install_awaiting">Confirmez l\'installation dans la fenêtre d\'Android.</string>
+    <string name="update_install_continue">Continuer l\'installation</string>
+    <string name="update_install_cancel">Annuler</string>
+    <string name="update_install_permission_hint">Sur l\'écran qui s\'est ouvert, autorisez TecladoIA à installer des apps puis revenez toucher Mettre à jour maintenant. Cela n\'est nécessaire qu\'une fois.</string>
+    <string name="update_install_browser">Télécharger dans le navigateur</string>
+    <string name="update_install_error_network">Le téléchargement a échoué. Vérifiez la connexion et réessayez.</string>
+    <string name="update_install_error_storage">Pas assez d\'espace pour la mise à jour.</string>
+    <string name="update_install_error_signature">Android a refusé le fichier : il n\'est pas signé avec la même clé que l\'app installée.</string>
+    <string name="update_install_error_blocked">Android a bloqué l\'installation (par exemple, par Play Protect). Essayez de télécharger dans le navigateur.</string>
+    <string name="update_install_error_other">Installation impossible : %1$s</string>
+    <string name="news_all_16">Mettre à jour dans l\'app : télécharge la nouvelle version et l\'installe d\'un toucher, sans ouvrir le navigateur (Android demande seulement votre confirmation).</string>
 </resources>

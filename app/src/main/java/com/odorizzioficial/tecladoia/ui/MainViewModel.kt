@@ -39,6 +39,8 @@ import com.odorizzioficial.tecladoia.data.UpdateInfo
 import com.odorizzioficial.tecladoia.data.UpdateResult
 import kotlinx.coroutines.delay
 import com.odorizzioficial.tecladoia.data.UpdateNotifier
+import com.odorizzioficial.tecladoia.data.UpdateInstaller
+import kotlinx.coroutines.Job
 
 enum class ConnectionStage { IDLE, TESTING, OK, FAILED }
 
@@ -433,6 +435,19 @@ class MainViewModel(
     fun clearBackupMessage() = _backup.update { it.copy(message = null) }
 
     fun installedVersion(): String = updateChecker.installedVersion()
+
+    private var installJob: Job? = null
+
+    /** Baixa e instala a atualizacao dentro do app; o Android pede a confirmacao no fim. */
+    fun installUpdate(info: UpdateInfo) {
+        if (installJob?.isActive == true) return
+        UpdateInstaller.reset()
+        installJob = viewModelScope.launch { UpdateInstaller.install(context, info) }
+    }
+
+    fun cancelUpdateInstall() {
+        installJob?.cancel()
+    }
 
     /**
      * Procura uma versao nova. Na verificacao manual qualquer resultado aparece na

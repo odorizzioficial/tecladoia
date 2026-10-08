@@ -483,9 +483,8 @@
     <string name="update_up_to_date">आप नवीनतम संस्करण पर हैं।</string>
     <string name="update_available">नया संस्करण %1$s उपलब्ध है</string>
     <string name="update_notes_title">क्या बदला</string>
-    <string name="update_download_button">अपडेट डाउनलोड करें</string>
     <string name="update_open_page">GitHub पर देखें</string>
-    <string name="update_install_hint">ब्राउज़र APK डाउनलोड करता है। फिर उसे इंस्टॉल करने के लिए फ़ाइल खोलें: Android उस ब्राउज़र से इंस्टॉल की अनुमति माँग सकता है। अपडेट तभी इंस्टॉल होता है जब वह ऐप की ही कुंजी से साइन किया गया हो।</string>
+    <string name="update_install_hint">ऐप APK डाउनलोड करता है और Android इंस्टॉल के लिए आपकी पुष्टि माँगता है। यह तभी इंस्टॉल होता है जब ऐप की ही कुंजी से साइन किया गया हो। इंस्टॉल के बाद ऐप फिर से खोलें।</string>
     <string name="update_auto_title">ऐप खोलते समय जाँचें</string>
     <string name="update_auto_sub">GitHub को ज़्यादा से ज़्यादा हर 12 घंटे में देखता है। आपका कोई डेटा नहीं भेजा जाता।</string>
     <string name="update_error_network">जाँच नहीं हो सकी। कनेक्शन देखें और फिर कोशिश करें।</string>
@@ -498,9 +497,9 @@
 
     <!-- 1.3.8 -->
     <string name="about_app_6_title">GitHub से अपडेट</string>
-    <string name="about_app_6_body">GitHub पर नया संस्करण आने पर ऐप सूचना और असिस्टेंट में बताता है। डाउनलोड ब्राउज़र करता है, और Android तभी इंस्टॉल करता है जब वह ऐप की ही कुंजी से साइन किया गया हो।</string>
+    <string name="about_app_6_body">GitHub पर नया संस्करण आने पर ऐप सूचना और असिस्टेंट में बताता है। अभी अपडेट करें पर टैप करने से वह संस्करण डाउनलोड होता है और Android आपकी पुष्टि माँगता है; यह तभी इंस्टॉल होता है जब उसी कुंजी से साइन किया गया हो।</string>
     <string name="about_data_6_title">अकेला अतिरिक्त कनेक्शन: अपडेट</string>
-    <string name="about_data_6_body">नया संस्करण है या नहीं जानने के लिए ऐप GitHub को देखता है (ज़्यादा से ज़्यादा हर 12 घंटे में, और इसे बंद कर सकते हैं)। इस अनुरोध में आपका कोई टेक्स्ट या डेटा नहीं जाता।</string>
+    <string name="about_data_6_body">नया संस्करण है या नहीं जानने के लिए ऐप GitHub को देखता है (ज़्यादा से ज़्यादा हर 12 घंटे में, और इसे बंद कर सकते हैं), आपका कोई टेक्स्ट या डेटा नहीं ले जाता। APK तभी डाउनलोड होता है जब आप अभी अपडेट करें पर टैप करते हैं।</string>
     <string name="about_data_7_title">इंस्टॉल किए गए ऐप की सूची</string>
     <string name="about_data_7_body">यह सिर्फ़ डिवाइस पर पढ़ी जाती है, ताकि आप चुन सकें कि किन ऐप में बार बंद करना है। इसमें से कुछ भी किसी को नहीं भेजा जाता।</string>
     <string name="about_blocked_4_title">बैंक ने अनइंस्टॉल करने को कहा</string>
@@ -525,4 +524,19 @@
 
     <!-- 1.3.9 -->
     <string name="news_all_15">स्क्रीन लॉक और अनलॉक करने के बाद बार फिर से दिखता है, ऐप खोलने या कैश साफ़ करने की ज़रूरत नहीं।</string>
+
+    <!-- 1.4.0 -->
+    <string name="update_install_button">अभी अपडेट करें</string>
+    <string name="update_install_downloading">डाउनलोड हो रहा है… %1$d%%</string>
+    <string name="update_install_awaiting">Android की विंडो में इंस्टॉल की पुष्टि करें।</string>
+    <string name="update_install_continue">इंस्टॉल जारी रखें</string>
+    <string name="update_install_cancel">रद्द करें</string>
+    <string name="update_install_permission_hint">खुली स्क्रीन पर TecladoIA को ऐप इंस्टॉल करने की अनुमति दें और लौटकर अभी अपडेट करें पर फिर टैप करें। यह सिर्फ़ एक बार ज़रूरी है।</string>
+    <string name="update_install_browser">ब्राउज़र में डाउनलोड करें</string>
+    <string name="update_install_error_network">डाउनलोड विफल रहा। कनेक्शन देखें और फिर कोशिश करें।</string>
+    <string name="update_install_error_storage">अपडेट के लिए पर्याप्त जगह नहीं है।</string>
+    <string name="update_install_error_signature">Android ने फ़ाइल अस्वीकार कर दी: वह इंस्टॉल किए गए ऐप की कुंजी से साइन नहीं है।</string>
+    <string name="update_install_error_blocked">Android ने इंस्टॉल रोक दिया (जैसे Play Protect से)। ब्राउज़र में डाउनलोड करके देखें।</string>
+    <string name="update_install_error_other">इंस्टॉल नहीं हो सका: %1$s</string>
+    <string name="news_all_16">ऐप के अंदर अपडेट: नया संस्करण डाउनलोड करके एक टैप में इंस्टॉल करता है, ब्राउज़र खोले बिना (Android सिर्फ़ आपकी पुष्टि माँगता है)।</string>
 </resources>

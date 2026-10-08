@@ -20,7 +20,10 @@ data class UpdateInfo(
     val downloadUrl: String,
     val pageUrl: String,
     val sizeBytes: Long
-)
+) {
+    /** Ha um APK anexado ao release? Sem ele, so a pagina do release pode ser aberta. */
+    val canInstallInApp: Boolean get() = downloadUrl.endsWith(".apk", ignoreCase = true)
+}
 
 enum class UpdateError { NETWORK, RATE_LIMIT, NO_RELEASE, INVALID }
 

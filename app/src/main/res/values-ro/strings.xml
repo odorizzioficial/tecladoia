@@ -483,9 +483,8 @@
     <string name="update_up_to_date">Ai cea mai recentă versiune.</string>
     <string name="update_available">Versiune nouă %1$s disponibilă</string>
     <string name="update_notes_title">Ce s-a schimbat</string>
-    <string name="update_download_button">Descarcă actualizarea</string>
     <string name="update_open_page">Vezi pe GitHub</string>
-    <string name="update_install_hint">Browserul descarcă APK-ul. Apoi deschide fișierul pentru a-l instala: Android poate cere să permiți instalarea din acel browser. Actualizarea se instalează doar dacă este semnată cu aceeași cheie ca aplicația.</string>
+    <string name="update_install_hint">Aplicația descarcă APK-ul, iar Android cere confirmarea ta pentru instalare. Se instalează doar dacă este semnat cu aceeași cheie ca aplicația. După instalare, deschide aplicația din nou.</string>
     <string name="update_auto_title">Verifică la deschiderea aplicației</string>
     <string name="update_auto_sub">Consultă GitHub, cel mult o dată la 12 ore. Niciun dată de-a ta nu este trimisă.</string>
     <string name="update_error_network">Nu s-a putut verifica. Verifică conexiunea și încearcă din nou.</string>
@@ -498,9 +497,9 @@
 
     <!-- 1.3.8 -->
     <string name="about_app_6_title">Actualizări prin GitHub</string>
-    <string name="about_app_6_body">Aplicația anunță, prin notificare și în Asistent, când apare o versiune nouă pe GitHub. Descărcarea o face browserul, iar Android o instalează doar dacă este semnată cu aceeași cheie.</string>
+    <string name="about_app_6_body">Aplicația anunță, prin notificare și în Asistent, când apare o versiune nouă pe GitHub. La atingerea Actualizează acum, descarcă versiunea, iar Android cere confirmarea ta; se instalează doar dacă este semnată cu aceeași cheie.</string>
     <string name="about_data_6_title">Singura conexiune în plus: actualizările</string>
-    <string name="about_data_6_body">Pentru a afla dacă există o versiune nouă, aplicația consultă GitHub (cel mult o dată la 12 ore, și poți opri asta). Cererea nu duce text sau date de-ale tale.</string>
+    <string name="about_data_6_body">Pentru a afla dacă există o versiune nouă, aplicația consultă GitHub (cel mult o dată la 12 ore, și poți opri asta), fără să ducă text sau date de-ale tale. Descarcă APK-ul doar când atingi Actualizează acum.</string>
     <string name="about_data_7_title">Lista aplicațiilor instalate</string>
     <string name="about_data_7_body">Este citită doar pe dispozitiv, ca să alegi în ce aplicații oprești bara. Nimic din ea nu este trimis nimănui.</string>
     <string name="about_blocked_4_title">O bancă a cerut dezinstalarea</string>
@@ -525,4 +524,19 @@
 
     <!-- 1.3.9 -->
     <string name="news_all_15">Bara reapare după blocarea și deblocarea ecranului, fără să deschizi aplicația și fără să ștergi memoria cache.</string>
+
+    <!-- 1.4.0 -->
+    <string name="update_install_button">Actualizează acum</string>
+    <string name="update_install_downloading">Se descarcă… %1$d%%</string>
+    <string name="update_install_awaiting">Confirmă instalarea în fereastra Android.</string>
+    <string name="update_install_continue">Continuă instalarea</string>
+    <string name="update_install_cancel">Anulează</string>
+    <string name="update_install_permission_hint">Pe ecranul care s-a deschis, permite TecladoIA să instaleze aplicații și revino să atingi din nou Actualizează acum. Este necesar doar o dată.</string>
+    <string name="update_install_browser">Descarcă din browser</string>
+    <string name="update_install_error_network">Descărcarea a eșuat. Verifică conexiunea și încearcă din nou.</string>
+    <string name="update_install_error_storage">Nu este suficient spațiu pentru actualizare.</string>
+    <string name="update_install_error_signature">Android a refuzat fișierul: nu este semnat cu aceeași cheie ca aplicația instalată.</string>
+    <string name="update_install_error_blocked">Android a blocat instalarea (de exemplu, de Play Protect). Încearcă să descarci din browser.</string>
+    <string name="update_install_error_other">Nu s-a putut instala: %1$s</string>
+    <string name="news_all_16">Actualizare în aplicație: descarcă versiunea nouă și o instalează cu o atingere, fără să deschizi browserul (Android cere doar confirmarea ta).</string>
 </resources>

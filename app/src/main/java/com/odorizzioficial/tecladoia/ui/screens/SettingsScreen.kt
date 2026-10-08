@@ -157,6 +157,10 @@ import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.Notifications
 import com.odorizzioficial.tecladoia.ui.components.AuroraBrush
+import com.odorizzioficial.tecladoia.data.InstallFailure
+import com.odorizzioficial.tecladoia.data.InstallState
+import com.odorizzioficial.tecladoia.data.UpdateInstaller
+import androidx.compose.material3.LinearProgressIndicator
 
 /** Link oficial para criar a chave da API Gemini. */
 private const val AI_STUDIO_URL = "https://aistudio.google.com/apikey"
@@ -1748,7 +1752,17 @@ private fun GithubCard() {
     }
 }
 
-/** Abre um endereco do GitHub no navegador; o navegador baixa e o Android instala. */
+/** Tela do Android onde se permite que o TecladoIA instale apps (so na primeira vez). */
+private fun openInstallPermissionSettings(context: android.content.Context) {
+    runCatching {
+        context.startActivity(
+            Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:${context.packageName}"))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+    }
+}
+
+/** Abre um endereco do GitHub no navegador (alternativa a instalar dentro do app). */
 private fun openGithubUrl(context: android.content.Context, url: String) {
     if (!UpdateChecker.isTrusted(url)) return
     runCatching {
@@ -1771,6 +1785,19 @@ private fun UpdateScreen(
     val notificationPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { /* sem a permissao o aviso simplesmente nao aparece */ }
+    val install by UpdateInstaller.state.collectAsStateWithLifecycle()
+    var showInstallHint by remember { mutableStateOf(false) }
+
+    // Mensagem de cada falha da instalacao, ja traduzida.
+    @Composable
+    fun installErrorText(failed: InstallState.Failed): String = when (failed.kind) {
+        InstallFailure.NETWORK -> stringResource(R.string.update_install_error_network)
+        InstallFailure.STORAGE -> stringResource(R.string.update_install_error_storage)
+        InstallFailure.SIGNATURE -> stringResource(R.string.update_install_error_signature)
+        InstallFailure.BLOCKED -> stringResource(R.string.update_install_error_blocked)
+        InstallFailure.NO_APK -> stringResource(R.string.update_error_no_release)
+        InstallFailure.OTHER -> stringResource(R.string.update_install_error_other, failed.detail.ifBlank { "-" })
+    }
 
     Column(
         modifier = Modifier
@@ -1855,20 +1882,108 @@ private fun UpdateScreen(
                         )
                     }
                     Spacer(Modifier.height(14.dp))
-                    AuroraButton(
-                        text = stringResource(R.string.update_download_button),
-                        icon = Icons.Rounded.Download,
-                        onClick = { openGithubUrl(context, info.downloadUrl) },
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    when (val progress = install) {
+                        is InstallState.Downloading -> {
+                            val percent = if (progress.total > 0) {
+                                ((progress.downloaded * 100) / progress.total).toInt().coerceIn(0, 100)
+                            } else {
+                                0
+                            }
+                            if (progress.total > 0) {
+                                LinearProgressIndicator(
+                                    progress = { percent / 100f },
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            } else {
+                                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                            }
+                            Spacer(Modifier.height(10.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(
+                                    text = stringResource(R.string.update_install_downloading, percent),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.weight(1f)
+                                )
+                                PillChip(
+                                    text = stringResource(R.string.update_install_cancel),
+                                    onClick = viewModel::cancelUpdateInstall
+                                )
+                            }
+                        }
+
+                        InstallState.AwaitingConfirmation -> {
+                            Text(
+                                text = stringResource(R.string.update_install_awaiting),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                            Spacer(Modifier.height(10.dp))
+                            AuroraButton(
+                                text = stringResource(R.string.update_install_continue),
+                                icon = Icons.Rounded.Download,
+                                onClick = { UpdateInstaller.resumeConfirmation(context) },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+
+                        else -> {
+                            AuroraButton(
+                                text = stringResource(R.string.update_install_button),
+                                icon = Icons.Rounded.Download,
+                                onClick = {
+                                    when {
+                                        // Sem APK anexado, so a pagina do release pode ser aberta.
+                                        !info.canInstallInApp -> openGithubUrl(context, info.pageUrl)
+                                        !UpdateInstaller.canInstall(context) -> {
+                                            showInstallHint = true
+                                            openInstallPermissionSettings(context)
+                                        }
+
+                                        else -> {
+                                            showInstallHint = false
+                                            viewModel.installUpdate(info)
+                                        }
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            if (progress is InstallState.Failed) {
+                                Spacer(Modifier.height(8.dp))
+                                Text(
+                                    text = installErrorText(progress),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                            if (showInstallHint) {
+                                Spacer(Modifier.height(8.dp))
+                                Text(
+                                    text = stringResource(R.string.update_install_permission_hint),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+                        }
+                    }
                     Spacer(Modifier.height(8.dp))
-                    PillChip(
-                        text = stringResource(R.string.update_open_page),
-                        icon = Icons.Rounded.OpenInNew,
-                        onClick = { openGithubUrl(context, info.pageUrl) },
-                        modifier = Modifier.fillMaxWidth(),
-                        height = 52.dp
-                    )
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        PillChip(
+                            text = stringResource(R.string.update_install_browser),
+                            icon = Icons.Rounded.OpenInNew,
+                            onClick = { openGithubUrl(context, info.downloadUrl) },
+                            modifier = Modifier.weight(1f),
+                            height = 48.dp
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        PillChip(
+                            text = stringResource(R.string.update_open_page),
+                            icon = Icons.Rounded.NewReleases,
+                            onClick = { openGithubUrl(context, info.pageUrl) },
+                            modifier = Modifier.weight(1f),
+                            height = 48.dp
+                        )
+                    }
                     Spacer(Modifier.height(10.dp))
                     Text(
                         text = stringResource(R.string.update_install_hint),
