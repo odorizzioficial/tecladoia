@@ -522,4 +522,7 @@
     <string name="perm_notifications">알림</string>
     <string name="perm_notifications_sub">선택 사항: 새 버전 알림</string>
     <string name="news_all_14">정보 화면을 오프라인 모드, GitHub 업데이트, 앱 목록 내용으로 업데이트했습니다.</string>
+
+    <!-- 1.3.9 -->
+    <string name="news_all_15">화면을 잠갔다가 풀어도 바가 다시 나타납니다. 앱을 열거나 캐시를 지울 필요가 없습니다.</string>
 </resources>

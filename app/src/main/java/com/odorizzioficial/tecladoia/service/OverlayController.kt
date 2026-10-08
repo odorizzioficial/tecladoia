@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.odorizzioficial.tecladoia.ai.LiveDictation
+import android.os.SystemClock
 
 /**
  * Dono da janela flutuante. Cria a View somente quando o teclado aparece,
@@ -91,6 +92,9 @@ class OverlayController(
     private var rootView: ComposeView? = null
     private var lifecycleOwner: OverlayLifecycleOwner? = null
     private var params: WindowManager.LayoutParams? = null
+
+    /** Quando a janela foi criada: o Android leva um instante para anexa-la a tela. */
+    private var barCreatedAt = 0L
 
     private var keyboard = KeyboardState()
 
@@ -209,9 +213,18 @@ class OverlayController(
      */
     private fun ensureBar() {
         if (protectedApp) return
-        if (rootView != null) {
-            reposition()
-            return
+        val existing = rootView
+        if (existing != null) {
+            if (isAttached(existing)) {
+                reposition()
+                // reposition descarta a janela quando percebe que ela se perdeu.
+                if (rootView != null) return
+            } else {
+                // O sistema soltou a janela (tela bloqueada, troca de usuario...) e a
+                // barra continuaria "criada" mas invisivel. Descarta e cria de novo.
+                Log.w(TAG, "Janela da barra perdida; recriando")
+                removeBar()
+            }
         }
         val owner = OverlayLifecycleOwner().apply { onCreate() }
         val view = ComposeView(service).apply {
@@ -246,6 +259,7 @@ class OverlayController(
 
         try {
             windowManager.addView(view, layout)
+            barCreatedAt = SystemClock.elapsedRealtime()
             owner.onResume()
             rootView = view
             lifecycleOwner = owner
@@ -315,7 +329,31 @@ class OverlayController(
         layout.y = targetY
         layout.x = offsetX
         layout.width = targetWidth
-        runCatching { windowManager.updateViewLayout(view, layout) }
+        try {
+            windowManager.updateViewLayout(view, layout)
+        } catch (e: IllegalArgumentException) {
+            // "View not attached": a janela se perdeu. O proximo ensureBar recria.
+            Log.w(TAG, "Janela da barra nao esta mais na tela", e)
+            removeBar()
+        } catch (t: Throwable) {
+            Log.w(TAG, "Falha ao reposicionar a barra", t)
+        }
+    }
+
+    /**
+     * A janela esta na tela? Logo depois do addView ela ainda nao foi anexada (isso
+     * acontece no primeiro quadro), entao uma folga evita recria-la sem necessidade.
+     */
+    private fun isAttached(view: View): Boolean =
+        view.isAttachedToWindow || SystemClock.elapsedRealtime() - barCreatedAt < ATTACH_GRACE_MS
+
+    /** Tela apagou: solta a janela. Ao voltar, a barra nasce de novo, limpa. */
+    fun onScreenOff() {
+        hideJob?.cancel()
+        voice.cancel()
+        dictation.cancel()
+        keyboard = KeyboardState()
+        removeBar()
     }
 
     /** Limites de tela para o arrasto nao jogar a barra para fora. */
@@ -756,6 +794,9 @@ class OverlayController(
 
         /** Folga entre a barra e o teclado, para a ultima mensagem respirar. */
         const val GAP_PX = 6
+
+        /** Tempo para o Android anexar a janela recem-criada antes de considera-la perdida. */
+        const val ATTACH_GRACE_MS = 1_500L
 
         /** Intervalo minimo entre correcoes do ditado na nuvem (cota do Gemini). */
         const val CLOUD_POLISH_GAP_MS = 1_200L

@@ -541,4 +541,7 @@
     <string name="perm_notifications">Notificações</string>
     <string name="perm_notifications_sub">Opcional: avisos de versão nova</string>
     <string name="news_all_14">O Sobre foi atualizado com o modo offline, as atualizações pelo GitHub e a lista de apps.</string>
+
+    <!-- 1.3.9 -->
+    <string name="news_all_15">A barra volta a aparecer depois de bloquear e desbloquear a tela, sem precisar abrir o app nem limpar o cache.</string>
 </resources>

@@ -522,4 +522,7 @@
     <string name="perm_notifications">通知</string>
     <string name="perm_notifications_sub">任意：新バージョンのお知らせ</string>
     <string name="news_all_14">「このアプリについて」をオフラインモード、GitHubのアップデート、アプリ一覧の内容で更新しました。</string>
+
+    <!-- 1.3.9 -->
+    <string name="news_all_15">画面のロックと解除のあとでもバーが再び表示されます。アプリを開いたりキャッシュを消したりする必要はありません。</string>
 </resources>

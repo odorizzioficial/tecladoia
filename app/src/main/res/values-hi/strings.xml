@@ -522,4 +522,7 @@
     <string name="perm_notifications">सूचनाएँ</string>
     <string name="perm_notifications_sub">वैकल्पिक: नए संस्करण की सूचनाएँ</string>
     <string name="news_all_14">जानकारी को ऑफ़लाइन मोड, GitHub अपडेट और ऐप सूची के साथ अपडेट किया गया।</string>
+
+    <!-- 1.3.9 -->
+    <string name="news_all_15">स्क्रीन लॉक और अनलॉक करने के बाद बार फिर से दिखता है, ऐप खोलने या कैश साफ़ करने की ज़रूरत नहीं।</string>
 </resources>

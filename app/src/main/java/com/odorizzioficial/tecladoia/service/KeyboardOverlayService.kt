@@ -25,6 +25,9 @@ import com.odorizzioficial.tecladoia.data.UpdateNotifier
 import com.odorizzioficial.tecladoia.data.UpdateResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
+import androidx.core.content.ContextCompat
 
 /**
  * Servico responsavel pela barra flutuante. Ele nao substitui o teclado: o
@@ -100,6 +103,7 @@ class KeyboardOverlayService : AccessibilityService() {
         _connected.value = true
 
         sessionScope.launch { watchForUpdates() }
+        registerScreenReceiver()
 
         sessionScope.launch {
             AppGraph.settings.settings.collect {
@@ -137,6 +141,49 @@ class KeyboardOverlayService : AccessibilityService() {
             controller.setProtectedApp(inProtectedApp)
             if (!inProtectedApp) controller.onKeyboardStateChanged(watcher.currentState())
         }.onFailure { Log.w(TAG, "Evento de acessibilidade ignorado", it) }
+    }
+
+    private var screenReceiver: BroadcastReceiver? = null
+
+    /**
+     * Bloquear e desbloquear a tela pode derrubar a janela da barra. Ao apagar a tela a
+     * janela e solta, e ao ligar/desbloquear o servico confere de novo se ha teclado na
+     * tela, sem depender de o usuario abrir o app. O app em primeiro plano nao e zerado:
+     * a protecao de bancos continua valendo para o que estava aberto.
+     */
+    private fun registerScreenReceiver() {
+        unregisterScreenReceiver()
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    Intent.ACTION_SCREEN_OFF -> runCatching { controller?.onScreenOff() }
+                    Intent.ACTION_SCREEN_ON, Intent.ACTION_USER_PRESENT -> scope?.launch {
+                        delay(RESYNC_DELAY_MS)
+                        runCatching {
+                            val current = controller ?: return@launch
+                            val keyboardWatcher = watcher ?: return@launch
+                            val inProtectedApp = isForegroundProtected()
+                            current.setProtectedApp(inProtectedApp)
+                            if (!inProtectedApp) current.onKeyboardStateChanged(keyboardWatcher.currentState())
+                        }
+                    }
+                }
+            }
+        }
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_SCREEN_ON)
+            addAction(Intent.ACTION_USER_PRESENT)
+        }
+        runCatching {
+            ContextCompat.registerReceiver(this, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+            screenReceiver = receiver
+        }.onFailure { Log.w(TAG, "Nao foi possivel acompanhar a tela", it) }
+    }
+
+    private fun unregisterScreenReceiver() {
+        screenReceiver?.let { runCatching { unregisterReceiver(it) } }
+        screenReceiver = null
     }
 
     /**
@@ -229,6 +276,7 @@ class KeyboardOverlayService : AccessibilityService() {
     }
 
     private fun teardown() {
+        unregisterScreenReceiver()
         runCatching { controller?.destroy() }
         controller = null
         watcher = null
@@ -241,6 +289,7 @@ class KeyboardOverlayService : AccessibilityService() {
     companion object {
         private const val TAG = "KeyboardOverlayService"
         private const val KEYBOARD_PACKAGES_TTL_MS = 30_000L
+        private const val RESYNC_DELAY_MS = 500L
         private const val UPDATE_INTERVAL_MS = 12 * 60 * 60 * 1000L
         private const val UPDATE_WATCH_PERIOD_MS = 30 * 60 * 1000L
 

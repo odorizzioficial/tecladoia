@@ -522,4 +522,7 @@
     <string name="perm_notifications">Notifications</string>
     <string name="perm_notifications_sub">Facultatif : avis de nouvelle version</string>
     <string name="news_all_14">Le À propos a été mis à jour avec le mode hors ligne, les mises à jour par GitHub et la liste des apps.</string>
+
+    <!-- 1.3.9 -->
+    <string name="news_all_15">La barre revient après un verrouillage et un déverrouillage de l\'écran, sans ouvrir l\'app ni vider le cache.</string>
 </resources>
